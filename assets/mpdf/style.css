@@ -1,0 +1,16 @@
+.my_img {
+  height: 100px;
+  width: 100px;
+}
+.pdf_top {
+  font-weight: bold;
+}
+.pdf_logo_head {
+  text-align: center;
+}
+hr {
+  background-color: black;
+}
+td {
+  padding: 5px;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bill Profiler</title>
+    <!-- page icon -->
+    <link rel="icon" type="image/png" href="rsc/imgs/favicon.png" />
+    <!-- page css -->
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="rsc/plugins/bootstrap4/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="rsc/plugins/bootstrap4/ripple-bootstrap.css" />
+    <link rel="stylesheet" href="rsc/css/animate.css" />
+    <link
+      rel="stylesheet"
+      href="rsc/css/font-awesome-4.7/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="rsc/css/font-awesome-5.11.2/css/all.min.css" />
+    <link rel="stylesheet" href="rsc/plugins/sweetalert/sweetalert2.css" />
+    <!-- page scripts -->
+    <script src="rsc/jquery.js"></script>
+    <script src="rsc/plugins/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="rsc/plugins/sweetalert/sweetalert2.js"></script>
+  </head>
+
+  <body>
+    <div class="container mt-3">
+      <!-- page html -->
+      <form id="myForm" action="genPdf.php" method="post" target="_blank">
+        <textarea class="d-none" name="data" cols="30" rows="10"></textarea>
+        <input
+          type="button"
+          id="gen_pdf"
+          value="Generate Pdf"
+          class="btn btn-primary"
+        />
+      </form>
+      <div class="pdf" id="pdf_content">
+        <div class="pdf_top">
+          <!-- top logo head -->
+          <div class="pdf_logo_head">
+            <img class="my_img" src="rsc/imgs/republic.png" />
+            <h3>
+              MINISTRY OF SPORTS AND HERITAGE <br />
+              STATE DEPARTMENT FOR HERITAGE <br />
+              MEMO
+            </h3>
+          </div>
+          <hr />
+          <!-- address table -->
+          <table>
+            <tbody>
+              <tr>
+                <td>To:</td>
+                <td>
+                  <b>
+                    Chief Executive Officers <br />
+                    All heads of Departments
+                  </b>
+                </td>
+              </tr>
+              <tr>
+                <td>From:</td>
+                <td><b>From</b></td>
+              </tr>
+              <tr>
+                <td>Date:</td>
+                <td><b>Date</b></td>
+              </tr>
+              <tr>
+                <td>Sub:</td>
+                <td><b>Sub</b></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+        </div>
+        <div class="pdf_body">
+          <p>
+            This is to inform you that I will be away on official duty as from
+            22nd may, 2018 to 25th may, 2018.
+          </p>
+          <p>
+            During my absence Mr. Wenslas Ong'ayo, Director of Administration,
+            will be in charge of affairs of the State Department, kindly accord
+            him the necessary support
+          </p>
+        </div>
+        <br />
+        <div class="pdf_bottom">
+          <p>Yours Sincerely,<br />Sender Name</p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $("#gen_pdf").click(function() {
+      data = $("#pdf_content").html();
+      $("[name='data']").text(data);
+      $("#myForm").submit();
+    });
+  </script>
+</html>
