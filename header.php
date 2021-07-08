@@ -13,10 +13,10 @@
 				<div class="navbar-header pull-left">
 					<a href="./" class="navbar-brand">
 						<small>
-
-							<img src="assets/images/siayalogo.png" height="52px" width="290px">
+							<img src="assets/images/siayalogo.png" height="55px" width="290px" style="border-bottom: 2px;"> Staff Appraisal Portal
 						</small>
 					</a>
+
 				</div>
 
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
