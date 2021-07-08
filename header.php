@@ -14,7 +14,7 @@
 					<a href="./" class="navbar-brand">
 						<small>
 
-							<img src="assets/images/ttlogo.png" height="52px" width="290px">
+							<img src="assets/images/siayalogo.png" height="52px" width="290px">
 						</small>
 					</a>
 				</div>

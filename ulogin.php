@@ -54,7 +54,7 @@ session_start();
 					<div class="col-sm-10 col-sm-offset-1">
 <div class="login-container pull-right">
 <div class="center">
-<img src="assets/images/ttlogo.png" height="50px" width="300px;">
+<img src="assets/images/siayalogo.png" height="70px" width="370px;">
 </div>
 
 <div class="space-6"></div>
@@ -65,7 +65,7 @@ session_start();
 <div id="login-box" class="login-box visible widget-box no-border">
 	<div class="widget-body">
 		<div class="widget-main">
-			<h3 class="header blue lighter bigger" style="font-weight:bold;text-align:center;">Supplier Portal</h3>
+			<h3 class="header blue lighter bigger" style="font-weight:bold;text-align:center;">Staff Appraisal Portal</h3>
 			<h4 class="header blue lighter bigger">
 				<i class="ace-icon fa fa-coffee green"></i>
 				Please Enter Your Information
@@ -116,14 +116,6 @@ session_start();
 				I forgot my password
 			</a>
 		</div>
-
-		<div>
-			<a href="#" data-target="#activate-box" class="user-signup-link">
-				Activate Account
-				<i class="ace-icon fa fa-arrow-right"></i>
-			</a>
-		</div>
-
 
 		</div>
 	</div><!-- /.widget-body -->
