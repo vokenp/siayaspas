@@ -1,8 +1,6 @@
-  <div id="sidebar2" class="sidebar h-sidebar responsive compact ace-save-state"> 
-
+  <div id="sidebar2" class="sidebar h-sidebar responsive compact ace-save-state">
 
    <ul class="nav nav-list ">
-
 	<?php
          $html ="";
       // get other Modules

@@ -170,7 +170,7 @@ $user = USERID;
 			}
 			else{
 				include("sidebar.php");
-				include("sidebar2.php");
+			//	include("sidebar2.php");
 			}?>
 
 			<div class="main-content">

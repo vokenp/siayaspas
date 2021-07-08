@@ -1,10 +1,41 @@
+<div class="page-header">
+  <h1>
+   <i class='menu-icon fa fa-gears'></i>  System Settings
+    <small>
+
+  </h1>
+
+</div><!-- /.page-header -->
 <div class="page-content">
      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
-              <li>
-                <i class="ace-icon fa fa-gears"></i>
-                <b>System Settings</b>
-              </li>
+              <?php
+                    $html ="";
+                 // get other Modules
+               $getMods = $db->Execute("select *from dh_modules where AppName='SystemApps' order by DisplayOrder asc");
+                        $AppSROWID = $app;
+                       while (!$getMods->EOF) {
+                         $rand = md5(mt_rand());
+                         $ModCode = $getMods->fields["ModuleCode"];
+                         $ModName = $getMods->fields["ModuleName"];
+                         $IconMod = $getMods->fields["IconRef"];
+                         $ModSROWID = $getMods->fields["S_ROWID"];
+                         $ModACL = $getMods->fields["ACL"];
+                         $IconMod = $IconMod != "" ? "<i class='menu-icon $IconMod '></i>" : "<i class='menu-icon fa fa-list '></i>";
+                         $RoleUsers = $rs->RoleUsers($ModACL);
+
+                         if ($ModACL == "") {
+                           $html .= "<li class=''><a href='?app=$AppSROWID&mod=$ModSROWID&view=list&ptype=temp&sk=$rand'>$IconMod<span class='menu-text'> $ModName </span></a><b class='arrow'></b></li>";
+
+                           }
+                           elseif (in_array(USERID, $RoleUsers)) {
+                             $html .= "<li class=''><a href='?app=$AppSROWID&mod=$ModSROWID&view=list&ptype=temp&sk=$rand'>$IconMod<span class='menu-text'> $ModName </span></a><b class='arrow'></b></li>";
+                           }
+                         $getMods->MoveNext();
+                       }
+
+                echo $html;
+                   ?>
               <li>
                  <button data-target="#sidebar2" data-toggle="collapse" type="button" class=" navbar-toggle collapsed"><span class="sr-only">Toggle sidebar</span>
                     <i class="ace-icon fa fa-dashboard purple"></i></button>
