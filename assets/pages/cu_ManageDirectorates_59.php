@@ -110,20 +110,24 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
         <div class="widget-body">
            <div class="widget-main">
 
-        	  <div class="row">
-              <div class="form-group col-sm-6">
-						<label class="col-sm-4 control-label " for="CreatedBy"> CreatedBy </label>
-						<div class="col-sm-8">
-							<input type="text" id="CreatedBy" name="CreatedBy" placeholder="Enter M" class="col-xs-12 col-sm-12" value="<?php echo $rst['CreatedBy'];?>"  required="true" />
-						</div>
-					</div>
-					<div class="form-group col-sm-6">
-						<label class="col-sm-4 control-label " for="ModifiedBy"> ModifiedBy </label>
-						<div class="col-sm-8">
-							<input type="text" id="ModifiedBy" name="ModifiedBy" placeholder="Enter ModifiedBy" class="col-xs-12 col-sm-12" value="<?php echo $rst['ModifiedBy'];?>"  required="true" />
-						</div>
-					</div>
-			   </div>
+             <div class="row">
+               <div class="form-group col-sm-6">
+ 						<label class="col-sm-4 control-label " for="DirectorateCode"> DirectorateCode </label>
+ 						<div class="col-sm-8">
+ 							<input type="text" id="DirectorateCode" name="DirectorateCode" placeholder="Enter M" class="col-xs-12 col-sm-12" value="<?php echo $rst['DirectorateCode'];?>"  required="true" />
+ 						</div>
+ 					</div>
+ 			   </div>
+
+         <div class="row">
+           <div class="form-group col-sm-6">
+               <label class="col-sm-4 control-label " for="DirectorateName"> DirectorateName </label>
+               <div class="col-sm-8">
+                 <input type="text" id="DirectorateName" name="DirectorateName" placeholder="Enter Directorate Name" class="col-xs-12 col-sm-12" value="<?php echo $rst['DirectorateName'];?>"  required="true" />
+               </div>
+             </div>
+         </div>
+
 
 
           </div><!-- End Widget-Main -->
