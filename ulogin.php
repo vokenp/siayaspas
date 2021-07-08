@@ -15,8 +15,8 @@ session_start();
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Login - Siaya County Assembly</title>
-		<link href="assets/images/favicon.jpeg" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<title>Login - CredoHub Portal</title>
+		<link href="assets/images/favicon.png" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 		<meta name="description" content="User login page" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
@@ -54,7 +54,7 @@ session_start();
 					<div class="col-sm-10 col-sm-offset-1">
 <div class="login-container pull-right">
 <div class="center">
-
+<img src="assets/images/ttlogo.png" height="50px" width="300px;">
 </div>
 
 <div class="space-6"></div>
@@ -65,7 +65,7 @@ session_start();
 <div id="login-box" class="login-box visible widget-box no-border">
 	<div class="widget-body">
 		<div class="widget-main">
-			<h3 class="header blue lighter bigger" style="font-weight:bold;text-align:center;">Staff Performance Appraisal System</h3>
+			<h3 class="header blue lighter bigger" style="font-weight:bold;text-align:center;">Supplier Portal</h3>
 			<h4 class="header blue lighter bigger">
 				<i class="ace-icon fa fa-coffee green"></i>
 				Please Enter Your Information
@@ -78,7 +78,7 @@ session_start();
 				<fieldset>
 					<label class="block clearfix">
 						<span class="block input-icon input-icon-right">
-							<input type="text" id="username" name="username" required="true" class="form-control" placeholder="Enter username" />
+							<input type="text" id="username" name="username" required="true" class="form-control" placeholder="Enter UserName" />
 							<i class="ace-icon fa fa-user"></i>
 						</span>
 					</label>
@@ -117,7 +117,12 @@ session_start();
 			</a>
 		</div>
 
-
+		<div>
+			<a href="#" data-target="#activate-box" class="user-signup-link">
+				Activate Account
+				<i class="ace-icon fa fa-arrow-right"></i>
+			</a>
+		</div>
 
 
 		</div>
@@ -134,7 +139,7 @@ session_start();
 
 			<div class="space-6"></div>
 			<p>
-				Enter your Username and to receive instructions
+				Enter your UserName and to receive instructions
 			</p>
 
 			<form name="btnforgotpswd" id="btnforgotpswd">
@@ -142,7 +147,7 @@ session_start();
 				<fieldset>
 					<label class="block clearfix">
 						<span class="block input-icon input-icon-right">
-							<input type="email" class="form-control" placeholder="Enter Username" />
+							<input type="email" class="form-control" placeholder="Enter UserName" />
 							<i class="ace-icon fa fa-envelope"></i>
 						</span>
 					</label>

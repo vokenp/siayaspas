@@ -377,6 +377,8 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 						  <input type="text" name="OtherVenue" id="OtherVenue" class="col-xs-12 col-sm-12" required="true" value="<?php echo $rst["OtherVenue"];?>" placeholder="Enter Other Venue">
 						</div>
 					</div>
+
+					
 			   </div>
 
 

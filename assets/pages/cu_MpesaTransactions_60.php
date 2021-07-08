@@ -10,7 +10,7 @@ $op = filter_input(INPUT_GET, "view");
     $S_ROWID = "";
     $cid = "";
    
-    $btn = "<button type='submit' name='btnSaveRecord' id='btnSaveRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Save Record</button>";
+    $btn = "<button type='submit' name='btnSaveRecord' id='btnSaveRecord' class='btn btn-sm btn-success' ><i class='fa fa-edit'></i> Save Record</button>";
     $getColumns = $db->metaColumnNames($TableName);
     foreach ($getColumns as $key => $value) {
        $rst[$value] = "";  
@@ -26,7 +26,7 @@ $rst = $rs->row($TableName,"S_ROWID='$cid'");
       exit();
     }
 $S_ROWID = "<input type='hidden' name='S_ROWID' id='S_ROWID' value='$cid'>";
-$btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Update Record</button>";
+$btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' ><i class='fa fa-edit'></i> Update Record</button>";
    
   }
   
@@ -64,13 +64,28 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 					}
 					else
 					{
-					alert(data);
-				   
+					 	  Swal.fire(
+				          'Oops!',
+				          data,
+				          'error'
+				        );
+				   		dotoken();
 					}
 				});
 				}
 				});
 	});
+
+	     function dotoken()
+{
+   $.ajax({
+      type: 'post',
+      data: {tname: 1},
+      success: function(resp){
+       $('.token').val(resp);
+      }
+     });
+}
 </script>
 <input type="hidden" name="op" id="op" value="<?php echo $op;?>">
 <input type="hidden" name="url" id="url" value="<?php echo full_path();?>">
@@ -90,25 +105,22 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
           <form name="frmPageTemp" id="frmPageTemp" class="form-horizontal" role="form">
           	<input type="hidden" name="ModCode" id="ModCode" value="<?php echo $mod;?>">
           	<input type="hidden" name="ReturnType" id="ReturnType" value="RstID">
+          	<input type="hidden" name="_token" id="_token" value="<?php echo  VToken::genT();?>" class="token">
             <?php echo $S_ROWID;?>
         <div class="widget-body">
            <div class="widget-main">
 
         	  <div class="row">
-                 	<div class="form-group col-sm-6">
-						<label class="col-sm-4 control-label " for="TemplateName"> Template Name </label>
+                 	<div class="form-group col-sm-5">
+						<label class="col-sm-4 control-label " for="CreatedBy"> CreatedBy </label>
 						<div class="col-sm-8">
-							<input type="text" id="TemplateName" name="TemplateName" placeholder="Enter Template Name" class="col-xs-12 col-sm-12" value="<?php echo $rst['TemplateName'];?>"  required="true" />
+							<input type="text" id="CreatedBy" name="CreatedBy" placeholder="Enter M" class="col-xs-12 col-sm-12" value="<?php echo $rst['CreatedBy'];?>"  required="true" />
 						</div>
 					</div>
-					
-			   </div>
-
-			   <div class="row">
-			   	  <div class="form-group col-sm-6">
-						<label class="col-sm-4 control-label " for="TemplateBody"> Template Body </label>
+					<div class="form-group col-sm-5">
+						<label class="col-sm-4 control-label " for="ModifiedBy"> ModifiedBy </label>
 						<div class="col-sm-8">
-						 <textarea id="TemplateBody" name="TemplateBody" placeholder="Enter TemplateBody" class="col-xs-12 col-sm-12"><?php echo $rst['TemplateBody'];?></textarea>
+							<input type="text" id="ModifiedBy" name="ModifiedBy" placeholder="Enter ModifiedBy" class="col-xs-11 col-sm-11" value="<?php echo $rst['ModifiedBy'];?>"  required="true" />
 						</div>
 					</div>
 			   </div>

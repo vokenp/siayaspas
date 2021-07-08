@@ -1,6 +1,6 @@
-<div id="sidebar" class="sidebar h-sidebar responsive ace-save-state ">
+<div id="sidebar" class="sidebar sidebar responsive compact ace-save-state ">
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-					
+
 
 					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
 						<span class="btn btn-success"></span>
@@ -12,7 +12,7 @@
 						<span class="btn btn-danger"></span>
 					</div>
 				</div><!-- /.sidebar-shortcuts -->
-   
+
    <ul class="nav nav-list ">
 	<li class="">
 		<a href="./">
@@ -22,8 +22,8 @@
 
 		<b class="arrow"></b>
 	</li>
-	
-	<?php 
+
+	<?php
     $html ="";
     $htmlist = $rs->getUserMenuList($user,"RoleUser");
       foreach ($htmlist as $key => $valu) {
@@ -47,7 +47,7 @@
        $html .= "</ul></li>";
       }
       echo $html;
-  ?> 
+  ?>
 
 </ul>
 

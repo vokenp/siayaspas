@@ -3,16 +3,16 @@
 
     $("#bootbox-regular").on(ace.click_event, function() {
 			bootbox.prompt("Enter Item type", function(result) {
-
+				
 				if (result === null) {
-
+					
 				} else {
 				  $("#ItemType").append("<option value='"+result+"'>"+result+"</option>");
-					$("#ItemType").val(result);
+					$("#ItemType").val(result); 
 					$("#ItemType").trigger("chosen:updated");
 					$("#CurItemType").val(result);
 					$("#h4Span").html(result);
-
+					
 				}
 			});
 		});
@@ -37,16 +37,16 @@
          language: {
         paginate: {
         next: '<i class="fa fa-chevron-right">',
-        previous: '<i class="fa fa-chevron-left">'
+        previous: '<i class="fa fa-chevron-left">'  
        }
        },
-
+          
          "ajax":{
             url :"assets/bin/getListItems.php", // json datasource
             type: "post",  // type of method  , by default would be get
            "data":function(data) {
             data.CurItemType = $('#CurItemType').val();
-
+            
             },
 
             error: function(){  // error handling code
@@ -58,35 +58,35 @@
 		$("#frmAddList").validate({
                 debug: false,
                 rules: {
-
+                
                 },
                 messages: {
-
+                
                 },
                 submitHandler: function(form) {
                 // do other stuff for a valid form
                 //showLoader();
-
-                $.post('assets/bin/ManageRecords.php', $("#frmAddList").serialize(),
+               
+                $.post('assets/bin/ManageRecords.php', $("#frmAddList").serialize(), 
                 function(data) {
-
+                
                 if(data.length < 30)
                 {
-
+                   
                   $('#tblListItems').DataTable().draw();
                   var frm = "#frmAddList";
                   $(frm).find(":submit").prop('disabled', false);
-    			  $(frm).find(":submit").html("Add Item");
+    			  $(frm).find(":submit").html("Add Item"); 
     			  $(frm).data('submitted', false);
                   $(frm).trigger("reset");
                   var CurItemType = $("#CurItemType").val();
-                  $("#ItemType").val(CurItemType);
+                  $("#ItemType").val(CurItemType); 
 				  $("#ItemType").trigger("chosen:updated");
-
+				  
                 }else
                 {
                  alert(data);
-
+                   
                 }
                 });
                 }
@@ -95,51 +95,51 @@
 		$("#frmUpdateItem").validate({
                 debug: false,
                 rules: {
-
+                
                 },
                 messages: {
-
+                
                 },
                 submitHandler: function(form) {
                 // do other stuff for a valid form
                 //showLoader();
-
-                $.post('assets/bin/ManageRecords.php', $("#frmUpdateItem").serialize(),
+               
+                $.post('assets/bin/ManageRecords.php', $("#frmUpdateItem").serialize(), 
                 function(data) {
-
+                
                 if(data.length < 30)
                 {
-
+                   
                   $('#tblListItems').DataTable().draw();
                   var frm = "#frmUpdateItem";
                   $(frm).find(":submit").prop('disabled', false);
-    			  $(frm).find(":submit").html("Update Item");
+    			  $(frm).find(":submit").html("Update Item"); 
     			  $(frm).data('submitted', false);
                   $(frm).trigger("reset");
                   $("#AddColModal").modal("hide");
 				  $("#ItemType2").trigger("chosen:updated");
-
+				  
                 }else
                 {
                  alert(data);
-
+                   
                 }
                 });
                 }
                 });  // End Form Submission
 	});
-
+       
        function DoEditRecord(RowID)
        {
        	var RowInfo = eval('(' + $("#row-"+RowID).attr('data-value') + ')');
        	$("#ItemCode2").val(RowInfo.ItemCode);
        	$("#ItemDescription2").val(RowInfo.ItemDescription);
-
+          
        	$("#S_ROWID").val(RowInfo.S_ROWID);
         $("#ItemType2").html("");
        	$('#ItemType option').each(function(){
             $("#ItemType2").append("<option value='"+this.value+"'>"+this.value+"</option>");
-          });
+          }); 
        	$("#ItemType2 option[value='']").remove();
        	$('#ItemType2 option[value='+RowInfo.ItemType+']').attr('selected','selected');
        	$("#ItemType2").trigger("chosen:updated");
@@ -165,26 +165,15 @@
 							{
 								var tblName = "listitems";
 								$.post("assets/bin/ManageRecords.php", {DeleteRecord: ""+RecID+"",tbl: ""+tblName+""}, function(data){
-
+									
 									$('#tblListItems').DataTable().draw();
-									dotoken();
+							    
 									});
 							}
 						}
 					  }
 					);
    }
-
-		 function dotoken()
-				{
-				$.ajax({
-					 type: 'post',
-					 data: {tname: 1},
-					 success: function(resp){
-						$('.token').val(resp);
-					 }
-					});
-				}
 </script>
 
 		<div class="row">
@@ -193,19 +182,15 @@
 					<div class="widget-header widget-header-flat">
 						<h4 class="widget-title smaller">
 							<i class="ace-icon fa fa-list smaller-80"></i>
-					      Manage ListItems 
+					      Manage ListItems
 						</h4>
 						<div class="widget-toolbar no-border">
-
+							
 					   </div>
 					</div>
 			<form name="frmAddList" id="frmAddList" class="form-horizontal" role="form">
-				<input type="hidden" name="ModCode" id="ModCode" value="<?php echo $mod;?>">
-				<input type="hidden" name="ReturnType" id="ReturnType" value="RstID">
-				<input type="hidden" name="_token" id="_token" value="<?php echo  VToken::genT();?>" class="token">
 				<div class="widget-body">
-
-             <div class="widget-main">
+                   <div class="widget-main">
 
 				<div class="row">
 					<div class="col-xs-6">
@@ -213,8 +198,8 @@
 						<label class="col-sm-4 control-label " for="DataType"> Item Type </label>
 						<div class="col-sm-8">
 						  <select name="ItemType" id="ItemType" required="true" class="chosen-select form-control" style="width:90%">
-						  	<?php
-							    $getData = $db->Execute("select distinct ItemType from listitems where ItemType not in ('Gender','Country','filterConditions','AppType','usertype','RoleUser','RoleProfile','DeleteItems','FontAwesome','ColorPallete','SystemTables','ModuleListView','MenuType','ModActions','ButtonType','ModuleType','MaritalStatus','ChurchGroupMember')");
+						  	<?php 
+							    $getData = $db->Execute("select distinct ItemType from listitems where ItemType not in ('Gender','Country','filterConditions','AppType','usertype','RoleUser','RoleProfile','DeleteItems','FontAwesome','ColorPallete','SystemTables','ModuleListView','MenuType','ModActions','ButtonType','ModuleType','MaritalStatus')");
 							     echo "<option value=''></option>";
 							      while (!$getData->EOF) {
 							      	$ItemType = $getData->fields["ItemType"];
@@ -222,12 +207,12 @@
 							      	$getData->MoveNext();
 							      }
 							  ?>
-
+						  	
 						  </select>
 						</div>
 					</div>
 					</div>
-
+					
 				</div>
 
 			   <div class="row">
@@ -253,15 +238,15 @@
 
                    </div> <!-- End MainWidget -->
 					<div class="widget-toolbox padding-8 no-border clearfix text-center">
-							<button type="submit" name="btnSaveRecord" id="btnSaveRecord"  class="btn btn-sm btn-success bigger"  id="bootbox-regular" >
+							<button type="submit" name="btnSaveRecord" id="btnSaveRecord" value="listitems" class="btn btn-sm btn-success bigger"  id="bootbox-regular" >
 								<i class="ace-icon fa fa-plus"></i>
 								Add Item
 							</button>
 					   </div>
 
-
+			
 				</div><!-- End WidgetBody -->
-			</form>
+			</form>		
 		</div><!-- WidgetBox -->
 	</div><!-- LeftSide -->
 	     </div>  <!-- End col-xs-12 -->
@@ -276,7 +261,7 @@
 							Item List for : <span id="h4Span"></span>
 						</h4>
 						<div class="widget-toolbar no-border">
-
+							
 					   </div>
 					</div>
 				<div class="widget-body">
@@ -286,10 +271,10 @@
 			            <tr>
 			              <th>#</th>
 			              <th>ItemType</th>
-			              <th>ItemCode</th>
-						  <th>ItemDescription</th>
-						  <th>CreatedBy</th>
-						  <th>DateCreated</th>
+			              <th>ItemCode</th> 
+						  <th>ItemDescription</th> 
+						  <th>CreatedBy</th> 
+						  <th>DateCreated</th> 
 						  <th>Action</th>
 			            </tr>
 			          </thead>
@@ -337,10 +322,10 @@
 						</div>
 					</div>
 
-
-
+				
+					
 				</div><!-- End ModalBody -->
-                 	<div class="modal-footer">
+                 	<div class="modal-footer">			
 	<button type="submit" id="btnUpdateRecord" name="btnUpdateRecord" class="btn btn-sm btn-success" value="listitems">
 				 Update Item
 					<i class="ace-icon fa fa-edit icon-on-right bigger-110"></i>

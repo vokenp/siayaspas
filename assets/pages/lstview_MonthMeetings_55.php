@@ -18,7 +18,7 @@ $EnableCreate = $modInfo["EnableCreation"];
 
 $modUrl = $rs->Modurl($ModuleCode);
  $LinkUrl = str_replace('view=edit',"view=add", $modUrl);
- $AddLink = "<a href='$LinkUrl' class='dt-button btn btn-white btn-primary btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Add New</a>";
+ $AddLink = "<a data-toggle='modal' id='btnUpNew' href='#DocUploadModal' class='dt-button btn btn-white btn-primary btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Create New</a>";
  
 
 $MetaColumns = $db->MetaColumns($TableName);
@@ -260,6 +260,80 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
             }
       }
 
+
+        $("#IDateofJoining").datepicker({
+                    autoclose: true,
+                    format: 'dd-mm-yyyy',
+                    todayHighlight: true
+                    
+                })
+                
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+
+      function getFileName(path) {
+    var fileNameIndex = path.lastIndexOf("\\") + 1;
+    var filenamex = path.substr(fileNameIndex);
+    var filename = filenamex.substr(0, filenamex.lastIndexOf('.'));
+    return filename;
+    }
+
+      $("#uploadedfile").change(function(){
+        var fileName = $("#uploadedfile").val();
+        $("#DocumentTitle").val(getFileName(fileName));
+      });
+
+      var dateToday = new Date();
+      $("#MeetingDate").datepicker({
+                    autoclose: true,
+                    format: 'dd-mm-yyyy',
+                    todayHighlight: true,
+                    minDate : dateToday
+                })
+                
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                }); 
+
+            //form Submit
+  $("#frmUpload").validate({
+debug: false,
+rules: {
+
+},
+messages: {
+  
+},
+submitHandler: function(form) {
+// do other stuff for a valid form
+   $.post('assets/bin/ManageRecords.php', $("#frmUpload").serialize(), function(data) {
+    
+    if (data.length < 15)
+    {
+    $(".close").click();
+    var frm = "#frmUpload";
+    $(frm)[0].reset();
+    $(frm).trigger("reset");
+    $(frm).find(":submit").prop('disabled', false);
+    $(frm).find(":submit").html("<i class='fa fa-send'></i> Create Invoice"); 
+    $(frm).data('submitted', false);
+    $(frm).modal("hide");
+    
+    var urlstr = window.location.href;
+    var url = urlstr.replace("view=list&", "view=edit&cid="+data+"&");
+     $(window.location).attr('href', url);
+    }
+    else
+    {
+       alert(data);
+      dotoken();
+   
+    }
+});
+}
+});
+
     });// End Document
 
 
@@ -269,7 +343,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
       type: 'post',
       data: {tname: 1},
       success: function(resp){
-       $('#token').val(resp);
+       $('.token').val(resp);
       }
      });
 }
@@ -278,6 +352,69 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
 
 
        
+  <input type="hidden" name="url" id="url" value="<?php echo "?".full_path();?>">
+   <div id="DocUploadModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3 id="Colh3" class="smaller lighter blue no-margin">Create New Meeting </h3>
+        </div>
+      <form  name="frmUpload" id="frmUpload"   class="form-horizontal">
+        <div class="modal-body">
 
+          <div id="colAlert"></div>
+  <input type="hidden" name="_token" id="_token" class="token" value="<?php echo $token;?>">
+  <input type="hidden" name="ModCode" id="ModCode" value="<?php echo $mod;?>">
+  <input type="hidden" name="ReturnType" id="ReturnType" value="RstID">
+
+      <div class="row">
+      
+
+     <div class="form-group col-sm-12">
+            <label class="col-sm-4 control-label " for="MeetingDate"> Meeting Date </label>
+            <div class="col-sm-8">
+              <input type="text" id="MeetingDate" name="MeetingDate" placeholder="Meeting Date" class="col-xs-10 col-sm-10" required="true" />
+            </div>
+          </div> 
+   </div> 
+
+         
+
+          <div class="row">
+             <div class="form-group col-sm-12">
+            <label class="col-sm-4 control-label " for="MeetingVenue"> Meeting Venue </label>
+            <div class="col-sm-8">
+              <input type="text" id="MeetingVenue" name="MeetingVenue" placeholder="Enter Meeting Venue" class="col-xs-10 col-sm-10" required="true" />
+            </div>
+          </div>
+
+
+          </div>
+
+          <div class="row">
+             <div class="form-group col-sm-12">
+            <label class="col-sm-4 control-label " for="MeetingDescription"> Meeting Description </label>
+            <div class="col-sm-8">
+              <input type="text" id="MeetingDescription" name="MeetingDescription" placeholder="Enter Meeting Description" class="col-xs-10 col-sm-10" required="true" />
+            </div>
+          </div>
+
+          
+          </div>
+
+    
+          
+        </div><!-- End ModalBody -->
+      <div class="modal-footer">      
+        <button type="submit" id="btnSaveRecord" name="btnSaveRecord" class="btn btn-sm btn-success">
+          <i class="ace-icon fa fa-plus icon-on-right bigger-110"> </i>
+          Create Meeting 
+        </button>
+          </div>
+        </form>
+      </div><!-- Modal-content -->
+    </div><!-- Modal-Dialog -->
+   </div><!-- Modal-Div -->
   
   

@@ -2,6 +2,7 @@
   unset($_GET['sk']);
   $mod = $_GET['mod'];
   $pvals = array();
+  $token = VToken::genT();
   foreach ($_GET as $key => $val) {
    $pvals[] = $key.":".$val;
   }
@@ -17,10 +18,10 @@ $EnableCreate = $modInfo["EnableCreation"];
 
 $modUrl = $rs->Modurl($ModuleCode);
  $LinkUrl = str_replace('view=edit',"view=add", $modUrl);
- $AddLink = "<a href='$LinkUrl' class='dt-button btn btn-white btn-primary btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Add New</a>";
+ $AddLink = "<a data-toggle='modal' id='btnUpNew' href='#DocUploadModal' class='dt-button btn btn-white btn-primary btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Upload New</a>";
+ 
 
 $MetaColumns = $db->MetaColumns($TableName);
-
 $MetaType = array();
    foreach ($MetaColumns as $key => $vals) {
      $ColDef = (array)$vals;
@@ -94,97 +95,12 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
    
       
 ?>
-
-
-        <div class="widget-box">
-          <div class="widget-header widget-header-flat">
-            <h4 class="widget-title smaller">
-              <i class="ace-icon fa fa-search smaller-80"></i>
-                Enter Search Criteria
-            </h4>
-            <div  class="widget-toolbar no-border">
-              
-             </div>
-
-          </div>
-        <div class="widget-body">
-          <div class="widget-main">
-
-            <div class="row">
-              <div class="form-group col-sm-4">
-            <label class="col-sm-4 control-label " for="DistrictCode"> District Name</label>
-            <div class="col-sm-8">
-              <select name="DistrictCode" id="DistrictCode"  class="col-xs-12 col-sm-12" style="width:100%;">
-                <?php 
-                   echo "<option value='All'>All Districts</option>";
-                   $userType = $UserInfo["user_type"];
-                   $where = " where 1=1 ";
-                   if($userType == "Deacon")
-                   {
-                     $where .= "  and DistrictCode in (select DistrictCode from tbl_districts where MATCH(DistrictLeader,Deacon1,Deacon1) AGAINST ('$user' IN BOOLEAN MODE))";
-                   }
-                  $getData = $db->Execute("select *from tbl_districts $where");
-                    while (!$getData->EOF) {
-                      $DistrictCode = $getData->fields["DistrictCode"];
-                      $DistrictName = $getData->fields["DistrictName"];
-                      echo "<option value='$DistrictCode'>$DistrictName</option>";
-                      $getData->MoveNext();
-                    }
-                ?>
-              </select>
-            </div>
-           </div>
-
-            <div class="form-group col-sm-4">
-            <label class="col-sm-4 control-label " for="PMonth"> Month </label>
-            <div class="col-sm-8">
-              <select name="PMonth" id="PMonth"  class="col-xs-12 col-sm-12" style="width:100%;">
-                <?php 
-                  
-                  $curMonth = date('m');
-                   $monthName = date("F", mktime(0, 0, 0, $curMonth, 10));
-                  echo "<option value='$curMonth'>$monthName</option>";
-                   for ($m = 1; $m <= 12; ++$m) { 
-                         if ($m == $curMonth) continue;   
-                        $monthName = date("F", mktime(0, 0, 0, $m, 10));
-                        echo "<option value='$m'>$monthName</option>";
-                      }   
-                ?>
-              </select>
-            </div>
-          </div>
-
-              <div class="form-group col-sm-4">
-            <label class="col-sm-4 control-label " for="PYear"> Year</label>
-            <div class="col-sm-8">
-              <select name="PYear" id="PYear"  class="col-xs-12 col-sm-12" style="width:100%;">
-                <?php 
-                  
-                  $curYear = date('Y');
-                   for ($y= $curYear; $y > 2016; $y--) { 
-                        echo "<option value='$y'>$y</option>";
-                      }   
-                ?>
-              </select>
-            </div>
-          </div>
-
-              
-          
-         </div> <!-- End row -->
-        
-          </div><!-- End Widget-Main -->
-           <div class="widget-toolbox padding-8 clearfix text-center ">
-               <button type="button" name="btnSearch" id="btnSearch"  class="btn btn-lg btn-success"> <i class='fa fa-search'></i> Search</button>
-          </div>
-         </div> <!-- End widget Body -->
-       </div>  <!-- End WidgetBox -->
   
         <div class="widget-box">
           <div class="widget-header widget-header-flat">
             <h4 class="widget-title smaller">
-              
-                
+              <i class="ace-icon fa fa-list smaller-80"></i>
+                <?php echo $ModuleName;?>
             </h4>
             <div id="listToolBar" class="widget-toolbar no-border">
               
@@ -192,34 +108,26 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
 
           </div>
         <div class="widget-body">
+          <div class="error_box"></div>
           <div class="dataTables_borderWrap">
           <table id="tblListView" class="table table-bordered table-striped"></table>
          </div><!-- dataTables_borderWrap -->
         </div>
         </div><!-- WidgetBox -->  
         <input type="hidden" id="qrysmt" name="qrysmt">
+        <input type="hidden" name="token" id="token" value="<?php echo $token; ?>" class="token">
 <input type="hidden" name="modCode" id="modCode" value="<?php echo $mod;?>">
 <input type="hidden" name="enDeleteItems" id="enDeleteItems" value="<?php echo $rst["DeleteItems"];?>">
 <input type="hidden" name="EnableCreation" id="EnableCreation" value="<?php echo $rst["EnableCreation"];?>">
+
 <input type="hidden" name="" id="btnAdd" value="<?php echo $AddLink;?>">
   <script type="text/javascript">
-    jQuery(function($) {
-
-      var dateToday = new Date();
-      $("#MeetingDate").datepicker({
-                    autoclose: true,
-                    format: 'dd-mm-yyyy',
-                    todayHighlight: true,
-                    minDate : dateToday
-                })
-                
-                .next().on(ace.click_event, function(){
-                    $(this).prev().focus();
-                }); 
+   $(document).ready(function(){
+      
         //initiate dataTables plugin
          var dcols = <?php echo json_encode($dCols); ?>;
         var btnlist = <?php echo json_encode($btnlist); ?>;
-         //var btnAdd = <?php echo $AddLink ;?>;
+         
          var dtListView = $('#tblListView').wrap("<div class='dataTables_borderWrap' />").DataTable({
          "Processing": true,
          "serverSide": true,
@@ -232,63 +140,64 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
          "pagingType": "full",
          "order": [[ 2, 'desc' ]],
          "columnDefs": dcols, 
-         "lengthMenu": [[100, 200], [100, 200]],
+         "lengthMenu": [[20,50, 100, 200], [20,50, 100, 200]],
          "select": {
          "style": "multi"
           },
           "ajax":{
-            url :"assets/bin/getContribPerDistrict.php", // json datasource
+            url :"getListViewData.php", // json datasource
             type: "post",  // type of method  , by default would be get
            "data":function(data) {
             data.ModCode = $('#modCode').val();
-            data.DistrictCode = $('#DistrictCode').val();
-            data.PYear = $('#PYear').val();
-            data.PMonth = $('#PMonth').val();
+            data.token = $('#token').val();
+              //alert(JSON.stringify(data));
             },
 
-            error: function(){  // error handling code
-              $("#tblListView_processing").css("display","none");
+            error: function(ep){  // error handling code
+              alert(JSON.stringify(ep));
+             // $("#tblListView_processing").css("display","none");
             }
           }
-          
-    });
+   });
 
-
-    dtListView.on('xhr', function() {
+ dtListView.on('xhr', function() {
   var ajaxJson = dtListView.ajax.json();
   $("#qrysmt").val(ajaxJson.QryParams.qrysmt);
-   
+
+   dotoken();
 });
 
-         new $.fn.dataTable.Buttons( dtListView, {
+   new $.fn.dataTable.Buttons( dtListView, {
           buttons: btnlist
         } );
-        dtListView.buttons().container().appendTo( $('#listToolBar') );
-        var delBtn = "<a id='btnDelete' class='dt-button btn btn-white btn-primary btn-bold'> <i class='fa fa-trash bigger-110 red' title='Delete Selected Records'></i></a>";
+     dtListView.buttons().container().appendTo( $('#listToolBar') );
+
+     var delBtn = "<a id='btnDelete' class='dt-button btn btn-white btn-primary btn-bold'> <i class='fa fa-trash bigger-110 red' title='Delete Selected Records'></i></a>";
         var excelBtn = "<a id='btnExcel' class='dt-button btn btn-white btn-primary btn-bold'> <i class='fa fa-file-excel-o bigger-110 green' title='Export to Excel'></i></a>";
 
         var pdfBtn = "<a id='btnPDF' class='dt-button btn btn-white btn-primary btn-bold'> <i class='fa fa-file-pdf-o bigger-110 red' title='Export to PDF'></i></a>";
 
         var reload = "<a id='btnReload' class='dt-button btn btn-white btn-primary btn-bold'> <i class='fa fa-refresh bigger-110 blue' title='Refresh'></i></a>";
-          
+
           $(".dt-buttons").append($(excelBtn));
           $(".dt-buttons").append($(pdfBtn));
           if ($("#enDeleteItems").val() == "Y") 
           {
              $(".dt-buttons").append($(delBtn));
           }
-
-        
-        
-         $(".dt-buttons").prepend($(reload));
+     
+      $(".dt-buttons").prepend($(reload));
 
          if ($("#EnableCreation").val() == "Y") 
           { 
+           
             var btnAdd = $("#btnAdd").val();
+             
              $(".dt-buttons").prepend($(btnAdd));
+            
           }
 
-         $("#btnReload").click(function(){
+              $("#btnReload").click(function(){
           $('#tblListView').DataTable().draw();
          });
 
@@ -307,13 +216,8 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
             var qrysmt = $('#qrysmt').val();
              $(window.location).attr('href', "dopdfexport.php");
         });
-          
-        $("#btnSearch").click(function(){
-          $('#tblListView').DataTable().draw();
-        });
 
-
-         function doRecordDelete(){
+           function doRecordDelete(){
           var selectedrows = new Array();
         var rows_selected = dtListView.column(0).checkboxes.selected();
         $.each(rows_selected, function(index, rowId){
@@ -355,10 +259,168 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
             });
             }
       }
-       
-          });
+
+
+        $("#IDateofJoining").datepicker({
+                    autoclose: true,
+                    format: 'dd-mm-yyyy',
+                    todayHighlight: true
+                    
+                })
+                
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+
+      function getFileName(path) {
+    var fileNameIndex = path.lastIndexOf("\\") + 1;
+    var filenamex = path.substr(fileNameIndex);
+    var filename = filenamex.substr(0, filenamex.lastIndexOf('.'));
+    return filename;
+    }
+
+      $("#uploadedfile").change(function(){
+        var fileName = $("#uploadedfile").val();
+        $("#DocumentTitle").val(getFileName(fileName));
+      });
+
+            //form Submit
+  $("#frmUpload").validate({
+debug: false,
+rules: {
+
+},
+messages: {
+  
+},
+submitHandler: function(form) {
+// do other stuff for a valid form
+   $.post('assets/bin/ManageRecords.php', $("#frmUpload").serialize(), function(data) {
+    
+    if (data.length < 15)
+    {
+    $(".close").click();
+    var frm = "#frmUpload";
+    $(frm)[0].reset();
+    $(frm).trigger("reset");
+    $(frm).find(":submit").prop('disabled', false);
+    $(frm).find(":submit").html("<i class='fa fa-send'></i> Create Invoice"); 
+    $(frm).data('submitted', false);
+    $(frm).modal("hide");
+    
+    var urlstr = window.location.href;
+    var url = urlstr.replace("view=list&", "view=edit&cid="+data+"&");
+     $(window.location).attr('href', url);
+    }
+    else
+    {
+       alert(data);
+      dotoken();
+   
+    }
+});
+}
+});
+
+    });// End Document
+
+
+      function dotoken()
+{
+   $.ajax({
+      type: 'post',
+      data: {tname: 1},
+      success: function(resp){
+       $('.token').val(resp);
+      }
+     });
+}
+
   </script>
 
 
+       
+  <input type="hidden" name="url" id="url" value="<?php echo "?".full_path();?>">
+   <div id="DocUploadModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3 id="Colh3" class="smaller lighter blue no-margin">Create Member </h3>
+        </div>
+      <form  name="frmUpload" id="frmUpload"   class="form-horizontal">
+        <div class="modal-body">
 
+          <div id="colAlert"></div>
+  <input type="hidden" name="_token" id="_token" class="token" value="<?php echo $token;?>">
+  <input type="hidden" name="ModCode" id="ModCode" value="<?php echo $mod;?>">
+  <input type="hidden" name="ReturnType" id="ReturnType" value="RstID">
+
+      <div class="row">
+      <div class="form-group col-sm-6">
+      <label class="col-sm-4 control-label " for="MemberType"> Member Type </label>
+      <div class="col-sm-8">
+      <select name="MemberType" id="MemberType" class="col-xs-10 col-sm-10"  required="true">
+      <?php echo $rs->GetListItems("","MemberType","add");?>
+     </select>
+      </div>
+    </div>
+
+     <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label " for="IDNo"> IDNo </label>
+            <div class="col-sm-8">
+              <input type="text" id="IDNo" name="IDNo" placeholder="IDNo" class="col-xs-10 col-sm-10" required="true" />
+            </div>
+          </div> 
+   </div> 
+
+         
+
+          <div class="row">
+             <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label " for="FullName"> FullName </label>
+            <div class="col-sm-8">
+              <input type="text" id="FullName" name="FullName" placeholder="Enter FullName" class="col-xs-10 col-sm-10" required="true" />
+            </div>
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label " for="PhoneNo"> PhoneNo </label>
+            <div class="col-sm-8">
+              <input type="text" id="PhoneNo" name="PhoneNo" placeholder="Enter PhoneNo" class="col-xs-10 col-sm-10" required="true" />
+            </div>
+          </div> 
+
+          </div>
+
+          <div class="row">
+             <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label " for="Email"> Email </label>
+            <div class="col-sm-8">
+              <input type="text" id="Email" name="Email" placeholder="Enter Email" class="col-xs-10 col-sm-10"  />
+            </div>
+          </div>
+
+           <div class="form-group col-sm-6">
+            <label class="col-sm-4 control-label " for="IDateofJoining"> Date of Joining </label>
+            <div class="col-sm-8">
+              <input type="text" id="DateofJoining" name="DateofJoining" placeholder="Select Date of Joining" class="col-xs-10 col-sm-10"   />
+            </div>
+          </div>
+          </div>
+
+    
+          
+        </div><!-- End ModalBody -->
+      <div class="modal-footer">      
+        <button type="submit" id="btnSaveRecord" name="btnSaveRecord" class="btn btn-sm btn-success">
+          <i class="ace-icon fa fa-plus icon-on-right bigger-110"> </i>
+          Create Member   
+        </button>
+          </div>
+        </form>
+      </div><!-- Modal-content -->
+    </div><!-- Modal-Dialog -->
+   </div><!-- Modal-Div -->
+  
   

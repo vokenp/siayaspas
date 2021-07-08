@@ -1,7 +1,4 @@
-
-
-
-   <div class="page-content">
+<div class="page-content">
      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
             <ul class="breadcrumb">
               <li>
@@ -13,13 +10,12 @@
                     <i class="ace-icon fa fa-dashboard purple"></i></button>
               </li>
             </ul><!-- /.breadcrumb -->
-           
 
           </div>
   <div class="row m-0">
     <div class="col-xs-12">
 
-      <?php 
+      <?php
    if (!in_array($user, $rs->RoleUsers("SysManager"))) {
          include("pages/403.php");
          exit();
@@ -49,13 +45,13 @@
     $modNamebtn = "<li><a href='?app=$app&mod=$mod&view=add&ptype=temp&sk=$rand' class='btn bg-navy fa fa-plus'> $ButtonDisplay </a></li>";
   }
       }
-      
+
       if (empty($argMod)) {
         include("assets/pages/404.php");
        exit();
-      } 
+      }
 
-     
+
   if ($op == "list") {
         if ($ModuleListView == 'Custom') {
           include("mngDataTblView.php");
@@ -81,16 +77,11 @@
        copy("assets/pages/pageTemplate.php",$pageName);
        include($pageName);
       }
-    
+
     }
-       
+
   ;?>
-     
+
     </div><!-- End Col-xs-12 -->
   </div><!-- End Row -->
 </div><!-- page-content -->
-
-
-
-  
-  

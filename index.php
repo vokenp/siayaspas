@@ -2,24 +2,11 @@
 include("timeout.php");
 include("assets/bin/con_db.php");
 error_reporting(E_ALL);
-ini_set('display_errors', 1); 
+ini_set('display_errors', 1);
 if (!isset($_SESSION['user'])) {
    header("location: ulogin.php");
 }
 if(isset($_POST['tname'])){
-   if (!function_exists('getallheaders')) {
-    function getallheaders() {
-    $headers = [];
-    foreach ($_SERVER as $name => $value) {
-        if (substr($name, 0, 5) == 'HTTP_') {
-            $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-        }
-    }
-    return $headers;
-    }
-}
-
-
   $list = getallheaders();
   if (isset($list["Cookie"])) {
      $Cookie = explode(';',$list["Cookie"]) ;
@@ -28,7 +15,7 @@ if(isset($_POST['tname'])){
       if ($voken == $_SESSION['sessionid']) {
         echo trim(VToken::genT());
       }
-  } 
+  }
    exit();
 }
 
@@ -42,13 +29,14 @@ $UserID =  $UserInfo["S_ROWID"];
 $app = (int)filter_input(INPUT_GET, "app");
 define("USERID", $_SESSION['user']);
 $user = USERID;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>PCEA Nyaga Church App</title>
+		<title>CredoHub portal</title>
         	<link href="assets/images/favicon.png" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -71,9 +59,9 @@ $user = USERID;
 		<!--[if lte IE 9]>
 			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
 		<![endif]-->
-		
+
 		<link rel="stylesheet" href="assets/css/chosen.min.css" />
-		<link rel="stylesheet" href="assets/css/bootstrap-select.css" />       
+		<link rel="stylesheet" href="assets/css/bootstrap-select.css" />
 		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
 		<link rel="stylesheet" href="assets/css/dataTables.checkboxes.css" />
@@ -81,10 +69,9 @@ $user = USERID;
 		<link rel="stylesheet" href="assets/css/bootstrap-timepicker.min.css" />
 		<link rel="stylesheet" href="assets/css/daterangepicker.min.css" />
 		<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css" />
-		<link rel="stylesheet" href="assets/css/jchart.css" />
 <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
-     
+
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -114,8 +101,8 @@ $user = USERID;
 		<script src="assets/js/jquery.flot.min.js"></script>
 		<script src="assets/js/jquery.flot.pie.min.js"></script>
 		<script src="assets/js/jquery.flot.resize.min.js"></script> -->
-		
-        
+
+
 
         <script src="assets/js/jquery.dataTables.min.js"></script>
 		<script src="assets/js/jquery.dataTables.bootstrap.min.js"></script>
@@ -134,20 +121,21 @@ $user = USERID;
 		<script src="assets/js/chosen.jquery.min.js"></script>
 		<script src="assets/js/autosize.min.js"></script>
 		<script src="assets/js/bootstrap-tag.min.js"></script>
-        
+
         <script src="assets/js/bootstrap-datepicker.min.js"></script>
 		<script src="assets/js/bootstrap-timepicker.min.js"></script>
 		<script src="assets/js/moment.min.js"></script>
 		<script src="assets/js/daterangepicker.min.js"></script>
 		<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="assets/js/jquery.maskedinput.min.js"></script>
-		
+
 		<script src="assets/js/jquery.jqGrid.min.js"></script>
 		<script src="assets/js/grid.locale-en.js"></script>
 
         <script src="assets/js/fullcalendar.min.js"></script>
 		<script src="assets/js/bootbox.js"></script>
-        <script src="assets/js/jchart.js"></script>
+
+
         <script src="assets/plugins/ckeditor/ckeditor.js"></script>
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
@@ -168,7 +156,7 @@ $user = USERID;
 		<![endif]-->
 	</head>
 
-	<body class="no-skin">
+	<body class="skin-2">
 	  <?php include("header.php"); ?>
 
 		<div class="main-container ace-save-state" id="main-container">
@@ -187,8 +175,8 @@ $user = USERID;
 
 			<div class="main-content">
             <div class="main-content-inner">
-				<?php  
-        
+				<?php
+
        switch ($app) {
         case 2:
            include("websystemplates.php");
@@ -200,8 +188,8 @@ $user = USERID;
            include("webformtemplate.php");
            break;
        }
-       
-     ?>					
+
+     ?>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>

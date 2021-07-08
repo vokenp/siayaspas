@@ -6,8 +6,8 @@ include('adodb/toexport.inc.php');
 //require_once('AfricasTalkingGateway.php');
 require_once('PHPMailer/class.phpmailer.php');
 $mail = new PHPMailer(); // create a new object
-
-  include("sysDefs.php");
+   
+  include("sysDefs.php"); 
   $db->setFetchMode(ADODB_FETCH_ASSOC);
 
   require_once('classModules.php');
@@ -29,7 +29,7 @@ function rpath($pathstr)
       $curID = $getData["Auto_increment"];
     }
     else
-    {
+    { 
       $currentID = $db->GetOne("select  IDENT_CURRENT('$tblName')");
       $curID = $currentID == 1 ? 1 : $currentID +1;
     }
@@ -42,16 +42,16 @@ function path($pathstr)
       return $path;
     }
 
-//Sanitive Inputs and Output
+//Sanitive Inputs and Output 
 function cleanInput($input) {
-
+ 
   $search = array(
     '@<script[^>]*?>.*?</script>@si',   // Strip out javascript
     '@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags
     '@<style[^>]*?>.*?</style>@siU',    // Strip style tags properly
     '@<![\s\S]*?--[ \t\n\r]*>@'         // Strip multi-line comments
   );
-
+ 
     $output = preg_replace($search, '', $input);
     return $output;
   }
@@ -74,35 +74,24 @@ function sanitize($input) {
 // End Sanitizations
 function sendSMS($SendTo,$message)
 {
-  global $db;
   // Be sure to include the file you've just downloaded
 require_once('AfricasTalkingGateway.php');
 
 // Specify your login credentials
-
-  $config = array();
-  $config["ApiUserName"]  = "vokenp";
-  $config["ApiKey"]    = "c7531d101a3858c257f35e38fafd06433f9fff4c5b7dbe57b4a4cd7e4216f3ee";
-  $config["ApiFrom"]   = "DALAPAY";
-$getArray = $db->GetArray("select *from appconfigs where confType='SMSAPI'");
-   foreach ($getArray as $key => $val) {
-      $config[$val["confName"]] = $val["confValue"];
-   }
-   $username = $config["ApiUserName"];
-   $apikey  = $config["ApiKey"];
-   $from    = $config["ApiFrom"];
-
+$username   = "vokenp";
+$apikey     = "c7531d101a3858c257f35e38fafd06433f9fff4c5b7dbe57b4a4cd7e4216f3ee";
+$from   = "DALAPAY";
 
 
   $recipients = implode(',', $SendTo);
 
 $gateway    = new AfricasTalkingGateway($username, $apikey);
 
-try
-{
-  // Thats it, hit send and we'll take care of the rest.
+try 
+{ 
+  // Thats it, hit send and we'll take care of the rest. 
   $results = $gateway->sendMessage($recipients, $message,$from);
-
+     
   foreach($results as $result) {
     // status is either "Success" or "error message"
     /*echo " Number: " .$result->number;
@@ -188,9 +177,9 @@ function pesa($number, $fractional=false) {
         }
     }
     return "Ksh ".$number;
-}
+} 
 
-
+   
  function generatePassword($length=9, $strength=0) {
   $vowels = 'aeuy';
   $consonants = 'bdghjmnpqrstvz';
@@ -206,7 +195,7 @@ function pesa($number, $fractional=false) {
   if ($strength & 8) {
     $consonants .= '@#$%';
   }
-
+ 
   $password = '';
   $alt = time() % 2;
   for ($i = 0; $i < $length; $i++) {
@@ -225,7 +214,7 @@ function pesa($number, $fractional=false) {
 
   // Set timezone
   date_default_timezone_set("UTC");
-
+ 
   // Time format is UNIX timestamp or
   // PHP strtotime compatible strings
   function dateDiff($time1, $time2, $precision = 6) {
@@ -236,7 +225,7 @@ function pesa($number, $fractional=false) {
     if (!is_int($time2)) {
       $time2 = strtotime($time2);
     }
-
+ 
     // If time1 is bigger than time2
     // Then swap time1 and time2
     if ($time1 > $time2) {
@@ -244,11 +233,11 @@ function pesa($number, $fractional=false) {
       $time1 = $time2;
       $time2 = $ttime;
     }
-
+ 
     // Set up intervals and diffs arrays
     $intervals = array('year','month','day','hour','minute','second');
     $diffs = array();
-
+ 
     // Loop thru all intervals
     foreach ($intervals as $interval) {
       // Set default diff to 0
@@ -263,7 +252,7 @@ function pesa($number, $fractional=false) {
   $ttime = strtotime("+1 " . $interval, $time1);
       }
     }
-
+ 
     $count = 0;
     $times = array();
     // Loop thru all diffs
@@ -272,7 +261,7 @@ function pesa($number, $fractional=false) {
       if ($count >= $precision) {
   break;
       }
-      // Add value and interval
+      // Add value and interval 
       // if value is bigger than 0
       if ($value > 0) {
   // Add s if value is not 1
@@ -284,7 +273,7 @@ function pesa($number, $fractional=false) {
   $count++;
       }
     }
-
+ 
     // Return string with times
     return implode(", ", $times);
   }
@@ -366,7 +355,7 @@ function filesize_formatted($size)
    function getListItemIPTC($ItemCode,$ItemType,$op)
     {
       global $db;
-
+     
       if($op == "add")
       {
       $html ="<option></option>";
@@ -382,7 +371,7 @@ function filesize_formatted($size)
          $html .= "<option value='$ItemCode'>$ItemCode</option>";
          $getData->MoveNext();
        }
-
+       
        return $html;
     }
 
@@ -408,7 +397,7 @@ function filesize_formatted($size)
     {
       global $dbName;
       global $db;
-
+     
 
         if ($value !="") {
           switch ($getDataType) {
@@ -437,17 +426,17 @@ function filesize_formatted($size)
 
         }
        return $value;
-    }
+    } 
 
 
     /***********************convert number to words ************************/
-   function translateToWords($number)
+   function translateToWords($number) 
 {
     $max_size = pow(10,18);
     if (!$number) return "zero";
-    if (is_int($number) && $number < abs($max_size))
-    {
-        switch ($number)
+    if (is_int($number) && $number < abs($max_size)) 
+    {            
+        switch ($number) 
         {
             // set up some rules for converting digits to words
             case $number < 0:
@@ -464,7 +453,7 @@ function filesize_formatted($size)
             case 3:
                 $string = "Three";
                 break;
-            case 4:
+            case 4: 
                 $string = "Four";
                 break;
             case 5:
@@ -481,66 +470,66 @@ function filesize_formatted($size)
                 break;
             case 9:
                 $string = "Nine";
-                break;
+                break;                
             case 10:
                 $string = "Ten";
-                break;
+                break;            
             case 11:
                 $string = "Eleven";
-                break;
+                break;            
             case 12:
                 $string = "Twelve";
-                break;
+                break;            
             case 13:
                 $string = "Thirteen";
-                break;
+                break;            
             // fourteen handled later
             case 15:
                 $string = "Fifteen";
-                break;
+                break;            
             case $number < 20:
                 $string = translateToWords($number%10);
                 // eighteen only has one "t"
                 if ($number == 18)
                 {
                 $suffix = "een";
-                } else
+                } else 
                 {
                 $suffix = "teen";
                 }
                 $string .= $suffix;
-                break;
+                break;            
             case 20:
                 $string = "Twenty";
-                break;
+                break;            
             case 30:
                 $string = "Thirty";
-                break;
+                break;            
             case 40:
                 $string = "Forty";
-                break;
+                break;            
             case 50:
                 $string = "Fifty";
-                break;
+                break;            
             case 60:
                 $string = "Sixty";
-                break;
+                break;            
             case 70:
                 $string = "Seventy";
-                break;
+                break;            
             case 80:
                 $string = "Eighty";
-                break;
+                break;            
             case 90:
                 $string = "Ninety";
-                break;
+                break;                
             case $number < 100:
                 $prefix = translateToWords($number-$number%10);
                 $suffix = translateToWords($number%10);
                 $string = $prefix . "-" . $suffix;
                 break;
             // handles all number 100 to 999
-            case $number < pow(10,3):
+            case $number < pow(10,3):                    
                 // floor return a float not an integer
                 $prefix = translateToWords(intval(floor($number/pow(10,2)))) . " Hundred";
                 if ($number%pow(10,2)) $suffix = " and " . translateToWords($number%pow(10,2));
@@ -557,33 +546,33 @@ function filesize_formatted($size)
                 $prefix = translateToWords(intval(floor($number/pow(10,6)))) . " Million";
                 if ($number%pow(10,6)) $suffix = translateToWords($number%pow(10,6));
                 $string = $prefix . " " . $suffix;
-                break;
+                break;                    
             case $number < pow(10,12):
                 // floor return a float not an integer
                 $prefix = translateToWords(intval(floor($number/pow(10,9)))) . " Billion";
                 if ($number%pow(10,9)) $suffix = translateToWords($number%pow(10,9));
-                $string = $prefix . " " . $suffix;
+                $string = $prefix . " " . $suffix;    
                 break;
             case $number < pow(10,15):
                 // floor return a float not an integer
                 $prefix = translateToWords(intval(floor($number/pow(10,12)))) . " Trillion";
                 if ($number%pow(10,12)) $suffix = translateToWords($number%pow(10,12));
-                $string = $prefix . " " . $suffix;
-                break;
+                $string = $prefix . " " . $suffix;    
+                break;        
             // Be careful not to pass default formatted numbers in the quadrillions+ into this function
             // Default formatting is float and causes errors
             case $number < pow(10,18):
                 // floor return a float not an integer
                 $prefix = translateToWords(intval(floor($number/pow(10,15)))) . " quadrillion";
                 if ($number%pow(10,15)) $suffix = translateToWords($number%pow(10,15));
-                $string = $prefix . " " . $suffix;
-                break;
+                $string = $prefix . " " . $suffix;    
+                break;                    
         }
     } else
     {
         echo "ERROR with - $number<br/> Number must be an integer between -" . number_format($max_size, 0, ".", ",") . " and " . number_format($max_size, 0, ".", ",") . " exclussive.";
     }
-    return $string;
+    return $string;    
 }
        /********************************end convert  *******************************************/
        function getDatesFromRange($start, $end){
@@ -614,8 +603,8 @@ function filesize_formatted($size)
        $arg = json_encode($LogChanges);
         break;
     }
-
-
+     
+  
 
        $record["OpTable"] = $tbl;
        $record["ModCode"] = $ModCode;
@@ -628,14 +617,14 @@ function filesize_formatted($size)
        if ($action == "Delete") {
         $del = $db->Execute("delete from $tbl where S_ROWID='$S_ROWID'");
        }
-
+         
 
        $table  = "audit_trail";
        $action = "INSERT";
        $db->AutoExecute($table,$record,$action);
 
   }
-
+ 
 
   // Function Get Table Structure
   function gettblStructure($tblName)
@@ -645,8 +634,8 @@ function filesize_formatted($size)
    $tableStructure = str_replace('`', "", $doQuery[1]);
    return $tableStructure;
   }
-
-   // Get List Items
+ 
+   // Get List Items 
 function GetListItem_edit($ItemCode,$ItemType)
 {
 global $db;
@@ -669,7 +658,7 @@ return $html;
 }
 // On add List Items
 function getListitem_add($ItemType)
- {
+ { 
   global $db;
   $prefix = array("PHTMainCategory","PHTSubCategory");
      echo "<option value=''></option>";
@@ -679,7 +668,7 @@ function getListitem_add($ItemType)
             $ItemCode = $getdata->fields[0];
             $ItemDescription = $getdata->fields[1];
             $ItemDescription = in_array($ItemType, $prefix) ? $ItemCode.'-'.$ItemDescription : $ItemDescription;
-            echo "<option value='$ItemCode'>{$ItemDescription}</option>";
+            echo "<option value='$ItemCode'>{$ItemDescription}</option>";   
         $getdata->MoveNext();
             }
  }
@@ -713,7 +702,7 @@ $Copyrightowner["KBC"] = "Kenya Broadcasting Corporation";
         $keywords = "no data";
         $description = "no data";
       }
-
+  
 
   switch ($assetType) {
      case 'doc':
@@ -751,26 +740,26 @@ $metadata = array(
    'lang_id_r' => "1",
     'vid_keywords' => $keywords,
     'vid_description' => $description
-    );
+    );  
          break;
     case 'aud':
 $metadata = array(
    'lang_id_r' => "1",
     'aud_keywords' => $keywords,
     'aud_description' => $description
-    );
+    );  
          break;
      default:
 $metadata = array(
    'lang_id_r' => "1"
-    );
+    ); 
          break;
  }
 
 $assetmetadata = conJson(json_encode($metadata));
 $assetmetadata = urlencode($assetmetadata);
 $postString = 'method=setmetadata&api_key='.$api_key.'&assetid='.$assetID.'&assettype='.$assetType.'&assetmetadata='.$assetmetadata;
-
+   
 $Posturl = 'http://197.248.7.147/razuna/global/api2/asset.cfc';
 
 
@@ -798,13 +787,13 @@ $response = curl_exec($ch2);
   $post_data['destfolderid'] = "A0D54ED374AA4842814EC3BB0F8F76C5";
   $post_data['debug']        = "1";
   $post_data['emailto']      = "nextadmin@next.co.ke";
-  $api_key = $post_data['api_key'];
+  $api_key = $post_data['api_key']; 
   // File you want to upload/post.
   $fileName = realpath($FileNameOut);
   // Initialize cURL.
   $url = "http://197.248.7.147/razuna/raz1/dam/";
   $url = $url . '/index.cfm';
-
+   
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
   // Set URL on which you want to post the Form and/or data.
@@ -839,7 +828,7 @@ function sendCustom($api_key,$assetID,$DocID)
 {
   global $db;
   $rst = $db->GetRow("select *from ImageTextFiles where DocID='$DocID'");
-
+  
 $Copyrightowner["KNA"] = "Ministry of Information, Communication and Technology. Government of Kenya";
 $Copyrightowner["DFS"] = "Ministry of Sports, Arts and Culture, Government of Kenya";
 $Copyrightowner["KBC"] = "Kenya Broadcasting Corporation";
@@ -879,8 +868,8 @@ $setmetadata[getFieldID('Double Checked')] = 'T';
 $jArray = conJson(json_encode($setmetadata));
 
   $jArray = urlencode($jArray);
-
-
+ 
+   
 $Posturl = 'http://197.248.7.147/razuna/global/api2/customfield.cfc?method=setfieldvalue&api_key='.$api_key.'&assetid='.$assetID.'&field_values='.$jArray;
 
 $ch2 = curl_init();
@@ -911,9 +900,9 @@ $filepath = $db->GetOne("select New_FileName from ElementStorage where S_ROWID='
 try
 {
 // Saving every page of a TIFF separately as a JPG thumbnail
-$images = new Imagick($filepath);
+$images = new Imagick($filepath); 
 $PoolPath = getConf("AssetPath");
-
+ 
 foreach($images as $i=>$image) {
     // Providing 0 forces thumbnail Image to maintain aspect ratio
     $image->thumbnailImage(668,0);
@@ -925,7 +914,7 @@ foreach($images as $i=>$image) {
      }
     $image->writeImage($PoolPath."tmp/".$imgname.".jpg");
      chmod($PoolPath."tmp/".$imgname.".jpg", 777);
-
+    
     $tmp = $PoolPath."tmp/".$imgname.".jpg";
    $insTmp = $db->Execute("insert  into tmpfiles(tmpFile,DocID,tmpindex) values('$tmp','$DocID','$i')");
 }
@@ -984,18 +973,18 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
       $fileStage = "Verified";
        break;
      default:
-
+      
        break;
    }
-
+ 
   $getlist = $db->GetOne("select $S_Column from listpool where loginid='$UserID' and StoragePool='$PoolName'");
    if($getlist !="")
    {
     $retrieve = explode(',',$getlist);
-
+    
       $DocID = $retrieve[0];
       $updateOutPut = $db->Execute("update ElementStorage set FileStage='$fileStage' where S_ROWID='$DocID'");
-
+    
     array_shift($retrieve);
     $comb = implode(',', $retrieve);
     $UpdateListPool = $db->Execute("update listpool set $S_Column='$comb' where loginid='$UserID' and StoragePool='$PoolName'");
@@ -1022,10 +1011,10 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
     return $MetaType;
   }
 
- // Do Audit trail values
+ // Do Audit trail values 
 
-  function DoDateConvert(&$value, $key, $MetaTypes)
-  {
+  function DoDateConvert(&$value, $key, $MetaTypes) 
+  { 
     if ($value != "") {
         $type = $MetaTypes[$key];
     switch ($type) {
@@ -1050,7 +1039,7 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
        $value = $value;
     }
 
-  }
+  } 
 
     function doAuditLog($postVals,$S_ROWID,$tableName)
   {
@@ -1064,7 +1053,7 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
     foreach ($postVals as $key => $value) {
     $postVals[$key] = $value;
       if (is_array(($value))) {
-
+       
        $postVals[$key] = json_encode($value);
       }
     }
@@ -1078,11 +1067,11 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
     $postFields = implode(',', $postFld);
     $cols = explode(',', $postFields);
      $getOData = $db->GetRow("select $postFields from $tableName where S_ROWID='$S_ROWID'");
-
-
+        
+       
       foreach ($postVals as $Pkey => $Pvalue) {
         $type = $MetaType[$Pkey];
-
+          
 
           switch ($type) {
             case 'date':
@@ -1094,17 +1083,17 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
             case 'timestamp':
              $Pvalue = $Pvalue != "" ? date('Y-m-d H:i:s',strtotime($Pvalue)) : "";
               break;
-
+            
             default:
               $Pvalue = $Pvalue;
               break;
           }
-
+           
           $OldValue = $getOData[$Pkey];
-
+        
         if ($Pvalue != $OldValue) {
             $record[$Pkey] = trim(checkDT($Pvalue,$type));
-
+          
           $logInfo = array();
           $logInfo["Field"] = $Pkey;
           $logInfo["Ovalue"] = $OldValue;
@@ -1112,7 +1101,7 @@ function UnpackDataList($UserID,$PoolName,$RecStage)
           $LogChanges[] = $logInfo;
         }
       }
-
+    
   $results = array();
   $results[] = $record;
   $results[] = $LogChanges;

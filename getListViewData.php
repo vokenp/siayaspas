@@ -1,16 +1,11 @@
-<?php 
+<?php
 session_start();
  include("assets/bin/con_db.php");
  global $db;
  //$db->debug=1;
    $user = $_SESSION['user'];
   $modCode = safehtml($_POST['ModCode']);
-  
- /* if (!VToken::checkT(trim($_POST['token']))) {
-    echo "InvalidRequest :- ".$_POST['token'];
-    exit();
-  }*/
-  unset($_POST['token']);
+
 
   $MView = $rs->getDataTblView($modCode);
   $cols =  $MView["ViewCols"];
@@ -22,51 +17,29 @@ session_start();
   $search = $_POST['search'];
   $SearchValue = safehtml(trim($search["value"]));
    $where = " where 1=1 ";
-  
-   $userInfo = $rs->row("dh_users","loginid = '$user'");
 
-  $userType = isset($userInfo['user_type']) ? $userInfo['user_type'] : "";
+  $userType = isset($_POST['userType']) ? $_POST['userType'] : "";
+
+
+
 
    $columns = $_POST['columns'];
    $keyCount  = 0;
-   $SearchCol = array();
-   foreach ($columns as $key => $Colval) {
-       $ColName = $Colval["name"];
-     if ($Colval["searchable"] == "true" && $SearchValue !="" && $ColName != "") {
-       $SearchCol[] = $ColName;
-       $keyCount +=1;
-     }
-   }
-
-    $arg = array_filter($SearchCol);
-      if (!empty($arg)) {
-        $SCols = implode(',', $SearchCol);
-        $where .= " and CONCAT_ws('-',$SCols) like '%$SearchValue%'";
-      }
+    foreach ($columns as $key => $Colval) {
+    	  $ColName = $Colval["name"];
+    	if ($Colval["searchable"] == "true" && $SearchValue !="") {
+    		$operator = $keyCount == 0 ? "and" : "or";
+    		$where .= " $operator $ColName like '%$SearchValue%' ";
+    		$keyCount +=1;
+    	}
+    }
 
 
-     if ($userType != "") {
-        $criteria = "";
-         if ($ModuleName == "Members") {
-             $criteria = $userType == "Deacon" ?  " and District in (select DistrictCode from tbl_districts where MATCH(DistrictLeader,Deacon1,Deacon1) AGAINST ('$user' IN BOOLEAN MODE)) " : "";
-             
-         }
-         elseif ($ModuleName == "Manage Contributions") 
-         {
-          $criteria = $userType == "Deacon" ?  " and DistrictCode in (select DistrictCode from tbl_districts where MATCH(DistrictLeader,Deacon1,Deacon1) AGAINST ('$user' IN BOOLEAN MODE)) " : "";
-         }
-         
-      
-       $where .= " $criteria ";
-     }
-
-
-   
   $Order = $_POST['order'];
   $OrderColumn = $Order[0]["column"];
   $OrderColName = $columns[$OrderColumn]["name"];
-  $OrderDire = $Order[0]["dir"]; 
-  
+  $OrderDire = $Order[0]["dir"];
+
   $getdata = $db->SelectLimit("select * from $tableName $where order by $OrderColName $OrderDire ",$_POST['length'],$_POST['start']);
 
    $count = $db->GetOne("select count(*) from $tableName $where");
@@ -101,23 +74,23 @@ session_start();
         $record[1] = $editLink;
       }
 
-      
+
        foreach ($cols as $key => $val) {
         $key += 1;
        	$record[$key] = $rst[$val];
        }
-       
+
     $recdata[] = $record;
     $getdata->MoveNext();
    }
-   
+
    $searchqry = array();
    $respsmt = array();
    $respsmt["modCode"]= $modCode;
    $respsmt["wheresmt"]= $where;
    $FinalSmt = json_encode($respsmt);
    $_SESSION["exportParams"] = $respsmt;
-   $searchqry["qrysmt"] = $userType;
+   $searchqry["qrysmt"] = OpensslEncryptHelper::encrypt($FinalSmt);
 
    $array = array();
    $array["draw"] = $_POST['draw'];

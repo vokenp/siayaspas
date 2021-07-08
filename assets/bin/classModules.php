@@ -1,4 +1,4 @@
-<?php  
+<?php
 class Log {
   private $handle;
 
@@ -12,7 +12,7 @@ class Log {
       fwrite($fd, print_r($message, true) . ";\n");
     fclose($fd);
     }
-    
+
   }
 
   public function makesql($table,$record,$action,$criteria = null){
@@ -28,7 +28,7 @@ $output = "";
         }
         $fields .= ") VALUES";
         $output .= $fields;
-           
+
             $sep = "";
             $output .= $sep . "(";
             foreach($record as $col => $val){
@@ -43,13 +43,13 @@ $output = "";
             }
             // terminate row data
             $output .= ")";
-       }  
+       }
        else
        {
         $fields = "UPDATE $table SET ";
         $sep = "";
         $output .= $fields;
-           
+
             // grab table data
             $sep = "";
             $output .= $sep . " ";
@@ -74,7 +74,7 @@ $output = "";
 // End Log Class
 
 /**
-* Class to get Row info and List Items 
+* Class to get Row info and List Items
 */
 class GetInfo
 {
@@ -96,7 +96,7 @@ function weeks_in_month($month, $year) {
  $start_week = date('W', $start);
  $end_week = date('W', $end);
    $Wlist  = array();
-    
+
     //year has 52 weeks
             $weeksInYear = 52;
             //but if leap year, it has 53 weeks
@@ -105,11 +105,11 @@ function weeks_in_month($month, $year) {
             }
            if ($month == 12) {
              $WeeksInmonth = (($weeksInYear + $end_week) - $start_week) ;
-             
+
              $end_week = $weeksInYear;
            }
 
-    for ($i= $start_week; $i <= $end_week; $i++) { 
+    for ($i= $start_week; $i <= $end_week; $i++) {
       $Wlist[] = $i;
     }
    return $Wlist;
@@ -143,15 +143,15 @@ function list_week_days($year, $month) {
   {
   global $db;
     $ModuleCode = $modInfo["ModuleCode"];
-    $TableName   = $modInfo["TableName"]; 
+    $TableName   = $modInfo["TableName"];
     $MetaColumns = $db->MetaColumns($TableName);
     foreach ($MetaColumns as $key => $val2) {
        $MetaType[$val2->name] = $val2->type;
     }
 
 $getCols = $db->GetArray("select FieldName,DisplayName from dh_listview where ModuleCode='$ModuleCode'  and ListType='Main' and TableName='$TableName' order by DisplayOrder asc");
-    
-   $OrderClm = ""; 
+
+   $OrderClm = "";
     $columns["columns"] = array();
     $columns["columns"][0]["title"] = "Actions";
     $columns["columns"][0]["className"] = "S_ROWID";
@@ -164,7 +164,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName from dh_listview where Mo
       $columns["columns"][$key+1]["className"] = $val[0];
     }
   $response = array();
-  $response["Deflist"] = json_encode($columns); 
+  $response["Deflist"] = json_encode($columns);
   $response["ColCount"] = count($getCols)+1;
   $response["OrderClm"] = $OrderClm;
   return $response;
@@ -216,17 +216,17 @@ $Profilelist = $Profilelist != "" ? $Profilelist : 0;
 $getPerms = $db->Execute("select *from vw_profilepermissions where ProfileID in ($Profilelist) and ModOperation='View' and IsAllowed=1 and ApplicationName not in ('SystemApps','UserProfile') order by AppDisplayOrder,ModDisplayOrder");
   $htmlist = array();
 while (!$getPerms->EOF) {
-   
+
           $rst = $getPerms->fields;
-        
+
       $AppCode   = $rst["AppS_ROWID"];
       $ModCode   = $rst["ModCode"];
       $htmlist[$AppCode][$ModCode] = $rst;
-      
+
   $getPerms->MoveNext();
 }
   return $htmlist;
- } 
+ }
 
 function UserProfile($UserID,$RoleType)
 {
@@ -246,7 +246,7 @@ function UserProfile($UserID,$RoleType)
   {
     global $db;
     $modInfo    = $this->row("dh_modules","S_ROWID = '$modCode'");
- 
+
  $ModuleCode = $modInfo["ModuleCode"];
 $tableName  = $modInfo["TableName"];
 $MetaColumns = $db->MetaColumns($tableName);
@@ -277,7 +277,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName from dh_listview where Mo
       $getView = $db->GetArray("SELECT  name FROM  sys.views WHERE   type = 'V'");
     }
     $list = array();
-    for ($i=0; $i < count($getView); $i++) { 
+    for ($i=0; $i < count($getView); $i++) {
       $list[] = $getView[$i]["TABLE_NAME"];
     }
     return in_array($TableName, $list) ? true : false;
@@ -371,11 +371,11 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
    {
     global $db;
     $colorCode = is_null($colorCode) ? "ItemCode,ItemDescription" : "ItemDescription,ItemCode";
-    $getColors = $db->GetArray("select $colorCode from listitems where ItemType='ColorPallete' order by rand()");
+    $getColors = $db->GetArray("select $colorCode from listitems where ItemType='ColorPallete'");
  $colors = array();
  foreach ($getColors as $key => $val) {
-   
-    $colors[] = trim($val["ItemCode"]);
+
+    $colors[$val[1]] = trim($val[0]);
  }
    return $colors;
    }
@@ -396,7 +396,7 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
  function getFilePath($DocID)
  {
   if ($DocID <100) {
-  
+
   $path = array();
   $path[0] = "000";
   $path[1] = "000";
@@ -405,7 +405,7 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
  }
  else
  {
-  
+
   $ExDocID = substr($DocID, 0, -2);
   $path = array();
   $path[0] = "000";
@@ -443,7 +443,7 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
     return $url;
   }
 
-  //County Info 
+  //County Info
    function GetCounty($CountyCode,$op,$order = null)
     {
       global $db;
@@ -459,12 +459,12 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
         $html  = "<option value=''></option>";
       }
       $getdata = $db->Execute("select CountyCode,CountyName from tblcounties $where order by $order");
-         
+
             while(!$getdata->EOF)
             {
             $CountyCode = $getdata->fields[0];
             $CountyName = $getdata->fields[1];
-            $html .= "<option value='$CountyCode'>{$CountyName}</option>";   
+            $html .= "<option value='$CountyCode'>{$CountyName}</option>";
         $getdata->MoveNext();
             }
         if ($op != "add") {
@@ -488,12 +488,12 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
         $html  = "<option value=''></option>";
       }
       $getdata = $db->Execute("select ConstCode,ConstName from tblconstituency2012 $where order by $order");
-         
+
             while(!$getdata->EOF)
             {
             $ConstCode = $getdata->fields[0];
             $ConstName = $getdata->fields[1];
-            $html .= "<option value='$ConstCode'>{$ConstName}</option>";   
+            $html .= "<option value='$ConstCode'>{$ConstName}</option>";
         $getdata->MoveNext();
             }
         if ($op != "add") {
@@ -517,12 +517,12 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
         $html  = "<option value=''></option>";
       }
       $getdata = $db->Execute("select `WardCode2012`,`WardName2012` from tblwards $where order by $order");
-         
+
             while(!$getdata->EOF)
             {
             $WardCode2012 = $getdata->fields[0];
             $WardName2012 = $getdata->fields[1];
-            $html .= "<option value='$WardCode2012'>{$WardName2012}</option>";   
+            $html .= "<option value='$WardCode2012'>{$WardName2012}</option>";
         $getdata->MoveNext();
             }
         if ($op != "add") {
@@ -539,13 +539,13 @@ function logFileAction($SessionID,$DocID,$CreatedBy,$LogAction,$Reason = null)
   $alpha_key = '';
   $alpha_key2 = '';
   $keys = range('A', 'Z');
-  
+
 
   for ($i = 0; $i < 2; $i++) {
     $alpha_key .= $keys[array_rand($keys)];
   }
 
-  for ($i=0; $i < 1 ; $i++) { 
+  for ($i=0; $i < 1 ; $i++) {
     $alpha_key2 .= $keys[array_rand($keys)];
   }
 
@@ -580,7 +580,7 @@ function key_generator()
 
   // Encode
   var $skey = "God1st0987654321"; // you can change it
-  
+
     public  function safe_b64encode($string) {
         $data = base64_encode($string);
         $data = str_replace(array('+','/','='),array('-','_',''),$data);
@@ -596,25 +596,25 @@ function key_generator()
         return base64_decode($data);
     }
 
-    public  function encode($value){ 
+    public  function encode($value){
         if(!$value){return false;}
         $text = $value;
         $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
         $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
         $crypttext = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->skey, $text, MCRYPT_MODE_ECB, $iv);
-        return trim($this->safe_b64encode($crypttext)); 
+        return trim($this->safe_b64encode($crypttext));
     }
 
     public function decode($value){
         if(!$value){return false;}
-        $crypttext = $this->safe_b64decode($value); 
+        $crypttext = $this->safe_b64decode($value);
         $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
         $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
         $decrypttext = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->skey, $crypttext, MCRYPT_MODE_ECB, $iv);
         return trim($decrypttext);
     }
   // End Decode
-     
+
      function GetListItems($ItemCode,$ItemType,$op,$order = null,$exclude = null)
     {
       global $db;
@@ -637,12 +637,12 @@ function key_generator()
         $html  = "<option value=''></option>";
       }
       $getdata = $db->Execute("select ItemCode,ItemDescription from listitems $where order by $order");
-         
+
             while(!$getdata->EOF)
             {
             $ItemCode = $getdata->fields["ItemCode"];
             $ItemDescription = $getdata->fields["ItemDescription"];
-            $html .= "<option value='$ItemCode'>{$ItemDescription}</option>";   
+            $html .= "<option value='$ItemCode'>{$ItemDescription}</option>";
         $getdata->MoveNext();
             }
         if ($op != "add") {
@@ -657,33 +657,33 @@ function key_generator()
    $StoragePool = $AssetID."-".$tableName;
    $where  = $Ptype == "Doc" ? " elementstorage where StoragePool='$StoragePool' " : " dhcomments where AssetID='$AssetID' and TableName='$tableName' ";
    $getCount = $db->GetOne("select count(*) from $where ");
-   
+
   $ItemCount = $getCount != 0 ? " <small class='badge pull-left bg-yellow'> $getCount </small> " : "";
 
     return $ItemCount;
    }
-   
+
  //  Get Columns Indexes
 
   //  Create Thump Nails for Tiff Image
 function DotiffImg($DocID)
 {
   global $db;
-  
+
   $img ="";
 $filepath = $db->GetOne("select New_FileName from elementstorage where S_ROWID='$DocID'");
 
 try
 {
 // Saving every page of a TIFF separately as a JPG thumbnail
-$images = new Imagick($filepath); 
+$images = new Imagick($filepath);
 $PoolPath = $this->getConf("AssetPath","AssetPath");
 
 
-if ($this->endsWith($PoolPath,'/') == false) 
+if ($this->endsWith($PoolPath,'/') == false)
 {
    $PoolPath = $PoolPath."/";
-} 
+}
 
 foreach($images as $i=>$image) {
     // Providing 0 forces thumbnail Image to maintain aspect ratio
@@ -696,7 +696,7 @@ foreach($images as $i=>$image) {
      }
     $image->writeImage($PoolPath."tmp/".$imgname.".jpg");
      chmod($PoolPath."tmp/".$imgname.".jpg", 0777);
-    
+
     $tmp = $PoolPath."tmp/".$imgname.".jpg";
    $insTmp = $db->Execute("insert  into tmpfiles(tmpFile,DocID,tmpindex) values('$tmp','$DocID','$i')");
 }
@@ -709,14 +709,14 @@ catch(Exception $e)
 
    //return $PoolPath;
 }
-  
+
   function endsWith($FullStr, $needle)
     {
         $StrLen = strlen($needle);
         $FullStrEnd = substr($FullStr, strlen($FullStr) - $StrLen);
         return $FullStrEnd == $needle;
     }
-    
+
   // Check Internet Connection
    function IsConnected()
    {
@@ -729,7 +729,7 @@ catch(Exception $e)
 
     return $status;
    }
-   // Get Mime Type 
+   // Get Mime Type
   function MimeType($ext)
   {
     $fileInfo   = $this->row("filetypes"," TYPE_ID = '$ext'");
@@ -757,7 +757,7 @@ catch(Exception $e)
 
         return substr( $size, 0, $endIndex).' '.$units[$i];
     }
-  
+
   function row($tableName,$criteria)
   {
     global $db;
@@ -767,10 +767,10 @@ catch(Exception $e)
         $arg = array_filter($rst);
         if (empty($arg)) {
             foreach ($cols as $key => $value) {
-          $rst[$value] = ""; 
+          $rst[$value] = "";
           }
         }
-      
+
     return $rst;
   }
 
@@ -803,7 +803,7 @@ catch(Exception $e)
     $getUInfo = $this->row("users","loginid = '$loginid'");
     return $getUInfo[$column];
    }
-   
+
   function getGroupUsers($group)
    {
     global $db;
@@ -833,7 +833,7 @@ catch(Exception $e)
 
   function getGroups($groupCode)
    {
- 
+
 
       global $db;
       $groupName = $db->GetOne("select GroupName from dh_usergroups where GroupCode='$groupCode'");
@@ -857,11 +857,11 @@ catch(Exception $e)
     $getData = $db->GetOne("select $colomn from $tableName  $criteria");
     return $getData;
   }
-   
+
 
 
   function SetValues($POST,$ItemID,$ItemTable,$user,$ModCode = null)
-  {  
+  {
     global $db;
      $ModCode = is_null($ModCode) ? "" : $ModCode;
        $auditLog = doAuditLog($POST,$ItemID,$ItemTable);
@@ -880,7 +880,7 @@ catch(Exception $e)
   }
 
 function AddAlert($POST)
-  {  
+  {
        global $db;
        $action   = "INSERT";
        $db->AutoExecute("dhalerts",$POST,$action);
@@ -888,14 +888,14 @@ function AddAlert($POST)
 
 
 function CreateAcc($AccNo,$AccType,$user,$ModCode = null)
-  {  
+  {
        global $db;
        $ModCode = is_null($ModCode) ? "" : $ModCode;
        $POST["AccountType"] = safehtml($AccType);
        $POST["AccountNo"]   = safehtml($AccNo);
        $POST["CreatedBy"]   = safehtml($user);
        $POST["DateCreated"]   = $db->GetOne("select current_timestamp");
-       
+
 
        $action   = "INSERT";
        $tblName = "tbl_dalaaccounts";
@@ -923,7 +923,7 @@ $mail->Password = $this->GetConf("smtppass","Mail");
 $mail->SetFrom($this->GetConf("smtpuser","Mail"),$fromName);
 $mail->Subject = $subject;
 $mail->Body = $MsgBody;
-  
+
   $arg = array_filter($to);
    if (!empty($arg)) {
       foreach ($to as $key => $value) {
@@ -956,6 +956,179 @@ $mail->ClearAllRecipients();
   $confValue = $db->GetOne("select confValue from appconfigs where confType='$confType' and confName='$confName'");
   return $confValue;
 }
+
+
+function getMNO($MNOCode)
+{
+  global $db;
+  $networks = array("SafCom"=>4,"Airtel"=>1,"Telkom"=>2);
+  $MNOName = $db->GetOne("select MobileNetOperator  FROM mobiareacodes where MNO_Prefix='$MNOCode'");
+
+  $OpCode = isset($networks[$MNOName]) ? $networks[$MNOName] : "InvalidOperator";
+  $resp =  $MNOName."-".$OpCode;
+  return $resp;
+}
+
+
+function unrev(&$value, $key)
+ {
+   $value = strrev($value);
+ }
+
+ function formatPhoneNumber($pnum) {
+     $pnum   = preg_replace('/[^0-9]/','',$pnum); // Numbers Only
+     $strlen = strlen($pnum);
+     $PerfNum = array();
+     $revstr =strrev($pnum) ;
+     $split = str_split($revstr,3) ;
+     ksort($split);
+
+     //array_walk($split,"unrev");
+
+     foreach($split as &$value) {
+      $value = strrev($value);
+     }
+
+     if($strlen == 12)
+     {
+       $countryCode = $split[3] == 254 ? 254 : 999;
+       $NDC = $split[2];
+       $subsnumber = $split[1].$split[0];
+
+       $PerfNum["ErrorCode"] = $countryCode == 999 ? "Invalid" : "Valid";
+       $PerfNum["NumType"] = "PhoneNo";
+       $PerfNum["MSISDN"] = $PerfNum["ErrorCode"] == "Valid" ?  $countryCode.$NDC.$subsnumber : $pnum;
+     }
+     elseif($strlen == 10)
+     {
+       $countryCode = $split[3] == 0 ? 254 : 999;
+       $NDC     = $split[2];
+       $subsnumber   = $split[1].$split[0];
+
+       $PerfNum["ErrorCode"] = $countryCode == 999 ? "Invalid" : "Valid";
+       $PerfNum["NumType"] = "PhoneNo";
+       $PerfNum["MSISDN"] = $PerfNum["ErrorCode"] == "Valid" ?  $countryCode.$NDC.$subsnumber : $pnum;
+     }
+     elseif($strlen == 9)
+     {
+      $netPrefix = array(1,7);
+       $countryCode =  in_array(substr($split[2],0,1),$netPrefix) ? 254 : 999;
+       $NDC     = $split[2];
+       $subsnumber   = $split[1].$split[0];
+
+       $PerfNum["ErrorCode"] = $countryCode == 999 ? "Invalid" : "Valid";
+       $PerfNum["NumType"] = "PhoneNo";
+       $PerfNum["MSISDN"] = $PerfNum["ErrorCode"] == "Valid" ?  $countryCode.$NDC.$subsnumber : $pnum;
+     }
+     elseif($strlen == 11)
+     {
+       $PerfNum["ErrorCode"] =  "Valid";
+       $PerfNum["NumType"] = "TokenNo";
+       $PerfNum["MSISDN"] =  $pnum;
+     }
+     else
+     {
+      $PerfNum["ErrorCode"] =  "InValid";
+      $PerfNum["NumType"] = "NA";
+      $PerfNum["MSISDN"] =  $pnum;
+     }
+
+     if($PerfNum["ErrorCode"] == "Valid" && $PerfNum["NumType"] == "PhoneNo")
+     {
+         $MNOCode = substr($PerfNum["MSISDN"],3,3);
+         $MNOName = $this->getMNO($MNOCode);
+         $PerfNum["MNO"] = $MNOName;
+     }
+
+  return $PerfNum;
+  }
+
+
+  function getAgentBal()
+  {
+    $url = "http://193.104.202.165/kenya/mainlinkpos/purchase/pw_query.php3";
+
+    $postString = array();
+    $postString["agentid"] = "39";
+    $postString["query"] = "balance";
+    $postString["rtype"] = "html";
+    $postString["service"] = "PIN";
+    //$postString["agentpwd"] = "DALAPAY234";
+    $postString["loginstatus"] = "LIVE";
+    $postString["appver"] = "1.0";
+
+   $ch2 = curl_init();
+
+      curl_setopt($ch2, CURLOPT_HTTPHEADER, array('Expect:'));
+      curl_setopt($ch2, CURLOPT_URL,$url);
+      curl_setopt($ch2,CURLOPT_FOLLOWLOCATION,true);
+      curl_setopt($ch2, CURLOPT_POSTFIELDS,$postString);
+      curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch2, CURLOPT_VERBOSE, 1);
+      curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "POST");
+      curl_setopt($ch2, CURLOPT_POSTREDIR, 3);
+      $response = curl_exec($ch2);
+
+    $response = trim(str_replace('$','',$response));
+    return round($response, 2);
+  }
+
+  function mp_transqry($TransID)
+  {
+  global $db;
+  $configs = apiStore::configs("C2BQUARTO");
+   $InitiatorPass = $configs["InitiatorPass"];
+   $SecurityCredential = apiStore::securCreditials($InitiatorPass);
+
+  $url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query';
+
+  $AccessToken = $db->GetOne("select confValue from dalapay.appconfigs where confType='MpesaAPI' and ConfName='AccessTokenQuarto'");
+  $Token = 'Authorization:Bearer '.$AccessToken;
+  //echo $Token;
+
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json',$Token)); //setting custom header
+
+  $BizShortCode = $configs["ShortCode"];
+  //$PhoneNo = '254712364528';
+  $curTime = date('Ymdhis');
+  //$Amt = 20;
+  $PushID = rand();
+
+  $ReqRef = md5($PushID.$curTime);
+
+  $curl_post_data = array(
+  //Fill in the request parameters with valid values
+  'Initiator' => $configs["InitiatorName"],
+  'SecurityCredential' => $SecurityCredential,
+  'CommandID' => 'TransactionStatusQuery',
+  'TransactionID' => $TransID,
+  'IdentifierType' => "4",
+  'PartyA' => $BizShortCode,
+  'Remarks' => "Payments",
+  'ResultURL' => 'https://apps.quarto.co.ke/credoadmin/assets/bin/credotransqry_result.php/?rqid='.$ReqRef,
+  'QueueTimeOutURL' => 'https://apps.quarto.co.ke/dalamalipo/bal_timeout.php',
+  'Occasion' => $ReqRef
+  );
+
+   $record["RequestID"]   = $ReqRef;
+   $record["RequestQry"]   = $TransID;
+   $record["CreatedBy"]   = "admin";
+
+  $table  = "tbl_trans_statusqry";
+  $action = "INSERT";
+  $db->AutoExecute($table,$record,$action);
+  $data_string = json_encode($curl_post_data);
+
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($curl, CURLOPT_POST, true);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+
+  $curl_response = curl_exec($curl);
+  return $curl_response;
+  }
+
 
 }  // end class
 

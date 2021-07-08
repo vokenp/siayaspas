@@ -1,9 +1,9 @@
-  <div id="sidebar2" class="sidebar responsive compact ace-save-state"> 
-	
-   
+  <div id="sidebar2" class="sidebar h-sidebar responsive compact ace-save-state"> 
+
+
    <ul class="nav nav-list ">
-	
-	<?php 
+
+	<?php
          $html ="";
       // get other Modules
     $getMods = $db->Execute("select *from dh_modules where AppName='SystemApps' order by DisplayOrder asc");
@@ -20,14 +20,14 @@
 
               if ($ModACL == "") {
                 $html .= "<li class=''><a href='?app=$AppSROWID&mod=$ModSROWID&view=list&ptype=temp&sk=$rand'>$IconMod<span class='menu-text'> $ModName </span></a><b class='arrow'></b></li>";
-                  
+
                 }
                 elseif (in_array(USERID, $RoleUsers)) {
                   $html .= "<li class=''><a href='?app=$AppSROWID&mod=$ModSROWID&view=list&ptype=temp&sk=$rand'>$IconMod<span class='menu-text'> $ModName </span></a><b class='arrow'></b></li>";
                 }
               $getMods->MoveNext();
             }
-     
+
      echo $html;
         ?>
 

@@ -88,11 +88,6 @@ unset($_POST['_token']);
           $record["UserStatus"] = "Active";
         }
 
-        if ($tableName == "tbl_members") {
-          $record["MemberNo"] = generateUniqueCode($record["District"],getID($tableName),5);
-
-        }
-
 
 
        $record["CreatedBy"] = $user;
@@ -104,40 +99,7 @@ unset($_POST['_token']);
         if ($db) {
      $S_ROWID = $db->GetOne("select max(S_ROWID) from $tableName");
 
-          if ($table == "tbl_members") {
-            $MemGroups = explode(',',$record["ChurchGroups"]);
-            $DelCG = $db->Execute("delete from listitems where ItemType='ChurchGroupMember' and ItemCode='$S_ROWID' ");
-             foreach ($MemGroups as $key => $value) {
-        $rec["ItemDescription"] = $value;
-        $rec["ItemCode"] = $S_ROWID;
-        $rec["ItemType"] = "ChurchGroupMember";
-        $rec["CreatedBy"] = $user;
-        $table  = "listitems";
-        $action = "INSERT";
-        $db->AutoExecute($table,$rec,$action);
-      }
-           }
 
-           if ($table == "tbl_contributions") {
-              $ContrInfo = $rs->row("vw_contribution","S_ROWID='$S_ROWID'");
-              $ContributionType = $ContrInfo["ContributionType"];
-              $AmountContributed = $ContrInfo["AmountContributed"];
-              $MemberName = $ContrInfo["MemberName"];
-
-              $Msg = $db->GetOne("select TemplateBody from tbl_smstemplates where TemplateName='Contribution'");
-                if ($Msg == "") {
-                  $Msg = "Greeting $MemberName, your $ContributionType contribution of Ksh $AmountContributed was received ";
-                }
-                else {
-                  $Msg = str_replace('#MemName',$MemberName,$Msg);
-                  $Msg = str_replace('#ContriType',$ContributionType,$Msg);
-                  $Msg = str_replace('#ContriAmount',$AmountContributed,$Msg);
-                }
-
-                 $PhoneNo = str_replace('-','',$ContrInfo["MobileNo"]);
-                 $SendTo = array($PhoneNo);
-                  sendSMS($SendTo,$Msg);
-           }
 
         if ($ReturnType == "RstID") {
           echo $S_ROWID;
@@ -171,12 +133,8 @@ unset($_POST['_token']);
       exit();
    }
 
-
-
-
     $MetaColumns = $db->MetaColumns($tableName);
     foreach ($MetaColumns as $key => $val) {
-
        $MetaType[$val->name] = $val->type;
     }
 
@@ -190,8 +148,6 @@ unset($_POST['_token']);
       unset($_POST['ReturnType']);
       unset($_POST['ModCode']);
       array_walk($_POST,"cleanDataHtml");
-
-
      foreach ($_POST as $ckey => $cval) {
        $cval = is_array($cval) ? implode(',', $cval) : $cval;
        if ($tableName == "listitems") {
@@ -220,24 +176,21 @@ unset($_POST['_token']);
        $db->AutoExecute($table,$record,$action,$criteria);
 
         if ($db) {
+         if ($table == "assemblybizdocs") {
+            $DocInfo = $db->GetRow("select *from $table where S_ROWID='$S_ROWID'");
+            $DocID = $DocInfo["DocID"];
+            $FileInfo = $db->GetRow("select New_FileName,FileDescription from elementstorage where S_ROWID='$DocID'");
+            list($CategoryName,$CategoryID) = explode('-',$DocInfo["DocumentCategory"]);
+            $rec["StoragePool"]     = $DocInfo["DocumentCategory"];
+            $rec["FileDescription"] = $DocInfo["DocumentTitle"];
+            $rec["New_FileName"] =   str_replace($FileInfo["FileDescription"], $DocInfo["DocumentTitle"], $FileInfo["New_FileName"]);
 
-           if ($table == "tbl_members") {
-               if(isset($record["ChurchGroups"]))
-               {
-                 $MemGroups = explode(',',$record["ChurchGroups"]);
-                 $DelCG = $db->Execute("delete from listitems where ItemType='ChurchGroupMember' and ItemCode='$S_ROWID' ");
-                  foreach ($MemGroups as $key => $value) {
-             $rec["ItemDescription"] = $value;
-             $rec["ItemCode"] = $S_ROWID;
-             $rec["ItemType"] = "ChurchGroupMember";
-             $rec["CreatedBy"] = $user;
-             $table  = "listitems";
-             $action = "INSERT";
-             $db->AutoExecute($table,$rec,$action);
-               }
 
-      }
-           }
+            $criteria = "S_ROWID = '$DocID'";
+          $table  = "elementstorage";
+           $action = "UPDATE";
+          $db->AutoExecute($table,$rec,$action,$criteria);
+          }
 
          if ($ReturnType == "RstID") {
           echo $S_ROWID;
@@ -304,7 +257,7 @@ unset($_POST['_token']);
    }
    else
    {
-      echo "InvalidRequest aa";
+      echo "InvalidRequest";
       exit();
    }
 
@@ -331,7 +284,35 @@ unset($_POST['_token']);
   logAction($S_ROWID,$tbl,$user,"Delete","",$ModCode);
  }
 
+  // Delete Record
+ if (isset($_POST['DeleteMultiple'])) {
+  $ListID = json_decode($_POST['DeleteMultiple'],true);
+  $mod = safehtml($_POST['mod']);
+  $modInfo    = $rs->row("dh_modules","S_ROWID = '$mod'");
+  $tbl = $rs->IsView($modInfo["TableName"]) ? $modInfo["ParentTable"] : $modInfo["TableName"];
 
+  if ($tbl == "dh_usergroups") {
+    $GroupCode = $db->GetOne("select GroupCode from dh_usergroups where S_ROWID='$S_ROWID'");
+    $exec = $db->Execute("delete from listitems where ItemType='RoleUser' and ItemCode='$GroupCode'");
+    $exec = $db->Execute("delete from listitems where ItemType='RoleProfile' and ItemCode='$GroupCode'");
+  }
+
+  if ($tbl == "dh_users") {
+    $loginid = $db->GetOne("select loginid from dh_users where S_ROWID='$S_ROWID'");
+    $exec = $db->Execute("delete from listitems where ItemType='RoleUser' and ItemDescription='$loginid'");
+  }
+     if ($tbl == "dh_modules") {
+       $ModuleCode = $db->GetOne("select ModuleCode from dh_modules where S_ROWID='$S_ROWID'");
+     $exec = $db->Execute("delete from dh_listview  where ModuleCode='$ModuleCode'");
+     $exec = $db->Execute("delete from dh_listquery  where ModuleCode='$ModuleCode'");
+     }
+
+
+
+   foreach ($ListID as $key => $S_ROWID) {
+     logAction($S_ROWID,$tbl,$user,"Delete","",$mod);
+   }
+ }
 
  // Delete Document
  if (isset($_POST['btnDeleteDoc'])) {
@@ -549,6 +530,77 @@ if (isset($_POST['btnSaveNotifications'])) {
 
 
    }
+
+
+   if (isset($_POST['btnSchedule'])) {
+    $ChngPhoneNo = safehtml($_POST["ChangePhoneNo"]);
+    $poolID = safehtml($_POST["S_ROWID"]);
+    $ScheduleType = safehtml($_POST["ScheduleType"]);
+    $whatis = $rs->formatPhoneNumber($ChngPhoneNo);
+
+    if($whatis["ErrorCode"] == "Valid" && $whatis["NumType"] == "PhoneNo")
+    {
+      $ChngPhoneNo = $whatis["MSISDN"];
+      $MNO = $whatis["MNO"];
+        $logErr = $db->Execute("insert into schedulepool(PoolID,ScheduledTime,ScheduleType,Remarks,ChangePhoneNo) values ($poolID,current_timestamp,'$ScheduleType','$MNO','$ChngPhoneNo')");
+         $exec = $db->Execute("update tbl_airtimetopup set TimeCompleted=current_timestamp,StatusCode='$ScheduleType'  where S_ROWID='$poolID'");
+    }
+    else
+    {
+      echo "Invalid PhoneNo, Please re-enter again";
+    }
+   }
+
+
+
+   if (isset($_POST['btnConvert2AT'])) {
+    $ChngPhoneNo = safehtml($_POST["ChangePhoneNo"]);
+    $mpID = safehtml($_POST["S_ROWID"]);
+    $ScheduleType = "TransConverted";
+    $whatis = $rs->formatPhoneNumber($ChngPhoneNo);
+
+    if($whatis["ErrorCode"] == "Valid" && $whatis["NumType"] == "PhoneNo")
+    {
+        $ChngPhoneNo = $whatis["MSISDN"];
+        $MNO = $whatis["MNO"];
+        list($MNOName, $OpCode) = explode('-',$MNO);
+
+         $Params = $rs->row("pesatrans","S_ROWID=$mpID");
+
+          $rec["TransID"]       = $Params["TransID"];
+          $rec["TopUpPhoneNo"]  = $ChngPhoneNo;
+          $rec["TopUpAmount"]   = (int)$Params["TransAmount"];
+          $rec["PaymentMethod"] = "MpesaPayBill:".$Params["BusinessShortCode"];
+          $rec["TopUpNetwork"]  = $OpCode;
+          $rec["TransRefNo"]  = $Params["TransID"];
+          $rec["MobileOperator"]  = $MNOName;
+          $rec["CreatedBy"]     = $Params["MSISDN"];
+          $rec["PaymentChannel"] = "MpesaPBApp";
+          $rec["StatusCode"] = $ScheduleType;
+
+         $PurchasedBy = $Params["MSISDN"];
+          $action   = "INSERT";
+          $tblName = "tbl_airtimetopup";
+          $db->AutoExecute($tblName,$rec,$action);
+        $poolID = $db->GetOne("select max(S_ROWID) from tbl_airtimetopup");
+        $logErr = $db->Execute("insert into schedulepool(CreatedBy,PoolID,ScheduledTime,ScheduleType,Remarks,ChangePhoneNo) values ('$PurchasedBy',$poolID,current_timestamp,'$ScheduleType','$MNO','$ChngPhoneNo')");
+        $exec = $db->Execute("update pesatrans set AccountType='Airtime',IsProcessed='AT : $ChngPhoneNo',DateProcessed=current_timestamp  where S_ROWID='$mpID'");
+
+    }
+    else
+    {
+      echo "Invalid PhoneNo, Please re-enter again";
+    }
+   }
+
+
+   if(isset($_POST['btnSetCateg']))
+   {
+         $mpID = safehtml($_POST["S_ROWID"]);
+       $exec = $db->Execute("update pesatrans set AccountType='General',IsProcessed='Y',DateProcessed=current_timestamp  where S_ROWID='$mpID'");
+   }
+
+
 
 
 

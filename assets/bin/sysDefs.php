@@ -8,20 +8,20 @@ $dirname = str_replace(SEPARATOR, '/', dirname(__FILE__));
   $dlist = explode("/",$dirFile);
 
 //Dir
-  $dlist[0] = "dalapay";
+  $dlist[0] = "credoadmin";
 define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT']."/".$dlist[0]."/");
 define('DB_LOGS', DIR_ROOT.'logs/');
 
 //define('DB_DRIVER', 'SQL Server');
-
+$conf = apiStore::configs("DB");
 define('DB_DRIVER', 'mysqli');
 
 if (DB_DRIVER == "mysqli") {
 
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'P@$$w0rd');
-define('DB_DATABASE', 'siayaspas');
+define('DB_USERNAME', $conf["DB_USERNAME"]);
+define('DB_PASSWORD', $conf["DB_PASSWORD"]);
+define('DB_DATABASE', "siayaspas");
 define('DB_PREFIX', 'dh_');
 if (!defined('DB_PORT')) define('DB_PORT', '3306');
 

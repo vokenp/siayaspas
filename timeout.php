@@ -1,6 +1,7 @@
 <?php
-session_start();
 $gc_period = 1200;
+
+session_start();
 if (file_exists($gc_time)) {
     if (filemtime($gc_time) < time() - $gc_period) {
         session_gc();
@@ -33,5 +34,8 @@ $xml = new SimpleXMLElement($xml_file);
   {
    define($child->getName(), $child);
   }*/
- 
+
 ?>
+
+
+

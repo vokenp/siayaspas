@@ -1,4 +1,4 @@
-	<div id="navbar" class="navbar navbar-default          ace-save-state">
+	<div id="navbar" class="navbar navbar-danger  ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>
@@ -14,16 +14,14 @@
 					<a href="./" class="navbar-brand">
 						<small>
 
-							<img src="assets/images/Logo1.png" width="300px" height="52px">  Staff Performance Appraisal System
+							<img src="assets/images/ttlogo.png" height="52px" width="290px">
 						</small>
 					</a>
 				</div>
 
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-
-
-						<li class="light-blue dropdown-modal">
+						<li class="ligh-green dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="assets/images/avatars/avatar2.png" alt="<?php echo $displayName." Photo";?>" />
 								<span class="user-info">

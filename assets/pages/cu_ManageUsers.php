@@ -98,7 +98,7 @@ $reqState = "readonly='true'";
                  	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="Phone"> Phone </label>
 						<div class="col-sm-8">
-							<input type="text" id="Phone" name="Phone" placeholder="Enter PhoneNo" class="col-xs-11 col-sm-11 mask-phoneNo" value="<?php echo $rst['Phone'];?>"  required="false" />
+							<input type="text" id="Phone" name="Phone" placeholder="Enter PhoneNo" class="col-xs-11 col-sm-11" value="<?php echo $rst['Phone'];?>"  required="false" />
 						</div>
 					</div>
 					<div class="form-group col-sm-5">
