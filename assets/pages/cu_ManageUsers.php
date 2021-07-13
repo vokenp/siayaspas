@@ -79,7 +79,7 @@ $reqState = "readonly='true'";
         <div class="widget-body">
            <div class="widget-main">
 
-         	<h4 class="header blue bolder smaller col-sm-offset-1">General</h4>
+         	<h4 class="header blue bolder smaller col-sm-offset-1">User BioInfo</h4>
         	  <div class="row">
                  	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="loginid"> LoginID </label>
@@ -124,6 +124,40 @@ $reqState = "readonly='true'";
 						</div>
 					</div>
 			   </div>
+
+         <h4 class="header blue bolder smaller col-sm-offset-1">User Job Info</h4>
+
+         <div class="row">
+           <div class="form-group col-sm-6">
+             <label class="col-sm-4 control-label " for="DepartmentID"> Reports To</label>
+             <div class="col-sm-8">
+               <select name="DepartmentID" id="DepartmentID" placeholder="Enter Department " class="col-xs-11 col-sm-11 chosen-select" required="true">
+                 <?php
+                   $DepartmentID = $rst["DepartmentID"];
+                   $where = " where 1=1 ";
+
+                   if ($DepartmentID != "") {
+                     $DepartmentName = $db->GetOne("select DepartmentName from tbl_departments where S_ROWID='$DepartmentID'");
+                     echo "<option value='$DepartmentID'>$DepartmentName</option>";
+                     $where .= " and S_ROWID<>'$DepartmentID'";
+                   }
+                   else
+                   {
+                     echo "<option value=''></option>";
+                   }
+                   $getData = $db->Execute("select S_ROWID,DepartmentName from tbl_departments $where");
+                   while (!$getData->EOF) {
+                     $DepartmentID = $getData->fields["S_ROWID"];
+                     $DepartmentName = $getData->fields["DepartmentName"];
+                     echo "<option value='$DepartmentID'>$DepartmentName</option>";
+                     $getData->MoveNext();
+                   }
+                   ?>
+               </select>
+             </div>
+           </div>
+         </div>
+
 			   <div class="row">
 			   	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="user_type" >User Type </label>
