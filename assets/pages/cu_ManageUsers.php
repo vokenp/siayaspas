@@ -5,11 +5,11 @@ $op = filter_input(INPUT_GET, "view");
   if ($op == "add") {
     $S_ROWID = "";
     $cid = "";
-   
+
     $btn = "<button type='submit' name='btnSaveRecord' id='btnSaveRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Save Record</button>";
     $getColumns = $db->metaColumnNames($TableName);
     foreach ($getColumns as $key => $value) {
-       $rst[$value] = "";  
+       $rst[$value] = "";
     }
     $reqState = "required='true'";
   }
@@ -25,34 +25,34 @@ $rst = $rs->row($TableName,"S_ROWID='$cid'");
 $S_ROWID = "<input type='hidden' name='S_ROWID' id='S_ROWID' value='$cid'>";
 $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Update Record</button>";
 $reqState = "readonly='true'";
-   
+
   }
-  
+
   ?>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#frmPageTemp").validate({
 				debug: false,
 				rules: {
-				
+
 				},
 				messages: {
-				  
+
 				},
 				submitHandler: function(form) {
 				// do other stuff for a valid form
-				
-				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(), 
+
+				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(),
 				function(data) {
 					if (data.length < 30)
 					{
-				
+
 					 location.reload();
 					}
 					else
 					{
 					alert(data);
-				   
+
 					}
 				});
 				}
@@ -69,7 +69,7 @@ $reqState = "readonly='true'";
                 <?php echo "Manage Profile for ".$rst["Fullname"];?>
             </h4>
             <div id="pageToolBar" class="widget-toolbar no-border">
-              
+
              </div>
           </div>
           <form name="frmPageTemp" id="frmPageTemp" class="form-horizontal" role="form">
@@ -79,6 +79,7 @@ $reqState = "readonly='true'";
         <div class="widget-body">
            <div class="widget-main">
 
+         	<h4 class="header blue bolder smaller col-sm-offset-1">General</h4>
         	  <div class="row">
                  	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="loginid"> LoginID </label>
@@ -93,7 +94,7 @@ $reqState = "readonly='true'";
 						</div>
 					</div>
 			   </div>
-          
+
            <div class="row">
                  	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="Phone"> Phone </label>
@@ -141,6 +142,6 @@ $reqState = "readonly='true'";
                <?php echo $btn; ?>
           </div>
         </div><!-- End Widget-body -->
-         
+
     </form>
 </div><!-- End WidgetBox -->
