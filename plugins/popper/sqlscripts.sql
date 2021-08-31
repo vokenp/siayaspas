@@ -5,3 +5,6 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
 
 
   create view vw_sections as select s.*,dp.DepartmentName,dp.DirectorateName   from tbl_sections s inner join vw_departments dp on s.DepartmentID = dp.S_ROWID;
+
+
+    alter table dh_users add JobGroup varchar(255) after Position;
