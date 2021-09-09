@@ -160,6 +160,37 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
            </div>
          </div>
 
+         <div class="row">
+           <div class="form-group col-sm-6">
+             <label class="col-sm-4 control-label " for="HeadedBy"> Headed By</label>
+             <div class="col-sm-8">
+               <select name="HeadedBy" id="HeadedBy" placeholder="Enter HeadedBy" class="col-xs-11 col-sm-11 chosen-select" required="true">
+                 <?php
+                   $HeadedBy = $rst["HeadedBy"];
+                   $where = " where user_type = 'HeadofDepartments' ";
+
+                   if ($HeadedBy != "") {
+                     $LeaderName = $db->GetOne("select Fullname from dh_users where loginid='$HeadedBy'");
+                     echo "<option value='$HeadedBy'>$HeadedBy - $LeaderName</option>";
+                     $where .= " and loginid<>'$HeadedBy'";
+                   }
+                   else
+                   {
+                     echo "<option value=''></option>";
+                   }
+                   $getData = $db->Execute("select loginid,Fullname from dh_users $where");
+                   while (!$getData->EOF) {
+                     $HeadedBy = $getData->fields["loginid"];
+                     $LeaderName = $getData->fields["Fullname"];
+                     echo "<option value='$HeadedBy'>$HeadedBy - $LeaderName</option>";
+                     $getData->MoveNext();
+                   }
+                   ?>
+               </select>
+             </div>
+           </div>
+         </div>
+
 
           </div><!-- End Widget-Main -->
           <div class="widget-toolbox padding-8 clearfix text-center">

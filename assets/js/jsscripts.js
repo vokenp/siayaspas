@@ -1,6 +1,6 @@
-  
+
 $(function(){
-  
+
 $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
 if(e.which == 13) {
 e.preventDefault();
@@ -9,11 +9,11 @@ return false;
 });
 
 if(!ace.vars['touch']) {
-    $('.chosen-select').chosen({allow_single_deselect:true}); 
+    $('.chosen-select').chosen({allow_single_deselect:true});
 
-    $('.mask-phoneNo').mask('254-799-999-999');
+    $('.mask-phoneNo').mask('254-999-999-999');
     //resize the chosen on window resize
-            
+
                     $(window)
                     .off('resize.chosen')
                     .on('resize.chosen', function() {
@@ -30,11 +30,11 @@ if(!ace.vars['touch']) {
                              $this.next().css({'width': $this.parent().width()});
                         })
                     });
-            
-            
-                    
+
+
+
                 }
-	  
+
           $('.date-picker').datepicker({
                     autoclose: true,
                     format: 'DD-MM-YYYY',
@@ -51,7 +51,7 @@ if(!ace.vars['touch']) {
   if ($(this).valid()) { // in case you have some validation
 $("*").css("cursor", "wait"); // in case you want to show a waiting cursor after submit
     $(this).find(":submit").prop('disabled', true);
-    $(this).find(":submit").html("<i class='fa fa-spinner fa-pulse'></i> Please wait..."); 
+    $(this).find(":submit").html("<i class='fa fa-spinner fa-pulse'></i> Please wait...");
   }
 });*/
 
@@ -59,7 +59,7 @@ $("*").css("cursor", "wait"); // in case you want to show a waiting cursor after
         jQuery.fn.preventDoubleSubmission = function () {
             $(this).on('submit', function (e) {
                 var $form = $(this);
-           
+
                 if ($form.data('submitted') === true) {
                     // Previously submitted - don't submit again
                     alert('Data already submitted. Please wait.');
@@ -69,7 +69,7 @@ $("*").css("cursor", "wait"); // in case you want to show a waiting cursor after
                     // ADDED requirement that form be valid
                     if($form.valid()) {
                         $(this).find(":submit").prop('disabled', true);
-                       $(this).find(":submit").html("<i class='fa fa-spinner fa-pulse'></i> Please wait..."); 
+                       $(this).find(":submit").html("<i class='fa fa-spinner fa-pulse'></i> Please wait...");
                         $form.data('submitted', true);
                     }
                 }
@@ -98,6 +98,6 @@ if (nKeyCode < 95) {
 
 
 
- 
+
 
 });

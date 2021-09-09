@@ -87,7 +87,6 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
     });
 }
 </script>
-
 <input type="hidden" name="op" id="op" value="<?php echo $op;?>">
 <input type="hidden" name="url" id="url" value="<?php echo full_path();?>">
 
@@ -111,54 +110,22 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
        <div class="widget-body">
           <div class="widget-main">
 
-           <div class="row">
-             <div class="form-group col-sm-6">
-           <label class="col-sm-4 control-label " for="SectionCode"> Section Code </label>
+            <div class="row">
+              <div class="form-group col-sm-6">
+           <label class="col-sm-4 control-label " for="DirectorateCode"> Directorate Code </label>
            <div class="col-sm-8">
-             <input type="text" id="SectionCode" name="SectionCode" placeholder="Enter Section Code" class="col-xs-12 col-sm-12" value="<?php echo $rst['SectionCode'];?>"  required="true" />
+             <input type="text" id="DirectorateCode" name="DirectorateCode" placeholder="Enter M" class="col-xs-12 col-sm-12" value="<?php echo $rst['DirectorateCode'];?>"  required="true" />
            </div>
          </div>
-
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6">
-            <label class="col-sm-4 control-label " for="SectionName"> Section Name </label>
-            <div class="col-sm-8">
-              <input type="text" id="SectionName" name="SectionName" placeholder="Enter Section Name" class="col-xs-12 col-sm-12" value="<?php echo $rst['SectionName'];?>"  required="true" />
+              <label class="col-sm-4 control-label " for="DirectorateName"> Directorate Name </label>
+              <div class="col-sm-8">
+                <input type="text" id="DirectorateName" name="DirectorateName" placeholder="Enter Directorate Name" class="col-xs-12 col-sm-12" value="<?php echo $rst['DirectorateName'];?>"  required="true" />
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="form-group col-sm-6">
-            <label class="col-sm-4 control-label " for="DepartmentID"> Reports To</label>
-            <div class="col-sm-8">
-              <select name="DepartmentID" id="DepartmentID" placeholder="Enter Department " class="col-xs-11 col-sm-11 chosen-select" required="true">
-                <?php
-                  $DepartmentID = $rst["DepartmentID"];
-                  $where = " where 1=1 ";
-
-                  if ($DepartmentID != "") {
-                    $DepartmentName = $db->GetOne("select DepartmentName from tbl_departments where S_ROWID='$DepartmentID'");
-                    echo "<option value='$DepartmentID'>$DepartmentName</option>";
-                    $where .= " and S_ROWID<>'$DepartmentID'";
-                  }
-                  else
-                  {
-                    echo "<option value=''></option>";
-                  }
-                  $getData = $db->Execute("select S_ROWID,DepartmentName from tbl_departments $where");
-                  while (!$getData->EOF) {
-                    $DepartmentID = $getData->fields["S_ROWID"];
-                    $DepartmentName = $getData->fields["DepartmentName"];
-                    echo "<option value='$DepartmentID'>$DepartmentName</option>";
-                    $getData->MoveNext();
-                  }
-                  ?>
-              </select>
-            </div>
-          </div>
         </div>
 
         <div class="row">
@@ -168,7 +135,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
               <select name="HeadedBy" id="HeadedBy" placeholder="Enter HeadedBy" class="col-xs-11 col-sm-11 chosen-select" required="true">
                 <?php
                   $HeadedBy = $rst["HeadedBy"];
-                  $where = " where user_type = 'HeadofSections' ";
+                  $where = " where user_type = 'Directorate' ";
 
                   if ($HeadedBy != "") {
                     $LeaderName = $db->GetOne("select Fullname from dh_users where loginid='$HeadedBy'");
@@ -191,7 +158,6 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
             </div>
           </div>
         </div>
-
 
          </div><!-- End Widget-Main -->
          <div class="widget-toolbox padding-8 clearfix text-center">

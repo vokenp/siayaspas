@@ -1,20 +1,20 @@
-<?php 
+<?php
    include("../../timeout.php");
  include("../../assets/bin/con_db.php");
  global $db;
  if (!isset($_SESSION['user'])) {
      header("Location: ../index.php");
-     die();     
+     die();
 }
  $user = $_SESSION['user'];
 //$db->debug=1;
- 
+
    if (isset($_POST['btnUpdateRecord'])) {
-    $tableName = safehtml($_POST['btnUpdateRecord']);  
+    $tableName = safehtml($_POST['btnUpdateRecord']);
     $S_ROWID = $_POST['S_ROWID'];
      unset($_POST['S_ROWID']);
      $GroupCode =  $_POST["GroupCode"];
-     
+
 
      if (!isset($_POST['GroupUsers'])) {
        exit();
@@ -24,7 +24,7 @@
       $GroupUsers = $_POST['GroupUsers'];
       unset($_POST['GroupUsers']);
       foreach ($GroupUsers as $key => $value) {
-       
+
         $rec["ItemDescription"] = $value;
         $rec["ItemCode"] = $GroupCode;
         $rec["ItemType"] = "RoleUser";
@@ -34,7 +34,7 @@
         $db->AutoExecute($table,$rec,$action);
       }
      }
-     
+
 
        $record["ModifiedBy"] = $user;
        $record["GroupDescrption"] = $_POST["GroupDescription"];
@@ -43,11 +43,11 @@
        $table  = $tableName;
        $action = "UPDATE";
        $db->AutoExecute($table,$record,$action,$criteria);
-          
+
  }
 
  if (isset($_POST['DelGroupUsers'])) {
- 
+
    $UserList = safehtml($_POST['DelGroupUsers']);
    $exec = $db->Execute("delete from listitems where S_ROWID IN ($UserList)");
  }
@@ -56,10 +56,10 @@
 
    $MemberList = safehtml($_POST['DelCommMembers']);
    $exec = $db->Execute("delete from committeeMembersList where S_ROWID IN ($MemberList)");
- }  
+ }
 
  if (isset($_POST['DelPleAttendance'])) {
-   
+
    $MemberList = safehtml($_POST['DelPleAttendance']);
    $exec = $db->Execute("delete from committeeattendance where S_ROWID IN ($MemberList)");
  }
@@ -78,7 +78,7 @@
 
 
   if (isset($_POST['btnModActions'])) {
-  
+
      if (!isset($_POST['ActionNames'])) {
        exit();
      }
@@ -86,7 +86,7 @@
      {
       $ActionNames = $_POST['ActionNames'];
       $ModCode = $_POST['ModCode'];
-     
+
       foreach ($ActionNames as $key => $value) {
         $rec["ItemDescription"] = $value;
         $rec["ItemCode"] = $ModCode;
@@ -97,7 +97,7 @@
         $db->AutoExecute($table,$rec,$action);
       }
      }
-         
+
  }
 
 // Role Users
@@ -110,7 +110,7 @@
      {
       $GroupUsers = explode(',', $_POST['GroupUsers']);
       foreach ($GroupUsers as $key => $value) {
-       
+
         $rec["ItemDescription"] = $value;
         $rec["ItemCode"] = $GroupCode;
         $rec["ItemType"] = "RoleUser";
@@ -125,7 +125,7 @@
   // Role Profiles
    if (isset($_POST['btnRoleProfiles'])) {
      $GroupCode =  $_POST["GroupCode"];
-      
+
 
      if ($_POST['ProfileRoles'] == "") {
        exit();
@@ -134,7 +134,7 @@
      {
       $RoleProfiles = explode(',', $_POST['ProfileRoles']);
       foreach ($RoleProfiles as $key => $value) {
-       
+
         $rec["ItemDescription"] = $value;
         $rec["ItemCode"] = $GroupCode;
         $rec["ItemType"] = "RoleProfile";
@@ -150,7 +150,7 @@
    if (isset($_POST['btnComMembers'])) {
      $CommitteeID =  $_POST["CommitteeID"];
      $MemberType = $_POST['MemberType'];
-      
+
      if ($_POST['ComMembers'] == "") {
        exit();
      }
@@ -158,7 +158,7 @@
      {
       $ComMembers = explode(',', $_POST['ComMembers']);
       foreach ($ComMembers as $key => $value) {
-       
+
         $rec["MemberType"] = $MemberType;
         $rec["MemID"] = $value;
         $rec["CommitteeID"] = $CommitteeID;
@@ -171,14 +171,28 @@
     }
   }
 
+  //GetSections
+  if (isset($_POST['getSection'])) {
+
+    $DeptID = $_POST["getSection"];
+   $getData = $db->Execute("select * from tbl_sections where  DepartmentID= '$DeptID'");
+   $html = "<option value=''></option>";
+   while (!$getData->EOF) {
+    $SectionID = $getData->fields["S_ROWID"];
+    $SectionName = $getData->fields["SectionName"];
+    $html .= "<option value='$SectionID'>$SectionName</option>";
+    $getData->MoveNext();
+   }
+   echo $html;
+  }
 
   // Plenary Attendance
    if (isset($_POST['btnPlenaryAttendance'])) {
      $MeetingID =  $_POST["MeetingID"];
      $MemberType = $_POST['MemberType'];
 
-    
-      
+
+
      if ($_POST['ComMembers'] == "") {
        exit();
      }
@@ -193,7 +207,7 @@
 
       $PlenaryAttendanceMembers = explode(',', $_POST['ComMembers']);
       foreach ($PlenaryAttendanceMembers as $key => $value) {
-       
+
         $rec["InAttendancePosition"] = $MemberType;
         $rec["MemID"] = $value;
         $rec["PayOutAmount"] = $RankPayOut[$MemberType];
@@ -222,19 +236,19 @@
          $GroupCode =  $getsendList->fields["UserGroup"];
          $GroupName =  $getsendList->fields["UserGroup"];
          $GroupCount = $db->GetOne("select count(*) from listitems where ItemType='RoleUser' and ItemCode='$GroupCode'");
-         
+
          $html .= "<option value='$GroupCode'>$GroupName ($GroupCount)</option>";
          $getsendList->MoveNext();
        }
     echo $html;
       }
     elseif ($ChannelType == "Committees") {
-       $getGroup = $db->Execute("select S_ROWID,CommitteeName  from assemblycommittees order by CommitteeName  asc"); 
+       $getGroup = $db->Execute("select S_ROWID,CommitteeName  from assemblycommittees order by CommitteeName  asc");
        $html = "";
        while (!$getGroup->EOF) {
          $GroupCode = $getGroup->fields["S_ROWID"];
          $GroupName = safehtml($getGroup->fields["CommitteeName"]);
-        
+
          $html .= "<option value='$GroupCode'>$GroupName</option>";
          $getGroup->MoveNext();
        }
@@ -242,12 +256,12 @@
     }
 
       elseif ($ChannelType == "Members") {
-       $getGroup = $db->Execute("select S_ROWID,FullName  from committemembers order by FullName  asc"); 
+       $getGroup = $db->Execute("select S_ROWID,FullName  from committemembers order by FullName  asc");
        $html = "";
        while (!$getGroup->EOF) {
          $GroupCode = $getGroup->fields["S_ROWID"];
          $GroupName = $getGroup->fields["FullName"];
-        
+
          $html .= "<option value='$GroupCode'>$GroupName</option>";
          $getGroup->MoveNext();
        }

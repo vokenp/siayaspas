@@ -31,6 +31,22 @@ $reqState = "readonly='true'";
   ?>
 <script type="text/javascript">
 	$(document).ready(function(){
+
+    $("#Department").change(function(){
+        getSection();
+    });
+
+    var dateToday = new Date();
+      $("#EffectDate").datepicker({
+                    autoclose: true,
+                    format: 'dd-mm-yyyy',
+                    todayHighlight: true,
+                    minDate : dateToday
+                })
+
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
 		$("#frmPageTemp").validate({
 				debug: false,
 				rules: {
@@ -58,6 +74,24 @@ $reqState = "readonly='true'";
 				}
 				});
 	});
+
+
+  function getSection()
+  {
+    var DeptID  = $("#Department").val();
+    var op  = $("#op").val();
+   if (DeptID != "")
+   {
+      $("#Section").html("");
+    $.post('assets/bin/ManageGroups.php', {getSection: ""+DeptID+"",op: ""+op+""},
+        function(data) {
+        $('#Section').empty(); //remove all child nodes
+        $('#Section').append(data);
+        $('#Section').trigger("chosen:updated");
+        });
+
+   }
+  }
 </script>
 <input type="hidden" name="op" id="op" value="<?php echo $op;?>">
 <input type="hidden" name="url" id="url" value="<?php echo full_path();?>">
@@ -99,7 +133,7 @@ $reqState = "readonly='true'";
                  	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="Phone"> Phone </label>
 						<div class="col-sm-8">
-							<input type="text" id="Phone" name="Phone" placeholder="Enter PhoneNo" class="col-xs-11 col-sm-11" value="<?php echo $rst['Phone'];?>"  required="false" />
+							<input type="text" id="Phone" name="Phone" placeholder="Enter PhoneNo" class="col-xs-11 col-sm-11 mask-phoneNo" value="<?php echo $rst['Phone'];?>"  required="false" />
 						</div>
 					</div>
 					<div class="form-group col-sm-5">
@@ -111,29 +145,33 @@ $reqState = "readonly='true'";
 			   </div>
 
 			   <div class="row">
-                 	<div class="form-group col-sm-5">
-						<label class="col-sm-4 control-label " for="Position"> Position </label>
-						<div class="col-sm-8">
-							<input type="text" id="Position" name="Position" placeholder="Enter Position" class="col-xs-11 col-sm-11" value="<?php echo $rst['Position'];?>"  required="false" />
-						</div>
-					</div>
+
 					<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="PhoneExt">PhoneExt </label>
 						<div class="col-sm-8">
 							<input type="text" id="PhoneExt" name="PhoneExt" placeholder="Enter PhoneExt" class="col-xs-11 col-sm-11" value="<?php echo $rst['PhoneExt'];?>"  required="false" />
 						</div>
 					</div>
+
+          <div class="form-group col-sm-5">
+          <label class="col-sm-4 control-label " for="user_type" >User Type </label>
+          <div class="col-sm-8">
+            <select id="user_type" name="user_type" required="true"  class="col-xs-11 col-sm-11 chosen-select">
+              <?php echo $rs->GetListItems($rst["user_type"],"usertype",$op);?>
+            </select>
+          </div>
+        </div>
 			   </div>
 
          <h4 class="header blue bolder smaller col-sm-offset-1">User Job Info</h4>
 
          <div class="row">
-           <div class="form-group col-sm-6">
-             <label class="col-sm-4 control-label " for="DepartmentID"> Reports To</label>
+           <div class="form-group col-sm-5">
+             <label class="col-sm-4 control-label " for="Department"> Department</label>
              <div class="col-sm-8">
-               <select name="DepartmentID" id="DepartmentID" placeholder="Enter Department " class="col-xs-11 col-sm-11 chosen-select" required="true">
+               <select name="Department" id="Department" placeholder="Enter Department " class="col-xs-10 col-sm-10 chosen-select" required="true">
                  <?php
-                   $DepartmentID = $rst["DepartmentID"];
+                   $DepartmentID = $rst["Department"];
                    $where = " where 1=1 ";
 
                    if ($DepartmentID != "") {
@@ -156,18 +194,68 @@ $reqState = "readonly='true'";
                </select>
              </div>
            </div>
+
+
+           <div class="form-group col-sm-5">
+             <label class="col-sm-4 control-label " for="Section"> Section</label>
+             <div class="col-sm-8">
+               <select name="Section" id="Section" placeholder="Enter Section " class="col-xs-11 col-sm-11 chosen-select" required="true">
+                  <?php
+                  if ($op !="Add") {
+                 $SectionID = $rst["Section"];
+                 $DeptID = $rst["Department"];
+                 $getSec = $rs->row("tbl_sections","S_ROWID='$SectionID'");
+                 $SecID = $getSec["S_ROWID"];
+                  $SecName = $getSec["SectionName"];
+                   echo "<option value='$SecID'>$SecName</option>";
+                $getData = $db->Execute("select * from tbl_sections where  DepartmentID= '$DeptID' and S_ROWID<>'$SectionID'");
+                while (!$getData->EOF) {
+                 $SectionID2 = $getData->fields["S_ROWID"];
+                 $SectionName = $getData->fields["SectionName"];
+
+                 echo "<option value='$SectionID2'>$SectionName</option>";
+                 $getData->MoveNext();
+                }
+                  }
+                  ?>
+               </select>
+             </div>
+           </div>
          </div>
 
 			   <div class="row">
+           <div class="form-group col-sm-5">
+              <label class="col-sm-4 control-label " for="Position"> Position </label>
+                <div class="col-sm-8">
+                  <input type="text" id="Position" name="Position" placeholder="Enter Position" class="col-xs-11 col-sm-11" value="<?php echo $rst['Position'];?>"  required="false" />
+                </div>
+              </div>
+
 			   	<div class="form-group col-sm-5">
-						<label class="col-sm-4 control-label " for="user_type" >User Type </label>
+						<label class="col-sm-4 control-label " for="TermsofService" >Terms of Service </label>
 						<div class="col-sm-8">
-							<select id="user_type" name="user_type" required="true"  class="col-xs-11 col-sm-11">
-								<?php echo $rs->GetListItems($rst["user_type"],"usertype",$op);?>
+							<select id="TermsofService" name="TermsofService" required="true"  class="col-xs-11 col-sm-11 chosen-select">
+								<?php echo $rs->GetListItems($rst["TermsofService"],"TermsofService",$op);?>
 							</select>
 						</div>
 					</div>
 			   </div>
+
+         <div class="row">
+           <div class="form-group col-sm-5">
+              <label class="col-sm-4 control-label " for="JobGroup"> Job Group/Scale </label>
+                <div class="col-sm-8">
+                  <input type="text" id="JobGroup" name="JobGroup" placeholder="Enter JobGroup" class="col-xs-11 col-sm-11" value="<?php echo $rst['JobGroup'];?>"  required="false" />
+                </div>
+              </div>
+
+              <div class="form-group col-sm-5">
+                 <label class="col-sm-4 control-label " for="EffectDate"> Effective Date </label>
+                   <div class="col-sm-8">
+                     <input type="text" id="EffectDate" name="EffectDate" placeholder="Enter EffectiveDate" class="col-xs-11 col-sm-11 DDate" value="<?php echo isdate($rst['EffectDate']);?>"  required="false" />
+                   </div>
+                 </div>
+         </div>
 
 
 
