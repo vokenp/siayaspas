@@ -20,3 +20,8 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
          RETURN FullName1;
         END$$
     DELIMITER ;
+
+
+
+
+    create view vw_directorates as select d.*,d.getuinfo(d.HeadedBy) as HeadofDirectorate from tbl_directorates d
