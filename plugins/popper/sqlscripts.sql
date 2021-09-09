@@ -21,7 +21,19 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
         END$$
     DELIMITER ;
 
-
+    DROP TABLE IF EXISTS `tbl_appraisalperiods`;
+    CREATE TABLE `tbl_appraisalperiods` (
+      `S_ROWID` int NOT NULL AUTO_INCREMENT,
+      `CreatedBy` varchar(255) DEFAULT 'ADMIN',
+      `DateCreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+      `ModifiedBy` varchar(255) DEFAULT NULL,
+      `DateModified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+      `PeriodName` varchar(255) DEFAULT NULL,
+      `PeriodBegins` date DEFAULT NULL,
+      `PeriodEnds` date DEFAULT NULL,
+      `Remarks` varchar(255) DEFAULT NULL,
+      PRIMARY KEY (`S_ROWID`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
     create view vw_directorates as select d.*,d.getuinfo(d.HeadedBy) as HeadofDirectorate from tbl_directorates d
