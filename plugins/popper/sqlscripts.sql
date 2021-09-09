@@ -37,3 +37,5 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
 
 
     create view vw_directorates as select d.*,d.getuinfo(d.HeadedBy) as HeadofDirectorate from tbl_directorates d
+
+  create view vw_individualtargets as select it.*,ap.PeriodName,ap.PeriodBegins,ap.PeriodEnds,getuinfo(it.UserID) as Appraisee from tbl_individualtargets it inner join tbl_appraisalperiods ap on it.PeriodID=ap.S_ROWID
