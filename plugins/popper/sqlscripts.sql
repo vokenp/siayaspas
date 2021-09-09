@@ -8,3 +8,15 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
 
 
     alter table dh_users add JobGroup varchar(255) after Position;
+
+
+    DELIMITER $$
+    DROP FUNCTION IF EXISTS getuinfo;
+    CREATE FUNCTION getuinfo(UserID varchar(255)) RETURNS varchar(255) CHARSET utf8mb4
+        DETERMINISTIC
+    BEGIN
+         DECLARE FullName1 VARCHAR(255);
+          select concat(Fullname,' (',loginid,')') into FullName1 from dh_users where loginid = UserID;
+         RETURN FullName1;
+        END$$
+    DELIMITER ;
