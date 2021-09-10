@@ -6,6 +6,7 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
 
   create view vw_sections as select s.*,dp.DepartmentName,dp.DirectorateName   from tbl_sections s inner join vw_departments dp on s.DepartmentID = dp.S_ROWID;
 
+SET PERSIST information_schema_stats_expiry = 0;
 
     alter table dh_users add JobGroup varchar(255) after Position;
 
@@ -38,4 +39,8 @@ update dh_modules set TableName='vw_departments',ParentTable='tbl_departments' w
 
     create view vw_directorates as select d.*,d.getuinfo(d.HeadedBy) as HeadofDirectorate from tbl_directorates d
 
-  create view vw_individualtargets as select it.*,ap.PeriodName,ap.PeriodBegins,ap.PeriodEnds,getuinfo(it.UserID) as Appraisee from tbl_individualtargets it inner join tbl_appraisalperiods ap on it.PeriodID=ap.S_ROWID
+  create view vw_individualtargets as select it.*,ap.PeriodName,ap.PeriodBegins,ap.PeriodEnds,getuinfo(it.UserID) as Appraisee from tbl_individualtargets it inner join tbl_appraisalperiods ap on it.PeriodID=ap.S_ROWID;
+
+
+
+    create view vw_depttargets as select dt.*,ap.PeriodName,ap.PeriodBegins,ap.PeriodEnds,wd.DepartmentName,wd.HeadofDept from tbl_departmentstargets dt inner join tbl_appraisalperiods ap on dt.PeriodID=ap.S_ROWID  inner join vw_departments wd on dt.DeptID=wd.S_ROWID

@@ -4,7 +4,7 @@
  global $db;
  if (!isset($_SESSION['user'])) {
      header("Location: ../index.php");
-     die();     
+     die();
 }
  $user = $_SESSION['user'];
 //$db->debug=1;
@@ -18,7 +18,7 @@
       /*echo "<pre>";
      print_r($_POST);
      exit();*/
-      
+
        $MetaTypes = metatype($tableName);
     foreach ($_POST as $column => $value) {
        $record[$column] = checkDT($value,$MetaTypes[$column]);
@@ -29,10 +29,10 @@
        $db->AutoExecute($table,$record,$action);
         if ($db) {
 
-  
-           
+
+
         $S_ROWID = $db->GetOne("select max(S_ROWID) from $tableName");
-        echo $S_ROWID; 
+        echo $S_ROWID;
         $exec = $db->Execute("insert into listitems (ItemCode,ItemType,ItemDescription) values ('$S_ROWID','ModActions','View')");
         logAction($S_ROWID,$tableName,$user,$action,$record,"999");
 
@@ -56,13 +56,13 @@
 $delSql = "delete from dh_listview where ModuleCode='$ModuleCode' and TableName='$TableName' and ListType='$ListType'";
 $del = $db->Execute($delSql);
      //$log->write($delSql);
-      $FieldName = $_POST['FieldName']; 
+      $FieldName = $_POST['FieldName'];
       $DisplayName = $_POST['DisplayName'];
-      $DisplayOrder = $_POST['DisplayOrder']; 
-      $searchable = $_POST['searchable'];  
-     
+      $DisplayOrder = $_POST['DisplayOrder'];
+      $searchable = $_POST['searchable'];
+
       $selected = $_POST['showfield'];
-      
+
         foreach ($selected as $key => $value) {
           $record["FieldName"] = $FieldName[$key];
           $record["DisplayName"] = $DisplayName[$key];
@@ -92,12 +92,12 @@ $del = $db->Execute($delSql);
 $delSql = "delete from dh_listquery where ModuleCode='$ModuleCode' and TableName='$TableName' and ListType='$ListType'";
 $del = $db->Execute($delSql);
      //$log->write($delSql);
-      $FieldName = $_POST['FieldName']; 
+      $FieldName = $_POST['FieldName'];
       $FilterCondition = $_POST['FilterCondition'];
-      $FilterValue = $_POST['FilterValue'];  
-     
+      $FilterValue = $_POST['FilterValue'];
+
       $selected = $_POST['showfield'];
-      
+
         foreach ($selected as $key => $value) {
           $record["FieldName"] = $FieldName[$key];
           $record["FilterCondition"] = $FilterCondition[$key];
@@ -114,6 +114,6 @@ $del = $db->Execute($delSql);
         }
      }
  }
-  
- 
+
+
 ?>

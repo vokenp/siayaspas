@@ -1,4 +1,4 @@
-<?php 
+<?php
   unset($_GET['sk']);
   $mod = $_GET['mod'];
   $pvals = array();
@@ -19,7 +19,7 @@ $EnableCreate = $modInfo["EnableCreation"];
 $modUrl = $rs->Modurl($ModuleCode);
  $LinkUrl = str_replace('view=edit',"view=add", $modUrl);
  $AddLink = "<a href='$LinkUrl' class='dt-button btn btn-white btn-primary btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Add New</a>";
- 
+
 
 $MetaColumns = $db->MetaColumns($TableName);
 $MetaType = array();
@@ -31,8 +31,8 @@ $MetaType = array();
 $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listview where ModuleCode='$ModuleCode' and ListType='Main' order by DisplayOrder asc");
     //$colst = $rs->getCols("dh_listview");
     $dFields = array();
-  $dCols = array(); 
- 
+  $dCols = array();
+
      $chkbox = array();
      $chkbox["targets"] = 0;
      $chkbox["checkboxes"] = array("selectRow" => true);
@@ -43,13 +43,13 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
      foreach ($getCols as $val) {
       $type = $MetaType[$val["FieldName"]];
       $searchable = $val["searchable"] == "Y" ? true : false;
-      $dFields[] = $val["DisplayName"]; 
-      $gdata[] = $val["FieldName"]; 
+      $dFields[] = $val["DisplayName"];
+      $gdata[] = $val["FieldName"];
       $tIndex += 1;
       $dCols[] = array("targets" => $tIndex, "title" => $val["DisplayName"],"name" => $val["FieldName"],"searchable" => $searchable);
        $exportCols[$tIndex] = $tIndex;
      }
-     
+
      $Excol = array();
      $Excol["columns"] = array_keys($exportCols);
 
@@ -79,7 +79,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
     $pdf["text"] = "<i class='fa fa-file-pdf-o bigger-110 red'></i>";
     $pdf["titleAttr"] = "Generate PDF Report";
     $pdf["exportOptions"] = $Excol;
-  
+
    $btnExcel = array();
     $btnExcel["title"] = $ModuleName." List";
     $btnExcel["className"] =  "btn btn-white btn-primary btn-bold";
@@ -89,13 +89,13 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
 
 
       $btnlist = array();
-     
+
       $btnlist[] = $btnPrint;
-    
-   
-      
+
+
+
 ?>
-  
+
         <div class="widget-box">
           <div class="widget-header widget-header-flat">
             <h4 class="widget-title smaller">
@@ -103,7 +103,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
                 <?php echo $ModuleName;?>
             </h4>
             <div id="listToolBar" class="widget-toolbar no-border">
-              
+
              </div>
 
           </div>
@@ -113,7 +113,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
           <table id="tblListView" class="table table-bordered table-striped"></table>
          </div><!-- dataTables_borderWrap -->
         </div>
-        </div><!-- WidgetBox -->  
+        </div><!-- WidgetBox -->
         <input type="hidden" id="qrysmt" name="qrysmt">
         <input type="hidden" name="token" id="token" value="<?php echo $token; ?>" class="token">
 <input type="hidden" name="modCode" id="modCode" value="<?php echo $mod;?>">
@@ -123,11 +123,11 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
 <input type="hidden" name="" id="btnAdd" value="<?php echo $AddLink;?>">
   <script type="text/javascript">
    $(document).ready(function(){
-      
+
         //initiate dataTables plugin
          var dcols = <?php echo json_encode($dCols); ?>;
         var btnlist = <?php echo json_encode($btnlist); ?>;
-         
+
          var dtListView = $('#tblListView').wrap("<div class='dataTables_borderWrap' />").DataTable({
          "Processing": true,
          "serverSide": true,
@@ -139,7 +139,7 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
          "paging": true,
          "pagingType": "full",
          "order": [[ 2, 'desc' ]],
-         "columnDefs": dcols, 
+         "columnDefs": dcols,
          "lengthMenu": [[20,50, 100, 200], [20,50, 100, 200]],
          "select": {
          "style": "multi"
@@ -181,20 +181,20 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
 
           $(".dt-buttons").append($(excelBtn));
           $(".dt-buttons").append($(pdfBtn));
-          if ($("#enDeleteItems").val() == "Y") 
+          if ($("#enDeleteItems").val() == "Y")
           {
              $(".dt-buttons").append($(delBtn));
           }
-     
+
       $(".dt-buttons").prepend($(reload));
 
-         if ($("#EnableCreation").val() == "Y") 
-          { 
-           
+         if ($("#EnableCreation").val() == "Y")
+          {
+
             var btnAdd = $("#btnAdd").val();
-             
+
              $(".dt-buttons").prepend($(btnAdd));
-            
+
           }
 
               $("#btnReload").click(function(){
@@ -223,8 +223,8 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
         $.each(rows_selected, function(index, rowId){
             selectedrows.push(rowId);
         });
-          
-          if (selectedrows.length != 0) 
+
+          if (selectedrows.length != 0)
             {
               bootbox.confirm({
                 centerVertical: true,
@@ -244,14 +244,16 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
               {
                 var q = JSON.stringify(selectedrows);
                 var mod = $('#modCode').val();
+                var token = $('#token').val();
                  var dialog = bootbox.dialog({
                   title: "Delete Records",
                   centerVertical: true,
              message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog bigger-240"></i> <h3>Please wait while records are been deleted...</h3></p>',
              closeButton: false
                });
-                $.post("assets/bin/ManageRecords.php", {DeleteMultiple: ""+q+"",mod: ""+mod+""}, function(data){
+                $.post("assets/bin/ManageRecords.php", {DeleteMultiple: ""+q+"",mod: ""+mod+"",_token: ""+token+""}, function(data){
                   $('#tblListView').DataTable().draw();
+                  dotoken();
                   dialog.modal('hide');
                   });
               }
@@ -275,9 +277,3 @@ $getCols = $db->GetArray("select FieldName,DisplayName,searchable from dh_listvi
 }
 
   </script>
-
-
-       
-
-  
-  

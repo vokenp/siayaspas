@@ -286,7 +286,7 @@ $('.chosen-container').css({ 'width':'100%' });
                 var q = JSON.stringify(selectedrows);
                 var mod = $('#modCode').val();
                 var token = $('#token').val();
-                 var dialog = bootbox.dialog({
+                var dialog = bootbox.dialog({
                   title: "Delete Records",
                   centerVertical: true,
              message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog bigger-240"></i> <h3>Please wait while records are been deleted...</h3></p>',
@@ -327,7 +327,7 @@ $('.chosen-container').css({ 'width':'100%' });
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 id="Colh3" class="smaller lighter blue no-margin">Create Individual Targets </h3>
+            <h3 id="Colh3" class="smaller lighter blue no-margin">Create Departmental Targets </h3>
           </div>
           <form name="frmNewTarget" id="frmNewTarget" class="form-horizontal" role="form">
           <div class="modal-body">
@@ -359,16 +359,16 @@ $('.chosen-container').css({ 'width':'100%' });
 
      <div class="row">
        <div class="form-group col-sm-10">
-        <label class="col-sm-4 control-label " for="UserID" >Select Appraisee </label>
+        <label class="col-sm-4 control-label " for="DeptID" >Select Department</label>
         <div class="col-sm-8">
-          <select id="UserID" name="UserID" required="true"   class="col-xs-12 col-sm-12 chosen-select">
+          <select id="DeptID" name="DeptID" required="true"   class="col-xs-12 col-sm-12 chosen-select">
             <?php
-                $getUsers = $db->GetArray("select *from vw_userslist order by S_ROWID desc");
+                $getDepts = $db->GetArray("select *from tbl_departments order by S_ROWID desc");
                  echo "<option value=''></option>";
-                foreach ($getUsers as $ukey => $uval) {
-                  $UserID = $uval["loginid"];
-                  $FullName = $uval["Fullname"];
-                  echo "<option value='$UserID'>$FullName</option>";
+                foreach ($getDepts as $ukey => $uval) {
+                  $DeptID   = $uval["S_ROWID"];
+                  $DeptName = $uval["DepartmentName"];
+                  echo "<option value='$DeptID'>$DeptName</option>";
                 }
             ?>
           </select>
@@ -376,10 +376,11 @@ $('.chosen-container').css({ 'width':'100%' });
       </div>
     </div>
 
+
           </div><!-- End ModalBody -->
     <div class="modal-footer">
     <button type="submit" id="btnSaveRecord" name="btnSaveRecord"  class="btn btn-sm btn-success">
-      Create Target
+        Create Target
             <i class="ace-icon fa fa-plus icon-on-right bigger-110"></i>
           </button>
             </div>

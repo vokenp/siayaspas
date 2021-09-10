@@ -25,6 +25,22 @@ $rst = $rs->row($TableName,"S_ROWID='$cid'");
       include("assets/pages/404.php");
       exit();
     }
+  $AppUserID = $rst["UserID"];
+  $AppUserInfo = $rs->row("vw_userslist","loginid='$AppUserID'");
+  $USectionID = $AppUserInfo["Section"] ;
+  $UDeptID = $AppUserInfo["Department"] ;
+     if ($USectionID !="") {
+       $getSectionInfo = $rs->row("vw_sections","S_ROWID='$USectionID'");
+       $DirectorateName = $getSectionInfo["DirectorateName"];
+       $DepartmentName = $getSectionInfo["DepartmentName"];
+       $SectionName = $getSectionInfo["SectionName"];
+     }
+     else {
+       $getDeptInfo = $rs->row("vw_departments","S_ROWID='$UDeptID'");
+       $DirectorateName = $getDeptInfo["DirectorateName"];
+       $DepartmentName = $getDeptInfo["DepartmentName"];
+       $SectionName = "";
+     }
 $S_ROWID = "<input type='hidden' name='S_ROWID' id='S_ROWID' value='$cid'>";
 $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' ><i class='fa fa-edit'></i> Update Record</button>";
 
@@ -34,46 +50,87 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 <script type="text/javascript">
 	$(document).ready(function(){
 		var op = $("#op").val();
+    dotoken();
+    //Create New tblObjectives
+    $("#frmNewObjectives").validate({
+  debug: false,
+  rules: {
 
-		$("#frmPageTemp").validate({
-				debug: false,
-				rules: {
+  },
+  messages: {
 
-				},
-				messages: {
+  },
+  submitHandler: function(form) {
+  // do other stuff for a valid form
 
-				},
-				submitHandler: function(form) {
-				// do other stuff for a valid form
+     $.post('assets/bin/ManageRecords.php', $("#frmNewObjectives").serialize(), function(data) {
 
-				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(),
-				function(data) {
-					if (data.length < 30)
-					{
+      if (data.length < 30)
+      {
+      $(".close").click();
+      var frm = "#frmNewObjectives";
+      $(frm)[0].reset();
+      $(frm).trigger("reset");
+      $(frm).find(":submit").prop('disabled', false);
+      $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create User");
+      $(frm).data('submitted', false);
+      $(frm).modal("hide");
+       dotoken();
+      $('#tblObjectives').DataTable().draw();
+          Swal.fire({
+                  type: 'success',
+                  title: 'Save Successful',
+                  showConfirmButton: false,
+                  timer: 1500
+                  });
+      }
+      else
+      {
+      dotoken();
+      Swal.fire(
+                    'Oops!',
+                    data,
+                    'error'
+                  );
 
-					 if(op == "add")
-					 {
-					 var urlstr = $("#url").val();
-                     var url = urlstr.replace("view=add&", "view=edit&cid="+data+"&");
-                     $(window.location).attr('href', "?"+url);
-					 }
-					 else
-					 {
-					 	location.reload();
-					 }
-					}
-					else
-					{
-					 	  Swal.fire(
-				          'Oops!',
-				          data,
-				          'error'
-				        );
-				   		dotoken();
-					}
-				});
-				}
-				});
+      }
+  });
+  }
+  });
+   //Start TABLE
+   var dataTableObjectives = $('#tblObjectives').DataTable({
+      "Processing": true,
+      "serverSide": true,
+      "scrollY": "50vh",
+      "scrollCollapse": true,
+      "bFilter":true,
+      "ordering": true,
+      "bLengthChange": true,
+      "bPaginate": true,
+      "pagingType": "simple",
+      language: {
+     paginate: {
+     next: '<i class="fa fa-chevron-right">',
+     previous: '<i class="fa fa-chevron-left">'
+    }
+    },
+
+      "ajax":{
+         url :"assets/bin/getTargets.php", // json datasource
+         type: "post",  // type of method  , by default would be get
+        "data":function(data) {
+         data.TargetID   = $('#S_ROWID').val();
+         data.SourceType = $('#SourceType').val();
+         },
+
+         error: function(et){  // error handling code
+           $("#tblObjectives_processing").css("display","none");
+           alert(JSON.stringify(et));
+         }
+       }
+ });
+   //End Table
+
 	});
 
 	     function dotoken()
@@ -97,12 +154,13 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                 <?php echo $modName;?>
             </h4>
             <div id="pageToolBar" class="widget-toolbar no-border">
-              <a href="<?php echo $addUrl; ?>" class="btn btn-xs btn-info  radius-4 bigger"> <i class="ace-icon fa fa-plus bigger-80"></i> Add New </a>
+              <!-- <a href="<?php echo $addUrl; ?>" class="btn btn-xs btn-info  radius-4 bigger"> <i class="ace-icon fa fa-plus bigger-80"></i> Add New </a> -->
                <a href="<?php echo $listUrl;?>" class="btn btn-xs btn-info  radius-4 bigger"> <i class="ace-icon fa fa-arrow-left bigger-80"></i> Back to List </a>
 
              </div>
           </div>
           <form name="frmPageTemp" id="frmPageTemp" class="form-horizontal" role="form">
+            <input type="hidden" name="SourceType" id="SourceType" value="Individual">
           	<input type="hidden" name="ModCode" id="ModCode" value="<?php echo $mod;?>">
           	<input type="hidden" name="ReturnType" id="ReturnType" value="RstID">
           	<input type="hidden" name="_token" id="_token" value="<?php echo  VToken::genT();?>" class="token">
@@ -111,26 +169,79 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
            <div class="widget-main">
 
         	  <div class="row">
-              <div class="form-group col-sm-6">
-						<label class="col-sm-4 control-label " for="CreatedBy"> CreatedBy </label>
-						<div class="col-sm-8">
-							<input type="text" id="CreatedBy" name="CreatedBy" placeholder="Enter M" class="col-xs-12 col-sm-12" value="<?php echo $rst['CreatedBy'];?>"  required="true" />
-						</div>
-					</div>
-					<div class="form-group col-sm-6">
-						<label class="col-sm-4 control-label " for="ModifiedBy"> ModifiedBy </label>
-						<div class="col-sm-8">
-							<input type="text" id="ModifiedBy" name="ModifiedBy" placeholder="Enter ModifiedBy" class="col-xs-12 col-sm-12" value="<?php echo $rst['ModifiedBy'];?>"  required="true" />
-						</div>
-					</div>
-			   </div>
+                 <div class="col-xs-12 col-sm-10">
+                   <div class="profile-user-info profile-user-info-striped ">
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Period Name</div>
+                      <div class="profile-info-value">
+                        <span class="editable" id="username"><b><?php  echo $rst["PeriodName"];?></b></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="profile-user-info profile-user-info-striped ">
+                   <div class="profile-info-row">
+                     <div class="profile-info-name"> Appraisal Period</div>
+                     <div class="profile-info-value">
+                       <span class="editable" id="username"><?php  echo "<b>Starts : </b>".date('D jS M Y',strtotime($rst["PeriodBegins"]))."<br/><b> Ends: </b>".date('D jS M Y',strtotime($rst["PeriodEnds"]));?></span>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="profile-user-info profile-user-info-striped ">
+                  <div class="profile-info-row">
+                    <div class="profile-info-name"> Appraisee Name</div>
+                    <div class="profile-info-value">
+                      <span class="editable" id="username"><b><?php  echo $rst["Appraisee"];?></b></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="profile-user-info profile-user-info-striped ">
+                 <div class="profile-info-row">
+                   <div class="profile-info-name">Designation</div>
+                   <div class="profile-info-value">
+                     <span class="editable" id="username"><b><?php  echo $AppUserInfo["Position"];?></b></span>
+                   </div>
+                 </div>
+               </div>
+
+                <div class="profile-user-info profile-user-info-striped ">
+                 <div class="profile-info-row">
+                   <div class="profile-info-name">Directorate Name</div>
+                   <div class="profile-info-value">
+                     <span class="editable" id="username"><b><?php  echo $DirectorateName;?></b></span>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="profile-user-info profile-user-info-striped ">
+                <div class="profile-info-row">
+                  <div class="profile-info-name">Department Name</div>
+                  <div class="profile-info-value">
+                    <span class="editable" id="username"><b><?php  echo $DepartmentName;?></b></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="profile-user-info profile-user-info-striped ">
+               <div class="profile-info-row">
+                 <div class="profile-info-name">Section Name</div>
+                 <div class="profile-info-value">
+                   <span class="editable" id="username"><b><?php  echo $SectionName;?></b></span>
+                 </div>
+               </div>
+             </div>
+                 </div>
+			      </div>
 
 
           </div><!-- End Widget-Main -->
-          <div class="widget-toolbox padding-8 clearfix text-center">
-               <?php echo $btn; ?>
+          </form>
+          <div class="widget-toolbox padding-8 clearfix ">
+              	<div class="space-8"></div>
+                <?php include("IndividualTargets.php");?>
           </div>
         </div><!-- End Widget-body -->
 
-    </form>
 </div><!-- End WidgetBox -->
