@@ -37,7 +37,7 @@
   <div class="modal-body">
   <input type="hidden" name="ModCode" id="ModCode" value="67">
   <input type="hidden" name="TargetID" id="TargetID" value="<?php echo $rst["S_ROWID"];?>">
-  <input type="hidden" name="SourceType" id="SourceType" value="Individual">
+  <input type="hidden" name="SourceType" id="SourceType" value="Departmental">
    <input type="hidden" name="_token" id="_token2" class="token" >
     <div id="colAlert"></div>
         <input type="hidden" name="ReturnType" id="ReturnType2" value="RstID">

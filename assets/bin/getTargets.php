@@ -29,7 +29,7 @@ global $db;
       $S_ROWID = $rst["S_ROWID"];
       $rowData = json_encode($rst);
 
-     $ResetPswd = "<a href='#' onclick='doResetPswd(\"$S_ROWID\"); return false;' title='Reset Password'><span class='red'><i class='ace-icon fa fa-key bigger-120'></i></span></a>";
+     $ResetPswd = "<a href='#' onclick='doRemoveItem(\"$S_ROWID\"); return false;' title='Remove Item'><span class='red'><i class='ace-icon fa fa-trash bigger-120'></i></span></a>";
      $EditColumn = "<a id='row-$S_ROWID' href='#' onclick='DoEditRecord(\"$S_ROWID\");  return false;' title='Edit Record' data-value='$rowData'><span class='yellow'><i class='ace-icon fa fa-pencil-square-o bigger-120'></i></span></a>";
 
       $ActionList =  $EditColumn.str_repeat("&nbsp;", 5).$ResetPswd;

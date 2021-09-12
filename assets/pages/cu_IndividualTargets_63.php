@@ -97,6 +97,53 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
   });
   }
   });
+
+  // Update Objectives
+  $("#frmUpdateObjectives").validate({
+debug: false,
+rules: {
+
+},
+messages: {
+
+},
+submitHandler: function(form) {
+// do other stuff for a valid form
+
+ $.post('assets/bin/ManageRecords.php', $("#frmUpdateObjectives").serialize(), function(data) {
+
+  if (data.length < 30)
+  {
+  $(".close").click();
+  var frm = "#frmUpdateObjectives";
+  $(frm)[0].reset();
+  $(frm).trigger("reset");
+  $(frm).find(":submit").prop('disabled', false);
+  $(frm).find(":submit").html("<i class='fa fa-edit'></i> Update Objective");
+  $(frm).data('submitted', false);
+  $(frm).modal("hide");
+   dotoken();
+  $('#tblObjectives').DataTable().draw();
+      Swal.fire({
+              type: 'success',
+              title: 'Update Successful',
+              showConfirmButton: false,
+              timer: 1500
+              });
+  }
+  else
+  {
+  dotoken();
+  Swal.fire(
+                'Oops!',
+                data,
+                'error'
+              );
+
+  }
+});
+}
+});
    //Start TABLE
    var dataTableObjectives = $('#tblObjectives').DataTable({
       "Processing": true,
@@ -132,6 +179,65 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
    //End Table
 
 	});
+
+  function DoEditRecord(RowID)
+       {
+       	var RowInfo = eval('(' + $("#row-"+RowID).attr('data-value') + ')');
+       	$("#TargetDescription2").val(RowInfo.TargetDescription);
+       	$("#S_ROWID2").val(RowInfo.S_ROWID);
+       //	$("#ItemType2").trigger("chosen:updated");
+        $("#UpdateObjectives").modal("show");
+       }
+
+
+       function doRemoveItem(RowID)
+            {
+                 bootbox.confirm({
+                     centerVertical: true,
+                 message: "Are you sure you want remove this Item?",
+                 buttons: {
+                   confirm: {
+                    label: "Remove Item",
+                    className: "btn-danger btn-sm",
+                   },
+                   cancel: {
+                    label: "Cancel",
+                    className: "btn-sm",
+                   }
+                 },
+                 callback: function(result) {
+                   if(result)
+                   {
+
+
+                      var dialog = bootbox.dialog({
+                       title: "Remove Objective",
+                       centerVertical: true,
+                  message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog bigger-240"></i> <h3>Please wait ...</h3></p>',
+                  closeButton: false
+                    });
+         var postdata = $("#myForm").serializeArray();
+         postdata.push({name: '_token', value: $("#_token").val()});
+          postdata.push({name: 'ModCode', value: "67"});
+         postdata.push({name: 'DeleteRecord', value: RowID});
+         $.post("assets/bin/ManageRecords.php", postdata, function(data){
+
+              dialog.modal('hide');
+              $('#tblObjectives').DataTable().draw();
+              dotoken();
+                Swal.fire({
+                     type: 'success',
+                     title: 'Record Removed Successful',
+                     showConfirmButton: false,
+                     timer: 1500
+                     });
+         });
+
+                   }
+                 }
+                 });
+            }
+
 
 	     function dotoken()
 {
