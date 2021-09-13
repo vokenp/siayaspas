@@ -44,3 +44,8 @@ SET PERSIST information_schema_stats_expiry = 0;
 
 
     create view vw_depttargets as select dt.*,ap.PeriodName,ap.PeriodBegins,ap.PeriodEnds,wd.DepartmentName,wd.HeadofDept from tbl_departmentstargets dt inner join tbl_appraisalperiods ap on dt.PeriodID=ap.S_ROWID  inner join vw_departments wd on dt.DeptID=wd.S_ROWID
+
+
+      create view vw_appraisals as select aps.*,u.Fullname,u.Phone,u.Email,u.Position,app.PeriodName,app.PeriodBegins,app.PeriodEnds,getuinfo(aps.SupervisorUserID) as SupervisorName
+      from tbl_appraisals aps inner join vw_userslist u on aps.AppraiseeUserID=u.loginid
+      inner join tbl_appraisalperiods app on app.S_ROWID=aps.AppPeriodID;

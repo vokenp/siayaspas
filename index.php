@@ -138,6 +138,7 @@ $user = USERID;
 
         <script src="assets/plugins/ckeditor/ckeditor.js"></script>
 		<!-- ace scripts -->
+      <script src="assets/js/wizard.min.js"></script>
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
 		<script src="assets/js/jsscripts.js"></script>
@@ -145,6 +146,7 @@ $user = USERID;
 <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="plugins/toastr/toastr.min.js"></script>
 <script src="plugins/select2/js/select2.full.min.js"></script>
+
  <script type="text/javascript">
     $('.select2').select2();
 </script>
