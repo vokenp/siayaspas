@@ -149,6 +149,7 @@ $user = USERID;
 
  <script type="text/javascript">
     $('.select2').select2();
+    $('.chosen-container').css({ 'width':'100%' });
 </script>
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 

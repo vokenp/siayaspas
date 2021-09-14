@@ -163,7 +163,7 @@ location.reload();
         <select id="SupervisorUserID" name="SupervisorUserID" required="true"   class="col-xs-12 col-sm-12 chosen-select">
           <?php
           $curSupervisor = $rst["SupervisorUserID"];
-              $getUsers = $db->GetArray("select *from vw_userslist where loginid<>'$user' and User_type in ('HeadofDepartments') and loginid<>'$curSupervisor' order by S_ROWID desc");
+              $getUsers = $db->GetArray("select *from vw_userslist where loginid<>'$user'  and loginid<>'$curSupervisor' order by S_ROWID desc");
                echo "<option value=''></option>";
               foreach ($getUsers as $ukey => $uval) {
                 $UserID = $uval["loginid"];

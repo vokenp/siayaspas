@@ -368,7 +368,7 @@ $('.chosen-container').css({ 'width':'100%' });
         <div class="col-sm-8">
           <select id="SupervisorUserID" name="SupervisorUserID" required="true"   class="col-xs-12 col-sm-12 chosen-select">
             <?php
-                $getUsers = $db->GetArray("select *from vw_userslist where loginid<>'$user' and User_type in ('HeadofDepartments') order by S_ROWID desc");
+                $getUsers = $db->GetArray("select *from vw_userslist where loginid<>'$user'  order by S_ROWID desc");
                  echo "<option value=''></option>";
                 foreach ($getUsers as $ukey => $uval) {
                   $UserID = $uval["loginid"];

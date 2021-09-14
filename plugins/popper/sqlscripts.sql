@@ -49,3 +49,7 @@ SET PERSIST information_schema_stats_expiry = 0;
       alter view vw_appraisals as select aps.*,u.Fullname,u.Phone,u.Email,u.Department,u.Section,u.Position,app.PeriodName,app.PeriodBegins,app.PeriodEnds,getuinfo(aps.SupervisorUserID) as SupervisorName
       from tbl_appraisals aps inner join vw_userslist u on aps.AppraiseeUserID=u.loginid
       inner join tbl_appraisalperiods app on app.S_ROWID=aps.AppPeriodID;
+
+
+
+create view vw_targetlists  as select *,getuinfo(AssignedTo) as AssignedUser from tbl_targetlists 

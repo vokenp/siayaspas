@@ -43,6 +43,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
  $(document).ready(function(){
    var op = $("#op").val();
    dotoken();
+   $('.chosen-container').css({ 'width':'100%' });
    //Create New tblObjectives
    $("#frmNewObjectives").validate({
  debug: false,

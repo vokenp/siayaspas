@@ -4,7 +4,7 @@ include("../timeout.php");
 global $db;
 //$db->debug=1;
 
-      $CurTable = "tbl_targetlists";
+      $CurTable = "vw_targetlists";
       $search = $_POST['search'];
       $TargetID = $_POST['TargetID'];
       $SourceType = $_POST['SourceType'];
@@ -34,11 +34,13 @@ global $db;
 
       $ActionList =  $EditColumn.str_repeat("&nbsp;", 5).$ResetPswd;
 
+
      // $ActionList = $AppCode == "General" ? "" : $ActionList;
       $k +=1;
       $record = array();
       $record[] = $k;
       $record[] = $rst["TargetDescription"];
+      $record[] = $rst["AssignedUser"];
       $record[] = $rst["CreatedBy"]."<br/> on ".date('D jS M Y g:i a',strtotime($rst["DateCreated"]));
       $record[] = $ActionList;
       $recdata[] = $record;
