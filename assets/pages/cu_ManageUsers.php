@@ -62,12 +62,16 @@ $reqState = "readonly='true'";
 				function(data) {
 					if (data.length < 30)
 					{
-
 					 location.reload();
 					}
 					else
 					{
-					alert(data);
+            Swal.fire(
+                'Oops!',
+                data,
+                'error'
+              );
+          location.reload();
 
 					}
 				});
