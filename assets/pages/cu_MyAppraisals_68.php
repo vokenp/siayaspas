@@ -35,7 +35,8 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 
 	$(document).ready(function(){
 		var op = $("#op").val();
-
+    dotoken();
+     $('.chosen-container').css({ 'width':'100%' });
     //Start wizard
     $('#fuelux-wizard-container').wizard({
         //step: 2 //optional argument. wizard will jump to step "2" at first
@@ -197,7 +198,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                    </div>  <!-- End Steps Section -->
 
                    <div class="step-content pos-rel">
-                     
+
                       <div class="step-pane active" data-step="1">
                          <?php  include("AppSection1.php");?>
                       </div> <!-- End Step 1 -->
