@@ -5,13 +5,13 @@ $TableName = "dh_users";
 
  $cid =  $UserInfo["S_ROWID"];
 $rst = $UserInfo;
-  
-  
+
+
 $S_ROWID = "<input type='hidden' name='S_ROWID' id='S_ROWID' value='$cid'>";
 $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Update Record</button>";
-   
-  
-  
+
+
+
   ?>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -19,19 +19,19 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 		$("#frmPageTemp").validate({
 				debug: false,
 				rules: {
-				
+
 				},
 				messages: {
-				  
+
 				},
 				submitHandler: function(form) {
 				// do other stuff for a valid form
-				
-				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(), 
+
+				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(),
 				function(data) {
 					if (data.length < 30)
 					{
-				
+
 					 if(op == "add")
 					 {
 					 var urlstr = $("#url").val();
@@ -46,7 +46,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 					else
 					{
 					alert(data);
-				   
+
 					}
 				});
 				}
@@ -63,10 +63,12 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                 <?php echo $modName;?>
             </h4>
             <div id="pageToolBar" class="widget-toolbar no-border">
-              
+
              </div>
           </div>
           <form name="frmPageTemp" id="frmPageTemp" class="form-horizontal" role="form">
+            
+            <input type="hidden" name="_token" id="_token" value="<?php echo  VToken::genT();?>" class="token">
           	<input type="hidden" name="ModCode" id="ModCode" value="<?php echo $mod;?>">
           	<input type="hidden" name="ReturnType" id="ReturnType" value="RstID">
             <?php echo $S_ROWID;?>
@@ -87,7 +89,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 						</div>
 					</div>
 			   </div>
-          
+
            <div class="row">
                  	<div class="form-group col-sm-5">
 						<label class="col-sm-4 control-label " for="Phone"> Phone </label>
@@ -117,7 +119,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 						</div>
 					</div>
 			   </div>
-			 
+
 
 
           </div><!-- End Widget-Main -->
@@ -125,6 +127,6 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                <?php echo $btn; ?>
           </div>
         </div><!-- End Widget-body -->
-         
+
     </form>
 </div><!-- End WidgetBox -->
