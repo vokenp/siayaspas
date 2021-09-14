@@ -47,13 +47,10 @@ unset($_POST['_token']);
      unset($_POST['ReturnType']);
      unset($_POST['ModCode']);
      array_pop($_POST);
-
+     array_walk($_POST,"cleanDataHtml");
       /*echo "<pre>";
      print_r($_POST);
      exit();*/
-
-
-
 
       $getPrefix = $db->GetRow("select  TblColumn,PaddingSize,Prefix from dh_templateprefix where TableName='$tableName'");
        $arg = array_filter($getPrefix);
@@ -63,7 +60,6 @@ unset($_POST['_token']);
       $CheckFld = $db->GetOne("select CheckExist from dh_modules where S_ROWID='$ModCode'");
 
       if ($CheckFld !="") {
-
         $checkValue = safehtml($_POST[$CheckFld]);
         $CheckExist = $db->GetOne("select S_ROWID from $tableName where $CheckFld ='$checkValue'");
         if ($CheckExist !="") {
@@ -73,7 +69,19 @@ unset($_POST['_token']);
       }
 
 
-      array_walk($_POST,"cleanDataHtml");
+      if ($tableName == "dh_users") {
+          $loginid = $_POST['loginid'];
+          $CheckFld = $db->GetRow("select * from $tableName where loginid='$loginid'");
+          $arg = array_filter($CheckFld);
+           if (!empty($arg)) {
+             $Fullname = $CheckFld["Fullname"];
+             echo "Similar User Already Exist : $Fullname - $loginid, Please try Again;";
+             exit();
+           }
+      }
+
+
+
 
        $MetaTypes = metatype($tableName);
     foreach ($_POST as $column => $value) {
