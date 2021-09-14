@@ -18,10 +18,12 @@ session_start();
   $SearchValue = safehtml(trim($search["value"]));
    $where = " where 1=1 ";
 
+      if($tableName == "vw_appraisals")
+      {
+        $where .= " and AppraiseeUserID='$user'";
+      }
+
   $userType = isset($_POST['userType']) ? $_POST['userType'] : "";
-
-
-
 
    $columns = $_POST['columns'];
    $keyCount  = 0;
