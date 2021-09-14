@@ -158,8 +158,12 @@ $('.chosen-container').css({ 'width':'100%' });
       }
       else
       {
-         alert(data);
-         dotoken();
+        Swal.fire(
+            'Oops!',
+            data,
+            'error'
+          );
+      location.reload();
 
       }
         });
