@@ -135,7 +135,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
               <select name="HeadedBy" id="HeadedBy" placeholder="Enter HeadedBy" class="col-xs-11 col-sm-11 chosen-select" required="true">
                 <?php
                   $HeadedBy = $rst["HeadedBy"];
-                  $where = " where user_type = 'Directorate' ";
+                  $where = " where 1=1 ";
 
                   if ($HeadedBy != "") {
                     $LeaderName = $db->GetOne("select Fullname from dh_users where loginid='$HeadedBy'");
