@@ -87,10 +87,10 @@
         <h3 id="Colh3" class="smaller lighter blue no-margin"><i class="ace-icon fa fa-user icon-on-right bigger-110"></i> Update Objective</h3>
       </div>
 
-      
+
  <form name="frmUpdateObjectives" id="frmUpdateObjectives" class="form-horizontal" role="form">
   <div class="modal-body">
-   <input type="hidden" name="ModCode" id="ModCode" value="67">
+   <input type="hidden" name="ModCode" id="ModCode" value="67" >
    <input type="hidden" name="_token" id="_token2" class="token" >
     <div id="colAlert"></div>
         <input type="hidden" name="ReturnType" id="ReturnType2" value="RstID">
