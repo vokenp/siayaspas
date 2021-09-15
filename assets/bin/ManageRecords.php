@@ -11,8 +11,10 @@ include("../timeout.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-    if (!VToken::checkT(trim($_POST['_token']))) {
-    echo "<i class='icon fas fa-exclamation-triangle'></i>InvalidRequest";
+$token = preg_replace("/\r|\n/", "", $_POST['_token']);
+
+    if (!VToken::checkT(trim($token))) {
+    echo "<i class='icon fas fa-exclamation-triangle'></i>InvalidRequest: $token";
     exit();
   }
 

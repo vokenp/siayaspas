@@ -39,15 +39,31 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
      $('.chosen-container').css({ 'width':'100%' });
     //Start wizard
     $('#fuelux-wizard-container').wizard({
-        //step: 2 //optional argument. wizard will jump to step "2" at first
-        //buttons: '.wizard-actions:eq(0)'
+      //  step: 4 ,//optional argument. wizard will jump to step "2" at first
+        //buttons: '.wizard-actions:eq(3)'
       }).on('actionclicked.fu.wizard' , function(e, info){
+
+         var index = info.step;
+          if(info.direction === 'next')
+          {
+             index += 1;
+           }
+           else {
+               index -= 1;
+           }
+
+           var postdata = $("#myForm").serializeArray();
+            postdata.push({name: 'AppStage', value: "Section"+index});
+            postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
+           $.post("assets/bin/ManageGroups.php", postdata, function(data){
+             
+            });
         // if(info.step == 1 && $validation) {
         //   //if(!$('#validation-form').valid()) e.preventDefault();
         // }
+      }).on('changed.fu.wizard', function(e, info) {
+        //  $("#test").html(info.step);
       })
-      //.on('changed.fu.wizard', function() {
-      //})
       .on('finished.fu.wizard', function(e) {
         bootbox.dialog({
           message: "Thank you! Your information was successfully saved!",
@@ -149,7 +165,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
           <div class="widget-header widget-header-flat">
             <h4 class="widget-title smaller">
               <i class="ace-icon fa fa-list smaller-80"></i>
-                My Appraisal for <?php echo $rst["PeriodName"];?>
+                My Appraisal for <?php echo $rst["PeriodName"];?> <span id="test"></span>
             </h4>
             <div id="pageToolBar" class="widget-toolbar no-border">
                <a href="<?php echo $listUrl;?>" class="btn btn-xs btn-info  radius-4 bigger"> <i class="ace-icon fa fa-arrow-left bigger-80"></i> Back to List </a>
