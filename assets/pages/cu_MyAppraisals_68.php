@@ -25,6 +25,7 @@ $rst = $rs->row($TableName,"S_ROWID='$cid'");
       include("assets/pages/404.php");
       exit();
     }
+$AppStep = $rst["AppStage"];
 $S_ROWID = "<input type='hidden' name='S_ROWID' id='S_ROWID' value='$cid'>";
 $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' ><i class='fa fa-edit'></i> Update Record</button>";
 
@@ -38,6 +39,9 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
     dotoken();
      $('.chosen-container').css({ 'width':'100%' });
     //Start wizard
+    var StepIndex = $("#currentStep").val();
+
+    $('#fuelux-wizard-container').wizard('selectedItem', { step: StepIndex});
     $('#fuelux-wizard-container').wizard({
       //  step: 4 ,//optional argument. wizard will jump to step "2" at first
         //buttons: '.wizard-actions:eq(3)'
@@ -56,7 +60,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
             postdata.push({name: 'AppStage', value: "Section"+index});
             postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
            $.post("assets/bin/ManageGroups.php", postdata, function(data){
-             
+
             });
         // if(info.step == 1 && $validation) {
         //   //if(!$('#validation-form').valid()) e.preventDefault();
@@ -160,6 +164,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 </script>
 <input type="hidden" name="op" id="op" value="<?php echo $op;?>">
 <input type="hidden" name="url" id="url" value="<?php echo full_path();?>">
+<input type="hidden" name="currentStep" id="currentStep" value="<?php echo str_replace('Section','',$rst["AppStage"]);?>">
 
 <div class="widget-box">
           <div class="widget-header widget-header-flat">
