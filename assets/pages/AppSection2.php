@@ -94,21 +94,27 @@ $UDeptID = $rst["Department"] ;
           <tr>
             <th>#</th>
             <th>Objective</th>
+            <th>Assigned To</th>
           </tr>
         </thead>
         <tbody>
           <?php
-            // $html .="";
-            // $PeriodID	= $rst["AppPeriodID"];
-            // $DeptID =
-            // $getdeptObjs $db->GetArray("select *from ");
-            // foreach ($getdeptObjs as $okey => $oval) {
-            //   $html .="<tr>";
-            //     $html .="<td></td>";
-            //     $html .="<td></td>";
-            //   $html .="</tr>";
-            // }
+            $html .="";
 
+            $getdeptObjs = $db->GetArray("select *from vw_depttargetlists where DeptID='$UDeptID'");
+            $i = 0;
+            $html  ="";
+            foreach ($getdeptObjs as $okey => $oval) {
+              $i += 1;
+              $TargetDescription = $oval["TargetDescription"];
+              $AssignedName = $oval["AssignedName"];
+              $html .="<tr>";
+                $html .="<td>$i</td>";
+                $html .="<td>$TargetDescription</td>";
+                $html .="<td>$AssignedName</td>";
+              $html .="</tr>";
+            }
+          echo $html;
           ?>
         </tbody>
     </table>

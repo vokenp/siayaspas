@@ -52,4 +52,8 @@ SET PERSIST information_schema_stats_expiry = 0;
 
 
 
-create view vw_targetlists  as select *,getuinfo(AssignedTo) as AssignedUser from tbl_targetlists 
+create view vw_targetlists  as select *,getuinfo(AssignedTo) as AssignedUser from tbl_targetlists
+
+
+  create view vw_depttargetlists as select tl.*,dt.DeptID,dt.PeriodID,getuinfo(tl.AssignedTo) as AssignedName,dt.PeriodName,dt.PeriodBegins,dt.PeriodEnds,dt.DepartmentName,dt.HeadofDept from tbl_targetlists tl inner join vw_depttargets dt on tl.TargetID=dt.S_ROWID
+  where tl.SourceType='Departmental'
