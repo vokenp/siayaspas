@@ -77,9 +77,7 @@
       </form>
     </div><!-- Modal-content -->
   </div><!-- Modal-Dialog -->
- </div><!-- Modal-Div -->
-
-
+</div><!-- Modal-Div   and-->
 
  <div id="UpdateObjectives" class="modal fade" tabindex="-1">
   <div class="modal-dialog">
@@ -119,7 +117,6 @@
           </select>
         </div>
       </div>
-
    </div>
       </div><!-- End ModalBody -->
 <div class="modal-footer text-center">
