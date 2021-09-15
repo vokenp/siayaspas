@@ -114,6 +114,7 @@ $UDeptID = $rst["Department"] ;
                 $html .="<td>$AssignedName</td>";
               $html .="</tr>";
             }
+            
           echo $html;
           ?>
         </tbody>
