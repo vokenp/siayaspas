@@ -56,4 +56,13 @@ create view vw_targetlists  as select *,getuinfo(AssignedTo) as AssignedUser fro
 
 
   create view vw_depttargetlists as select tl.*,dt.DeptID,dt.PeriodID,getuinfo(tl.AssignedTo) as AssignedName,dt.PeriodName,dt.PeriodBegins,dt.PeriodEnds,dt.DepartmentName,dt.HeadofDept from tbl_targetlists tl inner join vw_depttargets dt on tl.TargetID=dt.S_ROWID
-  where tl.SourceType='Departmental'
+  where tl.SourceType='Departmental';
+
+
+  alter table tbl_section1 add AppraisalID int;
+  alter table tbl_section2 add AppraisalID int;
+  alter table tbl_section3 add AppraisalID int;
+  alter table tbl_section4 add AppraisalID int;
+  alter table tbl_section8 add AppraisalID int;
+  alter table tbl_section9 add AppraisalID int;
+  alter table tbl_section10 add AppraisalID int;
