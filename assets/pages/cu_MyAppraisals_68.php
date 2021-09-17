@@ -60,7 +60,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
             postdata.push({name: 'AppStage', value: "Section"+index});
             postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
             $.post("assets/bin/ManageGroups.php", postdata, function(data){});
-           
+
       }).on('changed.fu.wizard', function(e, info) {
         //  $("#test").html(info.step);
       })
@@ -233,7 +233,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                       </div> <!-- End Step 4 -->
 
                       <div class="step-pane" data-step="5">
-                        <?php  include("AppSection5.php");?>
+                        <?php  include("AppSection5a.php");?>
                       </div> <!-- End Step 5 -->
 
                       <div class="step-pane" data-step="6">
