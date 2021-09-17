@@ -60,9 +60,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
             postdata.push({name: 'AppStage', value: "Section"+index});
             postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
             $.post("assets/bin/ManageGroups.php", postdata, function(data){});
-        // if(info.step == 1 && $validation) {
-        //   //if(!$('#validation-form').valid()) e.preventDefault();
-        // }
+           
       }).on('changed.fu.wizard', function(e, info) {
         //  $("#test").html(info.step);
       })
