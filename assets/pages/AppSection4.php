@@ -25,7 +25,7 @@
       $(frm)[0].reset();
       $(frm).trigger("reset");
       $(frm).find(":submit").prop('disabled', false);
-      $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create Activity");
+      $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create Training Need");
       $(frm).data('submitted', false);
       $(frm).modal("hide");
        dotoken();
@@ -73,7 +73,7 @@ submitHandler: function(form) {
   $(frm)[0].reset();
   $(frm).trigger("reset");
   $(frm).find(":submit").prop('disabled', false);
-  $(frm).find(":submit").html("<i class='fa fa-edit'></i> Update Activity");
+  $(frm).find(":submit").html("<i class='fa fa-edit'></i> Update Training Need");
   $(frm).data('submitted', false);
   $(frm).modal("hide");
    dotoken();
@@ -142,7 +142,7 @@ submitHandler: function(form) {
        {
         var RowInfo = eval('(' + $("#row-"+RowID).attr('data-value') + ')');
         $("#TrainingNeed2").html(RowInfo.TrainingNeed);
-        $("#TrainingPeriodNo2").val(RowInfo.TrainingPeriodNo);
+        $("#TrainingPeriod2").val(RowInfo.TrainingPeriod);
         $("#SA_Comments2").val(RowInfo.SA_Comments);
         $("#S_ROWID_Training").val(RowInfo.S_ROWID);
        //	$("#ItemType2").trigger("chosen:updated");
@@ -262,6 +262,15 @@ submitHandler: function(form) {
     </div>
 
     <div class="row">
+      <div class="form-group col-sm-12">
+        <label class="col-sm-4 control-label " for="TrainingPeriod"> Training Period </label>
+        <div class="col-sm-8">
+          <input type="text" id="TrainingPeriod" name="TrainingPeriod" placeholder="Enter Training Period" class="col-xs-12 col-sm-12"   required="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
      <div class="form-group col-sm-12">
          <label class="col-sm-4 control-label " for="SA_Comments"> Appraisee Comments</label>
           <div class="col-sm-8">
@@ -308,6 +317,15 @@ submitHandler: function(form) {
           <label class="col-sm-4 control-label " for="TrainingNeed"> Training Need</label>
            <div class="col-sm-8">
              <textarea name="TrainingNeed" id="TrainingNeed2" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label class="col-sm-4 control-label " for="TrainingPeriod"> Training Period </label>
+          <div class="col-sm-8">
+            <input type="text" id="TrainingPeriod2" name="TrainingPeriod" placeholder="Enter Training Period" class="col-xs-12 col-sm-12"   required="true" />
           </div>
         </div>
       </div>

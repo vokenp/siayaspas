@@ -39,7 +39,7 @@ global $db;
       $record = array();
       $record[] = $k;
       $record[] = $rst["TrainingNeed"];
-      $record[] = $rst["TrainingPeriodNo"]." ".$rst["TrainingPeriodUnit"];
+      $record[] = $rst["TrainingPeriod"];
       $record[] = $rst["SA_Comments"];
       $record[] = $ActionList;
       $recdata[] = $record;
