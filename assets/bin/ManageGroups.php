@@ -276,4 +276,24 @@
     }
   }
 
+  if(isset($_POST['btnPostValuesRates']))
+  {
+    $AppraisalID = $_POST["S_ROWID"];
+    $exec = $db->Execute("delete from tbl_section5a where AppraisalID='$AppraisalID'");
+    for ($i=1; $i <= 12; $i++) {
+      $record = array();
+      $record["ValueType"] = "V".$i;
+      $record["SA_ScoreValue"] = isset($_POST["SA_V".$i]) ? $_POST["SA_V".$i] : 1;
+      $record["SA_Remarks"] = $_POST["SA_Remarks-V".$i];
+      $record["AppraisalID"] = $AppraisalID;
+      $record["CreatedBy"] = $user;
+
+      $table  = "tbl_section5a";
+      $action = "INSERT";
+      $db->AutoExecute($table,$record,$action);
+    }
+
+
+  }
+
 ?>
