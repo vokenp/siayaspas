@@ -28,7 +28,7 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
 			 total += parseFloat($(this).val());
 		 });
 
-		 $("#TotalScore").html(total);
+		 $(".TotalScore").html(total);
 		}
 
       $("#btnPostValues").click(function(){
@@ -102,7 +102,7 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
           <th>3</th>
           <th>2</th>
           <th>1</th>
-          <th></th>
+          <th><span class="TotalScore" style="color:red;font-size:22px;font-weight:bold;">0</span></th>
     </tr>
     <tr>
          <th><b><h4>(i) Values</h4></b></th>
@@ -235,7 +235,7 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
      <td></td>
      <td></td>
      <td></td>
-     <td><span id="TotalScore" style="color:red;font-size:22px;font-weight:bold;">0</span></td>
+     <td><span class="TotalScore" style="color:red;font-size:22px;font-weight:bold;">0</span></td>
 </tr>
 
   </tbody>
