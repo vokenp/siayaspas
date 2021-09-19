@@ -1,11 +1,29 @@
+<?php
+$getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_section5a where AppraisalID='$cid'");
+
+
+?>
 <script type="text/javascript">
 
 	$(document).ready(function(){
+
+		var valsOpts = <?php echo json_encode($getS5Vals); ?>;
+
+		$.each(valsOpts, function( i, l ){
+			 	$("#"+l.ValueType+"-"+l.SA_ScoreValue).attr("checked", "checked");
+				$("#SA_Remarks-"+l.ValueType).val(l.SA_Remarks);
+     });
+
       $("#btnPostValues").click(function(){
         var postdata = $("#frmValueOptions").serializeArray();
          postdata.push({name: 'btnPostValuesRates', value: $("#S_ROWID").val()});
          $.post("assets/bin/ManageGroups.php", postdata, function(data){
-           $("#Results").html(data);
+					 Swal.fire({
+								type: 'success',
+								title: 'Form Updated Successful',
+								showConfirmButton: false,
+								timer: 1500
+								});
          });
       });
 
@@ -177,11 +195,11 @@
 </tr>
 <tr>
      <td><b>(g) Continous Learning and Performance Improvement</b></td>
-     <td><input name="SA_V11" id="V11-4" value="5" type="radio" class="form-control input-sm" /></td>
+     <td><input name="SA_V11" id="V11-5" value="5" type="radio" class="form-control input-sm" /></td>
      <td><input name="SA_V11" id="V11-4" value="4" type="radio" class="form-control input-sm" /></td>
-     <td><input name="SA_V11" id="V11-4" value="3" type="radio" class="form-control input-sm" /></td>
-     <td><input name="SA_V11" id="V11-4" value="2" type="radio" class="form-control input-sm" /></td>
-     <td><input name="SA_V11" id="V11-4" value="1" type="radio" class="form-control input-sm" /></td>
+     <td><input name="SA_V11" id="V11-3" value="3" type="radio" class="form-control input-sm" /></td>
+     <td><input name="SA_V11" id="V11-2" value="2" type="radio" class="form-control input-sm" /></td>
+     <td><input name="SA_V11" id="V11-1" value="1" type="radio" class="form-control input-sm" /></td>
      <td><input type="text" id="SA_Remarks-V11" name="SA_Remarks-V11" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
 </tr>
 <tr>
