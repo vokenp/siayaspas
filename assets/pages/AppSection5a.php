@@ -9,10 +9,27 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
 
 		var valsOpts = <?php echo json_encode($getS5Vals); ?>;
 
+
 		$.each(valsOpts, function( i, l ){
 			 	$("#"+l.ValueType+"-"+l.SA_ScoreValue).attr("checked", "checked");
 				$("#SA_Remarks-"+l.ValueType).val(l.SA_Remarks);
+
      });
+   S5doValuesum();
+
+		 $("input[type=radio]").click(function() {
+      S5doValuesum();
+    });
+
+		function S5doValuesum()
+		{
+			var total = 0;
+		 $("input[type=radio]:checked").each(function() {
+			 total += parseFloat($(this).val());
+		 });
+
+		 $("#TotalScore").html(total);
+		}
 
       $("#btnPostValues").click(function(){
         var postdata = $("#frmValueOptions").serializeArray();
@@ -212,13 +229,13 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
      <td><input type="text" id="SA_Remarks-V12" name="SA_Remarks-V12" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
 </tr>
 <tr>
-     <td><b>Total Score</b></td>
-     <td><span id="RS-5"></span></td>
-     <td><span id="RS-4"></span></td>
-     <td><span id="RS-3"></span></td>
-     <td><span id="RS-2"></span></td>
-     <td><span id="RS-1"></span></td>
+     <td ><b>Total Score</b></td>
      <td></td>
+     <td></td>
+     <td></td>
+     <td></td>
+     <td></td>
+     <td><span id="TotalScore" style="color:red;font-size:22px;font-weight:bold;">0</span></td>
 </tr>
 
   </tbody>
