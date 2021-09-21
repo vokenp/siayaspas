@@ -21,6 +21,17 @@
                   <th>Action</th>
                 </tr>
               </thead>
+
+              <tfoot>
+                <tr>
+                  <td colspan="2"></td>
+
+                  <td style="text-align:right;font-size:18px;"><b>Total Weight:</b></td>
+                  <td style="text-align:center;font-weight:bold;font-size:18px;color:red"></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tfoot>
           </table>
 
       </div>
@@ -44,9 +55,9 @@
     <div id="colAlert"></div>
         <input type="hidden" name="ReturnType" id="ReturnType2" value="RstID">
  <div class="row">
-    <div class="form-group">
-        <label class="col-sm-3 control-label " for="PhoneNo"> Objective</label>
-         <div class="col-sm-9">
+    <div class="form-group  col-sm-12">
+        <label class="col-sm-4 control-label " for="PhoneNo"> Objective</label>
+         <div class="col-sm-8">
            <textarea name="TargetDescription" id="TargetDescription" class="form-control" rows="5"></textarea>
         </div>
       </div>
@@ -63,7 +74,8 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
-        <label class="col-sm-4 control-label " for="WeightPercentage"> WeightPercentage (%) </label>
+
+        <label class="col-sm-4 control-label " for="WeightPercentage"> Weight Percentage (%) </label>
         <div class="col-sm-8">
           <input type="text" id="WeightPercentage" name="WeightPercentage" placeholder="Enter Weight" class="col-xs-12 col-sm-12 NumberOnly"   required="true" />
         </div>
@@ -73,6 +85,7 @@
 
       </div><!-- End ModalBody -->
 <div class="modal-footer">
+    <span class="label label-danger arrowed-in arrowed-in-right WeightMax pull-left"></span>
   <button type="submit" id="btnSaveRecord" name="btnSaveRecord"  class="btn btn-sm btn-success">
          <i class="ace-icon fa fa-plus icon-on-right bigger-110"></i> Create Target
       </button>
@@ -99,9 +112,9 @@
         <input type="hidden" name="ReturnType" id="ReturnType2" value="RstID">
      <input type="hidden" name="S_ROWID" id="S_ROWID2" >
   <div class="row">
-     <div class="form-group">
-         <label class="col-sm-3 control-label " for="PhoneNo"> Objective</label>
-          <div class="col-sm-9">
+     <div class="form-group  col-sm-12">
+         <label class="col-sm-4 control-label " for="PhoneNo"> Objective</label>
+          <div class="col-sm-8">
             <textarea name="TargetDescription" id="TargetDescription2" class="form-control" rows="5"></textarea>
          </div>
        </div>
@@ -118,7 +131,8 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
-        <label class="col-sm-4 control-label " for="WeightPercentage"> WeightPercentage (%) </label>
+        <label class="col-sm-4 control-label " for="WeightPercentage"> Weight Percentage (%) </label>
+
         <div class="col-sm-8">
           <input type="text" id="WeightPercentage2" name="WeightPercentage" placeholder="Enter Weight" class="col-xs-12 col-sm-12 NumberOnly"   required="true" />
         </div>
@@ -127,6 +141,7 @@
 
       </div><!-- End ModalBody -->
 <div class="modal-footer text-center">
+  <span class="label label-danger arrowed-in arrowed-in-right WeightMax pull-left"></span>
   <button type="submit" id="btnUpdateRecord" name="btnUpdateRecord"  class="btn btn-sm btn-success">
         Update Target
         <i class="ace-icon fa fa-edit icon-on-right bigger-110"></i>
