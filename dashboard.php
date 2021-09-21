@@ -37,8 +37,10 @@
               $getApps = $db->GetArray("select *from vw_appraisals where AppraiseeUserID='$user'");
               $i = 0;
               $html = "";
+              $labels = array("label-danger","label-success","label-info","label-warning");
                  foreach ($getApps as $akey => $Appval) {
-
+                   $rand_keys = array_rand($labels, 1);
+                   $lbl = $labels[$rand_keys];
                    $PeriodName = $Appval["PeriodName"];
                    $SupervisorName = $Appval["SupervisorName"];
                    $AppStage = $Appval["AppStage"];
@@ -47,7 +49,7 @@
                    $html .="<td>$i</td>";
                    $html .="<td>$PeriodName</td>";
                    $html .="<td> $SupervisorName</td>";
-                   $html .="<td>$AppStage</td>";
+                    $html .= "<td> <span class='label $lbl arrowed-in arrowed-in-right'>$AppStage</span></td>";
                    $html .="</tr>";
                  }
                 echo $html;
