@@ -41,7 +41,7 @@
       	<th>#</th>
       	<th><b>Performance Targets/Activities</b></th>
     		<th><b>AgreedNo of Targets</b></th>
-	  		<th><b>Weight(%)</b></th>
+	  		<th><b>Set Weight(%)</b></th>
 				<th><b>Results Achieved(%)</b></th>
    			<th><b>Remarks</b></th>
  </tr>
