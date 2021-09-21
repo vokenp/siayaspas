@@ -2,7 +2,7 @@
 	$(document).ready(function(){
 		var op = $("#op").val();
     dotoken();
-
+   
 
     //Create New tblTrainingNeed
     $("#frmNewTrainingNeed").validate({

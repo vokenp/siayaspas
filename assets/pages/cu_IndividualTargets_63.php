@@ -72,7 +72,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
       $(frm)[0].reset();
       $(frm).trigger("reset");
       $(frm).find(":submit").prop('disabled', false);
-      $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create User");
+      $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create New Target");
       $(frm).data('submitted', false);
       $(frm).modal("hide");
        dotoken();
@@ -119,7 +119,7 @@ submitHandler: function(form) {
   $(frm)[0].reset();
   $(frm).trigger("reset");
   $(frm).find(":submit").prop('disabled', false);
-  $(frm).find(":submit").html("<i class='fa fa-edit'></i> Update Objective");
+  $(frm).find(":submit").html("<i class='fa fa-edit'></i> Update Target");
   $(frm).data('submitted', false);
   $(frm).modal("hide");
    dotoken();
@@ -163,7 +163,7 @@ submitHandler: function(form) {
     },
 
       "ajax":{
-         url :"assets/bin/getTargets.php", // json datasource
+         url :"assets/bin/getTargetsIndividual.php", // json datasource
          type: "post",  // type of method  , by default would be get
         "data":function(data) {
          data.TargetID   = $('#S_ROWID').val();
@@ -184,6 +184,8 @@ submitHandler: function(form) {
        {
        	var RowInfo = eval('(' + $("#row-"+RowID).attr('data-value') + ')');
        	$("#TargetDescription2").val(RowInfo.TargetDescription);
+        $("#NoOfTargets2").val(RowInfo.NoOfTargets);
+        $("#WeightPercentage2").val(RowInfo.WeightPercentage);
        	$("#S_ROWID2").val(RowInfo.S_ROWID);
        //	$("#ItemType2").trigger("chosen:updated");
         $("#UpdateObjectives").modal("show");
@@ -209,9 +211,8 @@ submitHandler: function(form) {
                    if(result)
                    {
 
-
                       var dialog = bootbox.dialog({
-                       title: "Remove Objective",
+                       title: "Remove Performance Target",
                        centerVertical: true,
                   message: '<p class="text-center mb-0"><i class="fa fa-spin fa-cog bigger-240"></i> <h3>Please wait ...</h3></p>',
                   closeButton: false

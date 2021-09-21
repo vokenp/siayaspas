@@ -1,7 +1,7 @@
  <?php
 $op = filter_input(INPUT_GET, "view");
 //$db->debug=1;
-
+  $UserType = $UserInfo["user_type"];
    $rand = md5(mt_rand());
    $addUrl = "?app=$app&mod=$mod&view=add&ptype=temp&sk=$rand";
    $listUrl = "?app=$app&mod=$mod&view=list&ptype=temp&sk=$rand";
@@ -209,8 +209,15 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 
                        <li data-step="6">
                          <span class="step">6</span>
-                         <span class="title">Section 6</span>
+                         <span class="title">Managerial</span>
                        </li>
+
+                       <li data-step="7">
+                         <span class="step">7</span>
+                         <span class="title">Test Step</span>
+                       </li>
+
+
                      </ul>
                    </div>  <!-- End Steps Section -->
 
@@ -237,6 +244,10 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                       </div> <!-- End Step 5 -->
 
                       <div class="step-pane" data-step="6">
+                       <?php  include("AppSection5b.php");?>
+                      </div> <!-- End Step 6 -->
+
+                      <div class="step-pane" data-step="7">
                         <?php  include("AppSection6.php");?>
                       </div> <!-- End Step 6 -->
 

@@ -17,14 +17,14 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
      });
    S5doValuesum();
 
-		 $("input[type=radio]").click(function() {
+		 $("#frmValueOptions input[type=radio]").click(function() {
       S5doValuesum();
     });
 
 		function S5doValuesum()
 		{
 			var total = 0;
-		 $("input[type=radio]:checked").each(function() {
+		 $("#frmValueOptions input[type=radio]:checked").each(function() {
 			 total += parseFloat($(this).val());
 		 });
 

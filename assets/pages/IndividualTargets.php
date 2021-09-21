@@ -3,10 +3,10 @@
         <div class="widget-header widget-header-flat">
           <h4 class="widget-title smaller">
             <i class="ace-icon fa fa-list smaller-80"></i>
-              Target List
+            Performance Target List
           </h4>
           <div class="widget-toolbar no-border">
-            <a data-toggle='modal' href='#CreateNewObjectives' class='dt-button btn  btn-success btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Create New Objective </a>
+            <a data-toggle='modal' href='#CreateNewObjectives' class='dt-button btn  btn-success btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Create New Target </a>
            </div>
         </div>
       <div class="widget-body">
@@ -14,7 +14,9 @@
             <thead>
                 <tr>
                   <th>#</th>
-                  <th>Objective</th>
+                  <th>Performance Target</th>
+                  <th>AgreedNo of Target</th>
+                  <th>Weight (%)</th>
                   <th>CreatedBy</th>
                   <th>Action</th>
                 </tr>
@@ -41,19 +43,38 @@
    <input type="hidden" name="_token" id="_token2" class="token" >
     <div id="colAlert"></div>
         <input type="hidden" name="ReturnType" id="ReturnType2" value="RstID">
-
+ <div class="row">
     <div class="form-group">
         <label class="col-sm-3 control-label " for="PhoneNo"> Objective</label>
          <div class="col-sm-9">
            <textarea name="TargetDescription" id="TargetDescription" class="form-control" rows="5"></textarea>
         </div>
       </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label class="col-sm-4 control-label " for="NoOfTargets"> Agreed No Targets </label>
+        <div class="col-sm-8">
+          <input type="text" id="NoOfTargets" name="NoOfTargets" placeholder="Enter Number of Targets" class="col-xs-12 col-sm-12 NumberOnly"   required="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label class="col-sm-4 control-label " for="WeightPercentage"> WeightPercentage (%) </label>
+        <div class="col-sm-8">
+          <input type="text" id="WeightPercentage" name="WeightPercentage" placeholder="Enter Weight" class="col-xs-12 col-sm-12 NumberOnly"   required="true" />
+        </div>
+      </div>
+    </div>
 
 
       </div><!-- End ModalBody -->
 <div class="modal-footer">
   <button type="submit" id="btnSaveRecord" name="btnSaveRecord"  class="btn btn-sm btn-success">
-         <i class="ace-icon fa fa-plus icon-on-right bigger-110"></i> Create Objective
+         <i class="ace-icon fa fa-plus icon-on-right bigger-110"></i> Create Target
       </button>
         </div>
       </form>
@@ -77,18 +98,37 @@
     <div id="colAlert"></div>
         <input type="hidden" name="ReturnType" id="ReturnType2" value="RstID">
      <input type="hidden" name="S_ROWID" id="S_ROWID2" >
-
+  <div class="row">
      <div class="form-group">
          <label class="col-sm-3 control-label " for="PhoneNo"> Objective</label>
           <div class="col-sm-9">
             <textarea name="TargetDescription" id="TargetDescription2" class="form-control" rows="5"></textarea>
          </div>
        </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label class="col-sm-4 control-label " for="NoOfTargets"> Agreed No Targets </label>
+        <div class="col-sm-8">
+          <input type="text" id="NoOfTargets2" name="NoOfTargets" placeholder="Enter Number of Targets" class="col-xs-12 col-sm-12 NumberOnly"   required="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label class="col-sm-4 control-label " for="WeightPercentage"> WeightPercentage (%) </label>
+        <div class="col-sm-8">
+          <input type="text" id="WeightPercentage2" name="WeightPercentage" placeholder="Enter Weight" class="col-xs-12 col-sm-12 NumberOnly"   required="true" />
+        </div>
+      </div>
+    </div>
 
       </div><!-- End ModalBody -->
 <div class="modal-footer text-center">
   <button type="submit" id="btnUpdateRecord" name="btnUpdateRecord"  class="btn btn-sm btn-success">
-        Update Objective
+        Update Target
         <i class="ace-icon fa fa-edit icon-on-right bigger-110"></i>
       </button>
         </div>
