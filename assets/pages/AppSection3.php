@@ -12,12 +12,46 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
+		$("#frmValueSection3 .rstAchieved").change(function() {
+			var rsttotal = 0;
+		 $("#frmValueSection3 .rstAchieved").each(function() {
+			 rsttotal += parseFloat($(this).val());
+		 });
+
+		 $("#WeightAchieved").html(rsttotal+' %');
+	 });
+
+		$("#frmValueSection3").validate({
+	debug: false,
+	rules: {
+
+	},
+	messages: {
+
+	},
+	submitHandler: function(form) {
+	// do other stuff for a valid form
+		 $.post('assets/bin/ManageGroups.php', $("#frmValueSection3").serialize(), function(data) {
+			 var frm = "#frmValueSection3";
+       //$(frm)[0].reset();
+      // $(frm).trigger("reset");
+       $(frm).find(":submit").prop('disabled', false);
+       $(frm).find(":submit").html("<i class='fa fa-save'></i> Update Form");
+       $(frm).data('submitted', false);
+			 $("#results3").html(data);
+			 Swal.fire({
+							 type: 'success',
+							 title: 'Update Successful',
+							 showConfirmButton: false,
+							 timer: 1500
+							 });
+   	});
+	}
 	});
-
-
+	});
   </script>
 <div>
-
+   <div id="results3"></div>
   <h3 class="header smaller lighter blue">Section 3 : PERFORMANCE TARGETS</h3>
   <div class="alert alert-info">
 			This Section should be completed by the Appraisee in consultation with the Supervisor
@@ -32,7 +66,7 @@
   		  <form name="frmValueSection3" id="frmValueSection3">
   		  	<?php echo $S_ROWID;?>
   		  	  <div class="widget-toolbox padding-8 clearfix text-right">
-                 	  	<button type="button" name="btnPostValues" id="btnPostValues" value="dh_modules" class="btn btn-sm btn-purple"><i class="fa fa-save"></i> Update Form</button>
+                 	  	<button type="submit" name="btnPostS3Values" id="btnPostS3Values"  class="btn btn-sm btn-purple"><i class="fa fa-save"></i> Update Form</button>
                  </div>
           <div class="widget-main">
             <table id="tableSection3" class="table table-bordered table-striped">
@@ -50,6 +84,8 @@
        <?php
 			    $html = "";
 					$i = 0;
+					$TTWeight = 0;
+					$WeightAchieved = 0;
 			    foreach ($getPerfTargets as $pkey => $pval) {
 						$i += 1;
 						$TTID = $pval["S_ROWID"];
@@ -58,15 +94,23 @@
 						$NoOfTargets = $pval["NoOfTargets"];
 						$SA_ResultsAchieved = $pval["SA_ResultsAchieved"];
 						$SA_Remarks = $pval["SA_Remarks"];
+						$TTWeight += $WeightPercentage;
+						$WeightAchieved += $SA_ResultsAchieved;
 						$html .= "<tr>";
 						$html .= "<td>$i</td>";
 						$html .= "<td>$TargetDescription</td>";
 						$html .= "<td>$NoOfTargets</td>";
 						$html .= "<td>$WeightPercentage</td>";
-						$html .= "<td><input type='text' id='SA_ResultsAchieved-$TTID' name='SA_ResultsAchieved[]' placeholder='Enter Max value $WeightPercentage' class='col-xs-10 col-sm-10' max='$WeightPercentage' value='$SA_ResultsAchieved' required='true'  /></td>";
-						$html .= "<td><input type='text' id='SA_Remarks-$TTID' name='SA_Remarks[]' placeholder='Enter Remarks' class='col-xs-10 col-sm-10'  value='$SA_Remarks'  /></td>";
+						$html .= "<td><input type='text' id='SA_ResultsAchieved-$TTID' name='SA_ResultsAchieved[$TTID]' placeholder='Enter Max value $WeightPercentage' class='col-xs-10 col-sm-10 rstAchieved' max='$WeightPercentage' value='$SA_ResultsAchieved' required='true'  /></td>";
+						$html .= "<td><input type='text' id='SA_Remarks-$TTID' name='SA_Remarks[$TTID]' placeholder='Enter Remarks' class='col-xs-10 col-sm-10'  value='$SA_Remarks'  /></td>";
 						$html .= "</tr>";
 			    }
+					    $html .= "<tr>";
+							$html .= "<td></td>";
+							$html .= "<td colspan='2'>Totals </td>";
+							$html .= "<td style='text-align:center;'><b>$TTWeight %</b></td>";
+							$html .= "<td style='text-align:center;' ><span id='WeightAchieved' style='font-weight:bold;color:red;'>$WeightAchieved %</span></td>";
+					$html .= "</tr>";
 					echo $html;
 			 ?>
 		</tbody>

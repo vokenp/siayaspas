@@ -313,7 +313,21 @@
       $db->AutoExecute($table,$record,$action);
     }
 
+  }
 
+  if (isset($_POST['btnPostS3Values'])) {
+      unset($_POST['S_ROWID']);
+      unset($_POST['btnPostS3Values']);
+       foreach ($_POST['SA_ResultsAchieved'] as $pkey => $pval) {
+
+         $record["SA_ResultsAchieved"] = $_POST['SA_ResultsAchieved'][$pkey];
+         $record["SA_Remarks"] = $_POST['SA_Remarks'][$pkey];
+         $record["ModifiedBy"] = $user;
+         $criteria = "S_ROWID = $pkey";
+         $table  = "tbl_section3";
+         $action = "UPDATE";
+         $db->AutoExecute($table,$record,$action,$criteria);
+       }
   }
 
 ?>
