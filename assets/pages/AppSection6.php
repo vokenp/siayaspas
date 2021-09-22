@@ -39,13 +39,13 @@ event.preventDefault();
        $(frm).find(":submit").prop('disabled', false);
        $(frm).find(":submit").html("<i class='fa fa-save'></i> Update Form");
        $(frm).data('submitted', false);
-       alert(data);
-       // Swal.fire({
-       //         type: 'success',
-       //         title: 'Update Successful',
-       //         showConfirmButton: false,
-       //         timer: 1500
-       //         });
+
+       Swal.fire({
+               type: 'success',
+               title: 'Update Successful',
+               showConfirmButton: false,
+               timer: 1500
+               });
     });
   }
   });
