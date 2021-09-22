@@ -22,9 +22,32 @@
 				 }
 			 rsttotal += parseFloat(rstVal);
 		 });
+     var elmId = $(this).attr("id");
+     var TTNoofTargets = $("#TTNoofTargets").val();
+      var curResult = $(this).val();
 
-		 $("#WeightAchieved").html(rsttotal+' %');
+     var PA_ID = elmId.substring(elmId.lastIndexOf("-") + 1,elmId.length);
+     var PA_val = (parseFloat(curResult) / parseFloat(TTNoofTargets)) * 100 ;
+     var PA_Rate = parseFloat(PA_val.toFixed(2));
+      $("#span-PA_Ratings-"+PA_ID).html(PA_Rate+' %');
+      $("#PA_Ratings-"+PA_ID).val(PA_Rate+' %');
+     doPASum();
+		 $("#TargetAchieved").html(rsttotal);
 	 });
+
+   function doPASum()
+   {
+     var  PAtotal = 0;
+     $("#frmValueSection3 .PAAchieved").each(function() {
+			 var rstVal = $(this).val();
+			   if(rstVal == null)
+				 {
+					 rstVal = 0;
+				 }
+			 PAtotal += parseFloat(rstVal);
+		 });
+    $("#TTPA_Ratings").html(PAtotal.toFixed()+' %');
+   }
 
 		$("#frmValueSection3").validate({
 	debug: false,
@@ -43,7 +66,7 @@
        $(frm).find(":submit").prop('disabled', false);
        $(frm).find(":submit").html("<i class='fa fa-save'></i> Update Form");
        $(frm).data('submitted', false);
-			 
+
 			 Swal.fire({
 							 type: 'success',
 							 title: 'Update Successful',
@@ -81,7 +104,8 @@
       	<th><b>Performance Targets/Activities</b></th>
     		<th><b>AgreedNo of Targets</b></th>
 	  		<th><b>Set Weight(%)</b></th>
-				<th><b>Results Achieved(%)</b></th>
+				<th><b>Results Achieved</b></th>
+        <th><b>PA Ratings</b></th>
    			<th><b>Remarks</b></th>
  </tr>
 	</thead>
@@ -90,37 +114,48 @@
 			    $html = "";
 					$i = 0;
 					$TTWeight = 0;
-					$WeightAchieved = 0;
+					$TargetAchieved = 0;
+          $TTNoofTargets = 0;
+          $TTPA_Ratings = 0;
 			    foreach ($getPerfTargets as $pkey => $pval) {
 						$i += 1;
 						$TTID = $pval["S_ROWID"];
-						$TargetDescription = $pval["TargetDescription"];
-						$WeightPercentage = $pval["WeightPercentage"];
-						$NoOfTargets = $pval["NoOfTargets"];
+						$TargetDescription  = $pval["TargetDescription"];
+						$WeightPercentage   = $pval["WeightPercentage"];
+						$NoOfTargets        = $pval["NoOfTargets"];
+            $PA_Ratings         = $pval["PA_Ratings"];
 						$SA_ResultsAchieved = $pval["SA_ResultsAchieved"];
-						$SA_Remarks = $pval["SA_Remarks"];
-						$TTWeight += $WeightPercentage;
-						$WeightAchieved += $SA_ResultsAchieved;
+						$SA_Remarks         = $pval["SA_Remarks"];
+						$TTWeight           += $WeightPercentage;
+						$TargetAchieved     += $SA_ResultsAchieved;
+            $TTNoofTargets      += $NoOfTargets;
+            $TTPA_Ratings      += $PA_Ratings;
 						$html .= "<tr>";
 						$html .= "<td>$i</td>";
 						$html .= "<td>$TargetDescription</td>";
 						$html .= "<td>$NoOfTargets</td>";
-						$html .= "<td>$WeightPercentage</td>";
-						$html .= "<td><input type='text' id='SA_ResultsAchieved-$TTID' name='SA_ResultsAchieved[$TTID]' placeholder='Enter Max value $WeightPercentage' class='col-xs-10 col-sm-10 rstAchieved' max='$WeightPercentage' value='$SA_ResultsAchieved' required='true'  /></td>";
+						$html .= "<td style='text-align:center;font-weight:bold;'>$WeightPercentage %</td>";
+						$html .= "<td><input type='text' id='SA_ResultsAchieved-$TTID' name='SA_ResultsAchieved[$TTID]' placeholder='Enter Max value $WeightPercentage' class='col-xs-10 col-sm-10 rstAchieved' max='$NoOfTargets' value='$SA_ResultsAchieved' required='true'  /></td>";
+            $html .= "<td style='text-align:center;font-weight:bold;'><span id='span-PA_Ratings-$TTID'>$PA_Ratings %</span></td>";
+            $html .= "<input type='hidden' name='PA_Ratings[$TTID]' id='PA_Ratings-$TTID' value='$PA_Ratings' class='PAAchieved'>";
 						$html .= "<td><input type='text' id='SA_Remarks-$TTID' name='SA_Remarks[$TTID]' placeholder='Enter Remarks' class='col-xs-10 col-sm-10'  value='$SA_Remarks'  /></td>";
 						$html .= "</tr>";
 			    }
+            $TTPA_Ratings = round($TTPA_Ratings);
 					    $html .= "<tr>";
 							$html .= "<td></td>";
-							$html .= "<td colspan='2'>Totals </td>";
+							$html .= "<td>Totals </td>";
+              $html .= "<td style='text-align:center;'><b>$TTNoofTargets</b></td>";
 							$html .= "<td style='text-align:center;'><b>$TTWeight %</b></td>";
-							$html .= "<td style='text-align:center;' ><span id='WeightAchieved' style='font-weight:bold;color:red;'>$WeightAchieved %</span></td>";
+
+							$html .= "<td style='text-align:center;' ><span id='TargetAchieved' style='font-weight:bold;color:red;'>$TargetAchieved</span></td>";
+              $html .= "<td style='text-align:center;' ><span id='TTPA_Ratings' style='font-weight:bold;color:red;'>$TTPA_Ratings %</span></td>";
 					$html .= "</tr>";
 					echo $html;
 			 ?>
+       <input type="hidden" name="TTNoofTargets" id="TTNoofTargets" value="<?php echo $TTNoofTargets;?>">
 		</tbody>
   </table>
-
 				</div> <!--  End Widget-Main-->
 			</form>
 		</div> <!--  End Widget-Body-->

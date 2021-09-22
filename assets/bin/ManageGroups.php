@@ -322,6 +322,7 @@
 
          $record["SA_ResultsAchieved"] = $_POST['SA_ResultsAchieved'][$pkey];
          $record["SA_Remarks"] = $_POST['SA_Remarks'][$pkey];
+         $record["PA_Ratings"] = $_POST['PA_Ratings'][$pkey];
          $record["ModifiedBy"] = $user;
          $criteria = "S_ROWID = $pkey";
          $table  = "tbl_section3";
