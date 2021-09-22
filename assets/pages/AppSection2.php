@@ -23,9 +23,7 @@ $UDeptID = $rst["Department"] ;
 ?>
 <div>
   <h3 class="header smaller lighter blue">Section 2 : DEPARTMENTAL OBJECTIVES</h3>
-  <div class="alert alert-info">
-			This Section should be completed by the Appraisee in consultation with the Supervisor
-	</div>
+
 
   <div class="row">
     <div class="col-xs-12 col-sm-6">
@@ -94,27 +92,27 @@ $UDeptID = $rst["Department"] ;
           <tr>
             <th>#</th>
             <th>Objective</th>
-            <th>Assigned To</th>
+            <th>CreatedBy</th>
           </tr>
         </thead>
         <tbody>
           <?php
             $html .="";
 
-            $getdeptObjs = $db->GetArray("select *from vw_depttargetlists where DeptID='$UDeptID'");
+            $getdeptObjs = $db->GetArray("select *,getuinfo(CreatedBy) as CreatedName from vw_depttargetlists where DeptID='$UDeptID'");
             $i = 0;
             $html  ="";
             foreach ($getdeptObjs as $okey => $oval) {
               $i += 1;
               $TargetDescription = $oval["TargetDescription"];
-              $AssignedName = $oval["AssignedName"];
+              $CreatedBy = $oval["TargetDescription"]." on ".date('D jS M Y g:i A',strtotime($oval["DateCreated"]));
               $html .="<tr>";
                 $html .="<td>$i</td>";
                 $html .="<td>$TargetDescription</td>";
-                $html .="<td>$AssignedName</td>";
+                $html .="<td>$CreatedBy</td>";
               $html .="</tr>";
             }
-            
+
           echo $html;
           ?>
         </tbody>
