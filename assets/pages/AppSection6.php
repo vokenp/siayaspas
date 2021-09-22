@@ -76,7 +76,7 @@ event.preventDefault();
       <td>8A</td>
       <td><p style="font-weight:bold;">DID PERFORMANCE-RELATED DISCUSSIONS TAKE PLACE DURING THE REPORTING PERIOD WITH YOUR SUPERVISOR?</p></td>
       <td><input type='checkbox' id='IsPerformanceDiscussionChk' class='ace ace-switch ace-switch-5 input-lg' $checkedView> <span class='lbl bigger-120'></span>
-        <input type='text' name='IsPerformanceDiscussion' id='IsPerformanceDiscussion' value='<?php echo $IsPerformanceDiscussion;?>'>
+        <input type='hidden' name='IsPerformanceDiscussion' id='IsPerformanceDiscussion' value='<?php echo $IsPerformanceDiscussion;?>'>
       </td>
    </tr>
    <tr>
