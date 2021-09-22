@@ -15,7 +15,12 @@
 		$("#frmValueSection3 .rstAchieved").change(function() {
 			var rsttotal = 0;
 		 $("#frmValueSection3 .rstAchieved").each(function() {
-			 rsttotal += parseFloat($(this).val());
+			 var rstVal = $(this).val();
+			   if(rstVal == null)
+				 {
+					 rstVal = 0;
+				 }
+			 rsttotal += parseFloat(rstVal);
 		 });
 
 		 $("#WeightAchieved").html(rsttotal+' %');
