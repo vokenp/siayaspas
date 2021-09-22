@@ -330,4 +330,16 @@
        }
   }
 
+  if(isset($_POST['btnPostSAComments']))
+  {
+    $pkey = $_POST['S_ROWID'];
+    $record["IsPerformanceDiscussion"] = $_POST['IsPerformanceDiscussion'];
+    $record["SA_FinalComments"] = $_POST['SA_FinalComments'];
+    $record["ModifiedBy"] = $user;
+    $criteria = "S_ROWID = $pkey";
+    $table  = "tbl_appraisals";
+    $action = "UPDATE";
+    $db->AutoExecute($table,$record,$action,$criteria);
+  }
+
 ?>

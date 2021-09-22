@@ -247,3 +247,5 @@ $getS5Vals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_s
   		</div>
   	</div>
 </div>
+
+</div>  <!-- End Row -->

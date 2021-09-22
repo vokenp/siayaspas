@@ -43,7 +43,7 @@
        $(frm).find(":submit").prop('disabled', false);
        $(frm).find(":submit").html("<i class='fa fa-save'></i> Update Form");
        $(frm).data('submitted', false);
-			 $("#results3").html(data);
+			 
 			 Swal.fire({
 							 type: 'success',
 							 title: 'Update Successful',
@@ -56,7 +56,7 @@
 	});
   </script>
 <div>
-   <div id="results3"></div>
+
   <h3 class="header smaller lighter blue">Section 3 : PERFORMANCE TARGETS</h3>
   <div class="alert alert-info">
 			This Section should be completed by the Appraisee in consultation with the Supervisor
@@ -130,3 +130,4 @@
 </div> <!--  End row -->
 
 </div> <!--  End colx-cs-12 -->
+</div> <!--  Row -->

@@ -203,18 +203,18 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                        </li>
 
                        <li data-step="5">
-                         <span class="step">5</span>
+                         <span class="step">5A</span>
                          <span class="title">Staff Values</span>
                        </li>
 
                        <li data-step="6">
-                         <span class="step">6</span>
-                         <span class="title">Managerial</span>
+                         <span class="step">5B</span>
+                         <span class="title">Managerial and Supervisory Competencies</span>
                        </li>
 
                        <li data-step="7">
                          <span class="step">7</span>
-                         <span class="title">Test Step</span>
+                         <span class="title">Appraisee Comments</span>
                        </li>
 
 

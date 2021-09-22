@@ -4,11 +4,11 @@ $op = filter_input(INPUT_GET, "view");
   if ($op == "add") {
     $S_ROWID = "";
     $cid = "";
-   
+
     $btn = "<button type='submit' name='btnSaveRecord' id='btnSaveRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Save Record</button>";
     $getColumns = $db->metaColumnNames($TableName);
     foreach ($getColumns as $key => $value) {
-       $rst[$value] = "";  
+       $rst[$value] = "";
     }
   }
   else
@@ -30,17 +30,17 @@ $rst = $rs->row($TableName,"S_ROWID='$cid'");
      }
 $S_ROWID = "<input type='hidden' name='S_ROWID' id='S_ROWID' value='$cid'>";
 $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class='btn btn-sm btn-success' value='$TableName'><i class='fa fa-edit'></i> Update Record</button>";
-   
+
   }
-  
+
   ?>
 <script type="text/javascript">
-   
+
      $(function(){
     $(".ace-switch").change(function(event){
      event.preventDefault();
       var curta = $(this).attr('id');
-       if ($("."+curta).prop("checked")) 
+       if ($("."+curta).prop("checked"))
        {
         $("#txt"+curta).val("1");
        }
@@ -48,22 +48,22 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
        {
         $("#txt"+curta).val("0");
        }
-       
+
        });
     //
 
-    
+
     });
 
 	$(document).ready(function(){
 		 var op = $("#op").val();
 
-		  if (op == "add") 
+		  if (op == "add")
     	 {
     	 	$("#ProfileOptions").hide();
                $("#widget-toolbox").show();
     	}
-    	 
+
     	else
     	{
           $("#ProfileName").attr("readonly",true);
@@ -74,19 +74,19 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 		$("#frmPageTemp").validate({
 				debug: false,
 				rules: {
-				
+
 				},
 				messages: {
-				  
+
 				},
 				submitHandler: function(form) {
 				// do other stuff for a valid form
-				
-				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(), 
+
+				$.post('assets/bin/ManageRecords.php', $("#frmPageTemp").serialize(),
 				function(data) {
 					if (data.length < 30)
 					{
-				
+
 					 if(op == "add")
 					 {
 					 var urlstr = $("#url").val();
@@ -102,25 +102,25 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 					else
 					{
 					alert(data);
-				   
+
 					}
 				});
 				}
 				});
 
-       
+
        $("#frmProfilePerms").validate({
 debug: false,
 rules: {
 
 },
 messages: {
-  
+
 },
 submitHandler: function(form) {
 // do other stuff for a valid form
    $.post('assets/bin/MngProfilePermissions.php', $("#frmProfilePerms").serialize(), function(data) {
-    
+
 
     if (data.length < 30)
     {
@@ -133,7 +133,7 @@ submitHandler: function(form) {
     $('.success_box').fadeOut(200);
     $('.error_box').fadeIn(200);
     $('.error_box').html(data);
-   
+
     }
 });
 }
@@ -150,7 +150,7 @@ submitHandler: function(form) {
                 <?php echo $ModuleName?>
             </h4>
             <div id="pageToolBar" class="widget-toolbar no-border">
-              
+
              </div>
           </div>
           <form name="frmPageTemp" id="frmPageTemp" class="form-horizontal" role="form">
@@ -168,7 +168,7 @@ submitHandler: function(form) {
 							<input type="text" id="ProfileName" name="ProfileName" placeholder="Enter Profile Name" class="col-xs-11 col-sm-11" value="<?php echo $rst['ProfileName'];?>"  required="true" />
 						</div>
 					</div>
-					
+
 			   </div>
 			  <div class="row">
 			  	<div class="form-group col-sm-5">
@@ -185,7 +185,7 @@ submitHandler: function(form) {
                <?php echo $btn; ?>
           </div>
         </div><!-- End Widget-body -->
-         
+
     </form>
 </div><!-- End WidgetBox -->
 </div>
@@ -206,11 +206,11 @@ submitHandler: function(form) {
         <th>Module Name</th>
         <th>Application Name</th>
         <th>CanView</th>
-       
+
     </tr>
 </thead>
 <tbody>
-    <?php 
+    <?php
        $getModules = $db->Execute("select m.S_ROWID,m.ModuleCode,m.ModuleName,a.ApplicationName,m.IconRef  from dh_modules m inner join dh_applications a on m.AppName=a.AppCode where m.ExcludePermsList='N' order by ApplicationName");
        $html = "";
        while (!$getModules->EOF) {
@@ -233,7 +233,7 @@ submitHandler: function(form) {
          $html .= "<input type='hidden' name='ModOperation[$ModID][$ActionView]' id='txtModOperation-$ModID-$ActionView' value='$IsAllowedView'>";
            $html .= "</td></div>";
            $html .="</tr>";
-          
+
          $getModules->MoveNext();
        }
        echo $html;
