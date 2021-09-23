@@ -48,16 +48,20 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
       }).on('actionclicked.fu.wizard' , function(e, info){
 
          var index = info.step;
-          if(info.direction === 'next')
-          {
-             index += 1;
-           }
-           else {
-               index -= 1;
-           }
+        if(info.direction == "next")
+        {
+          index += 1;
+        }
+        else {
+          index -= 1;
+        }
 
+           var label = $('li[data-step="'+index+'"]').data('name');
+
+          //  alert(label);
            var postdata = $("#myForm").serializeArray();
-            postdata.push({name: 'AppStage', value: "Section"+index});
+            postdata.push({name: 'AppStage', value: label});
+            postdata.push({name: 'DataStep', value: index});
             postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
             $.post("assets/bin/ManageGroups.php", postdata, function(data){});
 
@@ -160,7 +164,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 </script>
 <input type="hidden" name="op" id="op" value="<?php echo $op;?>">
 <input type="hidden" name="url" id="url" value="<?php echo full_path();?>">
-<input type="hidden" name="currentStep" id="currentStep" value="<?php echo str_replace('Section','',$rst["AppStage"]);?>">
+<input type="hidden" name="currentStep" id="currentStep" value="<?php echo $rst["DataStep"];?>">
 
 <div class="widget-box">
           <div class="widget-header widget-header-flat">
@@ -183,38 +187,43 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
            <div class="widget-main">
                    <div>
                      <ul class="steps">
-                       <li data-step="1" class="active">
+                       <li data-step="1" class="active" data-name="Section1">
                          <span class="step">1</span>
                          <span class="title">Personal Particulars</span>
                        </li>
-                       <li data-step="2">
+                       <li data-step="2" data-name="Section2">
                          <span class="step">2</span>
                          <span class="title">Departmental Objectives</span>
                        </li>
 
-                       <li data-step="3">
+                       <li data-step="3" data-name="Section3">
                          <span class="step">3</span>
                          <span class="title">Performance Targets</span>
                        </li>
 
-                       <li data-step="4">
+                       <li data-step="4" data-name="Section4">
                          <span class="step">4</span>
                          <span class="title">Staff Training</span>
                        </li>
 
-                       <li data-step="5">
+                       <li data-step="5" data-name="Section5A">
                          <span class="step">5A</span>
                          <span class="title">Staff Values</span>
                        </li>
 
-                       <li data-step="6">
+                       <li data-step="6" data-name="Section5B">
                          <span class="step">5B</span>
                          <span class="title">Managerial and Supervisory Competencies</span>
                        </li>
 
-                       <li data-step="7">
+                       <li data-step="7" data-name="Section7">
                          <span class="step">7</span>
                          <span class="title">Appraisee Comments</span>
+                       </li>
+
+                       <li data-step="8" data-name="FinalStage">
+                         <span class="step">End</span>
+                         <span class="title">Confirmation Stage</span>
                        </li>
 
 
@@ -223,7 +232,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 
                    <div class="step-content pos-rel">
 
-                      <div class="step-pane active" data-step="1">
+                      <div class="step-pane active" data-step="1" >
                          <?php  include("AppSection1.php");?>
                       </div> <!-- End Step 1 -->
 
@@ -243,12 +252,25 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                         <?php  include("AppSection5a.php");?>
                       </div> <!-- End Step 5 -->
 
-                      <div class="step-pane" data-step="6">
-                       <?php  include("AppSection5b.php");?>
+                      <div class="step-pane" data-step="6" >
+                       <?php
+                          $userType = $UserInfo["user_type"];
+                          if($userType == "HeadofDepartments")
+                          {
+                            include("AppSection5b.php");
+                          }else {
+                            include("AppSectionHOD.php");
+                          }
+
+                       ?>
                       </div> <!-- End Step 6 -->
 
-                      <div class="step-pane" data-step="7">
+                      <div class="step-pane" data-step="7" >
                         <?php  include("AppSection6.php");?>
+                      </div> <!-- End Step 6 -->
+
+                      <div class="step-pane" data-step="8" >
+                        <?php  include("AppSectionFinal.php");?>
                       </div> <!-- End Step 6 -->
 
                    </div> <!-- End Steps Content -->

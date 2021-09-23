@@ -1,6 +1,6 @@
 <?php
-$IsPerformanceDiscussion =isset($rst["IsPerformanceDiscussion"]) ? $rst["IsPerformanceDiscussion"] : "No";
-$checkedView = $IsPerformanceDiscussion == "Yes" ? "checked='true'" : "";
+
+$checkedView = $rst["IsPerformanceDiscussion"] == "Yes" ? "checked='true'" : "";
 
 ?>
 <script type="text/javascript">
@@ -75,14 +75,14 @@ event.preventDefault();
     <tr>
       <td>8A</td>
       <td><p style="font-weight:bold;">DID PERFORMANCE-RELATED DISCUSSIONS TAKE PLACE DURING THE REPORTING PERIOD WITH YOUR SUPERVISOR?</p></td>
-      <td><input type='checkbox' id='IsPerformanceDiscussionChk' class='ace ace-switch ace-switch-5 input-lg' $checkedView> <span class='lbl bigger-120'></span>
-        <input type='hidden' name='IsPerformanceDiscussion' id='IsPerformanceDiscussion' value='<?php echo $IsPerformanceDiscussion;?>'>
+      <td><input type='checkbox' id='IsPerformanceDiscussionChk' class='ace ace-switch ace-switch-5 input-lg' <?php echo $checkedView;?>> <span class='lbl bigger-120'></span>
+        <input type='hidden' name='IsPerformanceDiscussion' id='IsPerformanceDiscussion' value='<?php echo $rst["IsPerformanceDiscussion"];?>'>
       </td>
    </tr>
    <tr>
      <td>8B</td>
      <td><p style="font-weight:bold;">General Comments (if any) on your overall performance</p></td>
-     <td><textarea name="SA_FinalComments" id="SA_FinalComments" class="form-control col-xs-10 col-sm-10" cols="40" rows="4" required="true"><?php $rst["SA_FinalComments"];?></textarea></td>
+     <td><textarea name="SA_FinalComments" id="SA_FinalComments" class="form-control col-xs-10 col-sm-10" cols="40" rows="4" required="true"><?php echo $rst["SA_FinalComments"];?></textarea></td>
   </tr>
 
 

@@ -228,7 +228,8 @@
     {
       $RowID = $_POST['btnUpdateStep'];
       $AppStage = $_POST['AppStage'];
-      $exec = $db->Execute("update tbl_appraisals set AppStage='$AppStage',StageDate=current_timestamp where S_ROWID='$RowID'");
+      $DataStep = $_POST['DataStep'];
+      $exec = $db->Execute("update tbl_appraisals set AppStage='$AppStage',DataStep=$DataStep,StageDate=current_timestamp where S_ROWID='$RowID'");
     }
 
 
