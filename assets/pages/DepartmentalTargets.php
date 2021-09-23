@@ -3,7 +3,7 @@
         <div class="widget-header widget-header-flat">
           <h4 class="widget-title smaller">
             <i class="ace-icon fa fa-list smaller-80"></i>
-              Target List
+            Departmental Objectives List
           </h4>
           <div class="widget-toolbar no-border">
             <a data-toggle='modal' href='#CreateNewObjectives' class='dt-button btn  btn-success btn-bold' title='Add New'><i class='fa fa-plus  fa-lg'></i> Create New Objective </a>
@@ -15,7 +15,7 @@
                 <tr>
                   <th>#</th>
                   <th>Objective</th>
-                  <th>AssignedTo </th>
+
                   <th>CreatedBy</th>
                   <th>Action</th>
                 </tr>
@@ -50,22 +50,6 @@
         </div>
       </div>
 
-      <div class="form-group col-sm-10">
-       <label class="col-sm-4 control-label " for="UserID" >Target AssignedTo</label>
-       <div class="col-sm-8">
-         <select id="AssignedTo" name="AssignedTo"    class="col-xs-12 col-sm-12 chosen-select">
-           <?php
-               $getUsers = $db->GetArray("select *from vw_userslist where loginid<>'$user'  order by S_ROWID desc");
-                echo "<option value=''></option>";
-               foreach ($getUsers as $ukey => $uval) {
-                 $UserID = $uval["loginid"];
-                 $FullName = $uval["Fullname"];
-                 echo "<option value='$UserID'>$FullName</option>";
-               }
-           ?>
-         </select>
-       </div>
-     </div>
    </div>
 
       </div><!-- End ModalBody -->
@@ -103,22 +87,6 @@
          </div>
        </div>
 
-       <div class="form-group col-sm-10">
-        <label class="col-sm-4 control-label " for="UserID" >Target AssignedTo</label>
-        <div class="col-sm-8">
-          <select id="AssignedTo2" name="AssignedTo"    class="col-xs-12 col-sm-12 chosen-select">
-            <?php
-                $getUsers = $db->GetArray("select *from vw_userslist order by S_ROWID desc");
-                 echo "<option value=''></option>";
-                foreach ($getUsers as $ukey => $uval) {
-                  $UserID = $uval["loginid"];
-                  $FullName = $uval["Fullname"];
-                  echo "<option value='$UserID'>$FullName</option>";
-                }
-            ?>
-          </select>
-        </div>
-      </div>
    </div>
       </div><!-- End ModalBody -->
 <div class="modal-footer text-center">

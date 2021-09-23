@@ -65,7 +65,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
      $(frm)[0].reset();
      $(frm).trigger("reset");
      $(frm).find(":submit").prop('disabled', false);
-     $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create User");
+     $(frm).find(":submit").html("<i class='fa fa-plus'></i> Create New Object");
      $(frm).data('submitted', false);
      $(frm).modal("hide");
       dotoken();

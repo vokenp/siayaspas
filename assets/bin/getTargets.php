@@ -40,7 +40,7 @@ global $db;
       $record = array();
       $record[] = $k;
       $record[] = $rst["TargetDescription"];
-      $record[] = $rst["AssignedUser"];
+      
       $record[] = $rst["CreatedBy"]."<br/> on ".date('D jS M Y g:i a',strtotime($rst["DateCreated"]));
       $record[] = $ActionList;
       $recdata[] = $record;
