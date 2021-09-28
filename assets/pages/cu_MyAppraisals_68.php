@@ -33,8 +33,14 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 
   ?>
 <script type="text/javascript">
+jQuery.validator.setDefaults({
+debug: true,
+success: "valid"
+});
 
 	$(document).ready(function(){
+
+
 		var op = $("#op").val();
     dotoken();
      $('.chosen-container').css({ 'width':'100%' });
@@ -56,28 +62,65 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
           index -= 1;
         }
 
-           var label = $('li[data-step="'+index+'"]').data('name');
+        var label = $('li[data-step="'+index+'"]').data('name');
+
+        if(label == "FinalStage")
+        {
+          var formS3 = $("#frmValueSection3");
+           formS3.validate();
+           
+          if (formS3.valid()) {
+               $.post("assets/bin/ManageGroups.php", $("#frmValueSection3").serialize(), function(data) {
+                  //alert(data);
+                   //$('#fuelux-wizard-container').wizard('selectedItem', { step: 3});
+               });
+            }
+            else{
+
+              Swal.fire(
+                 'Form not Valid',
+                 "Please check on Section 3, Some Data Not Valid",
+                 'error'
+               );
+               $('#fuelux-wizard-container').wizard('selectedItem', { step: 3});
+               updateStep("Section3",3);
+               return false;
+            }
+        }
 
           //  alert(label);
-           var postdata = $("#myForm").serializeArray();
-            postdata.push({name: 'AppStage', value: label});
-            postdata.push({name: 'DataStep', value: index});
-            postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
-            $.post("assets/bin/ManageGroups.php", postdata, function(data){});
+          updateStep(label,index);
 
       }).on('changed.fu.wizard', function(e, info) {
         //  $("#test").html(info.step);
       })
       .on('finished.fu.wizard', function(e) {
-        bootbox.dialog({
-          message: "Thank you! Your information was successfully saved!",
-          buttons: {
-            "success" : {
-              "label" : "OK",
-              "className" : "btn-sm btn-primary"
-            }
-          }
-        });
+        bootbox.confirm({
+          centerVertical: true,
+      message: "Are you sure you want to Submit Your Appraisal?",
+      buttons: {
+        confirm: {
+         label: "Submit Appraisal",
+         className: "btn-danger btn-sm",
+        },
+        cancel: {
+         label: "Cancel",
+         className: "btn-sm",
+        }
+      },
+      callback: function(result) {
+        if(result)
+        {
+          var postdata = $("#myForm").serializeArray();
+           postdata.push({name: 'AppStage', value: "Submitted"});
+           postdata.push({name: 'DataStep', value: 7});
+           postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
+           $.post("assets/bin/ManageGroups.php", postdata, function(data){
+             $(window.location).attr('href', $("#listurl").val());
+           });
+        }
+      }
+      });
       }).on('stepclick.fu.wizard', function(e){
         //e.preventDefault();//this will prevent clicking and selecting steps
       });
@@ -109,6 +152,15 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
         }
       }) */
     //End Wizard
+
+    function updateStep(label,index)
+    {
+      var postdata = $("#myForm").serializeArray();
+       postdata.push({name: 'AppStage', value: label});
+       postdata.push({name: 'DataStep', value: index});
+       postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
+       $.post("assets/bin/ManageGroups.php", postdata, function(data){});
+    }
 
 		$("#frmPageTemp").validate({
 				debug: false,
@@ -165,6 +217,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
 <input type="hidden" name="op" id="op" value="<?php echo $op;?>">
 <input type="hidden" name="url" id="url" value="<?php echo full_path();?>">
 <input type="hidden" name="currentStep" id="currentStep" value="<?php echo $rst["DataStep"];?>">
+<input type="hidden" name="listurl" id="listurl" value="<?php echo $listUrl;?>">
 
 <div class="widget-box">
           <div class="widget-header widget-header-flat">

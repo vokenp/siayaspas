@@ -51,6 +51,7 @@
 
 		$("#frmValueSection3").validate({
 	debug: false,
+  success: "valid",
 	rules: {
 
 	},
@@ -81,7 +82,7 @@
 <div>
 
   <h3 class="header smaller lighter blue">Section 3 : PERFORMANCE TARGETS</h3>
-  
+
 </div>
 <div class="row">
   <div id="ValueOptions" class="col-xs-12">

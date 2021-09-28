@@ -226,10 +226,20 @@
 
     if(isset($_POST['btnUpdateStep']))
     {
+      $curDate = $db->GetOne("select current_timestamp");
       $RowID = $_POST['btnUpdateStep'];
-      $AppStage = $_POST['AppStage'];
-      $DataStep = $_POST['DataStep'];
-      $exec = $db->Execute("update tbl_appraisals set AppStage='$AppStage',DataStep=$DataStep,StageDate=current_timestamp where S_ROWID='$RowID'");
+      $rec["AppStage"] = $_POST['AppStage'];
+      $rec["DataStep"] = $_POST['DataStep'];
+      $rec["StageDate"] = $curDate;
+      if($rec["AppStage"] == "Submitted")
+      {
+        $rec["SA_DateSubmitted"] = $curDate;
+      }
+      $table  = "tbl_appraisals";
+      $Criteria = "S_ROWID = $RowID";
+      $action = "UPDATE";
+      $db->AutoExecute($table,$rec,$action,$Criteria);
+
     }
 
 
@@ -317,6 +327,10 @@
   }
 
   if (isset($_POST['btnPostS3Values'])) {
+         echo "<pre>";
+         print_r($_POST);
+         echo "hakuna Hapa";
+         exit();
       unset($_POST['S_ROWID']);
       unset($_POST['btnPostS3Values']);
        foreach ($_POST['SA_ResultsAchieved'] as $pkey => $pval) {
