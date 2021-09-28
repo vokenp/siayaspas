@@ -1,7 +1,10 @@
 <?php
 $getS5Vals = $db->GetArray("SELECT * FROM tbl_section5a where AppraisalID='$cid'");
 
-
+$SATotalScore = 0;
+ foreach ($getS5Vals as $bkey5 => $bval5) {
+		$SATotalScore += $bval5["SA_ScoreValue"];
+ }
 ?>
 <script type="text/javascript">
 
@@ -246,6 +249,7 @@ $getS5Vals = $db->GetArray("SELECT * FROM tbl_section5a where AppraisalID='$cid'
 </tr>
 <tr>
      <td ><b>Total Score</b></td>
+		 <td><span  style="color:orange;font-size:22px;font-weight:bold;"><?php echo $SATotalScore;?></span></td>
      <td></td>
      <td></td>
      <td></td>

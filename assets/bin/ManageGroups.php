@@ -326,18 +326,19 @@
   if(isset($_POST['btnPostValuesSRRates']))
   {
     $AppraisalID = $_POST["S_ROWID"];
-    $exec = $db->Execute("delete from tbl_section5a where AppraisalID='$AppraisalID'");
+  //  $exec = $db->Execute("delete from tbl_section5a where AppraisalID='$AppraisalID'");
     for ($i=1; $i <= 12; $i++) {
       $record = array();
-      $record["ValueType"] = "V".$i;
-      $record["SA_ScoreValue"] = isset($_POST["SA_V".$i]) ? $_POST["SA_V".$i] : 1;
-      $record["SA_Remarks"] = $_POST["SA_Remarks-V".$i];
-      $record["AppraisalID"] = $AppraisalID;
-      $record["CreatedBy"] = $user;
+      $ValueType = "V".$i;
+      $record["SR_ScoreValue"] = isset($_POST["SR_V".$i]) ? $_POST["SR_V".$i] : 1;
+      $record["SR_Remarks"] = $_POST["SR_Remarks-V".$i];
 
+      $record["ModifiedBy"] = $user;
+
+      $criteria = "AppraisalID = '$AppraisalID' and ValueType='$ValueType'";
       $table  = "tbl_section5a";
-      $action = "INSERT";
-      $db->AutoExecute($table,$record,$action);
+      $action = "UPDATE";
+      $db->AutoExecute($table,$record,$action,$criteria);
     }
   }
 
@@ -345,7 +346,7 @@
   {
     $AppraisalID = $_POST["S_ROWID"];
     $exec = $db->Execute("delete from tbl_section5b where AppraisalID='$AppraisalID'");
-    for ($i=1; $i <= 7; $i++) {
+    for ($i=1; $i <= 8; $i++) {
       $record = array();
       $record["ValueType"] = "5B_V".$i;
       $record["SA_ScoreValue"] = isset($_POST["SA_5B_V".$i]) ? $_POST["SA_5B_V".$i] : 1;
@@ -356,6 +357,27 @@
       $table  = "tbl_section5b";
       $action = "INSERT";
       $db->AutoExecute($table,$record,$action);
+    }
+
+  }
+
+  // SR 5B
+  if(isset($_POST['btnPostValuesSR5BRates']))
+  {
+    $AppraisalID = $_POST["S_ROWID"];
+
+    for ($i=1; $i <= 8; $i++) {
+      $record = array();
+      $ValueType = "5B_V".$i;
+      $record["SR_ScoreValue"] = isset($_POST["SR_5B_V".$i]) ? $_POST["SR_5B_V".$i] : 1;
+      $record["SR_Remarks"] = $_POST["SR_Remarks-5B_V".$i];
+
+      $record["ModifiedBy"] = $user;
+
+      $criteria = "AppraisalID = '$AppraisalID' and ValueType='$ValueType'";
+      $table  = "tbl_section5b";
+      $action = "UPDATE";
+      $db->AutoExecute($table,$record,$action,$criteria);
     }
 
   }

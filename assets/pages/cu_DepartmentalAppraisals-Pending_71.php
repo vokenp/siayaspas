@@ -269,12 +269,9 @@ success: "valid"
                         <span class="title">Managerial and Supervisory Competencies</span>
                       </li>
 
-                      <li data-step="7" data-name="Section7">
-                        <span class="step">7</span>
-                        <span class="title">Appraisee Comments</span>
-                      </li>
 
-                      <li data-step="8" data-name="FinalStage">
+
+                      <li data-step="7" data-name="FinalStage" id="FinalStage">
                         <span class="step">End</span>
                         <span class="title">Confirmation Stage</span>
                       </li>
@@ -310,7 +307,7 @@ success: "valid"
                          $userType = $UserInfo["user_type"];
                          if($userType == "HeadofDepartments")
                          {
-                           include("AppSection5b.php");
+                           include("SRAppSection5b.php");
                          }else {
                            include("AppSectionHOD.php");
                          }
@@ -318,13 +315,11 @@ success: "valid"
                       ?>
                      </div> <!-- End Step 6 -->
 
-                     <div class="step-pane" data-step="7" >
-                       <?php  include("AppSection6.php");?>
+                     <div class="step-pane" data-step="7" id="FinalStage">
+                       <?php  include("AppSection10.php");?>
                      </div> <!-- End Step 6 -->
 
-                     <div class="step-pane" data-step="8" >
-                       <?php  include("AppSectionFinal.php");?>
-                     </div> <!-- End Step 6 -->
+
 
                   </div> <!-- End Steps Content -->
 

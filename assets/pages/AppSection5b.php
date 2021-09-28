@@ -108,70 +108,79 @@ $getS5BVals = $db->GetArray("SELECT ValueType,SA_ScoreValue,SA_Remarks FROM tbl_
   </thead>
 
   <tbody>
+		<tr>
+				 <td><b>Leadership/Management Accountability Framework</b></td>
+				 <td><input name="SA_5B_V1" id="5B_V1-5" value="5" type="radio" class="form-control input-sm" /></td>
+				 <td><input name="SA_5B_V1" id="5B_V1-4" value="4" type="radio" class="form-control input-sm" /></td>
+				 <td><input name="SA_5B_V1" id="5B_V1-3" value="3" type="radio" class="form-control input-sm" /></td>
+				 <td><input name="SA_5B_V1" id="5B_V1-2" value="2" type="radio" class="form-control input-sm" /></td>
+				 <td><input name="SA_5B_V1" id="5B_V1-1" value="1" type="radio" class="form-control input-sm" /></td>
+				 <td><input type="text" id="SA_Remarks-5B_V1" name="SA_Remarks-5B_V1" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+	 </tr>
     <tr>
          <td><b>Planning and Organizing</b></td>
-         <td><input name="SA_5B_V1" id="5B_V1-5" value="5" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V1" id="5B_V1-4" value="4" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V1" id="5B_V1-3" value="3" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V1" id="5B_V1-2" value="2" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V1" id="5B_V1-1" value="1" type="radio" class="form-control input-sm" /></td>
-         <td><input type="text" id="SA_Remarks-5B_V1" name="SA_Remarks-5B_V1" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+         <td><input name="SA_5B_V2" id="5B_V2-5" value="5" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V2" id="5B_V2-4" value="4" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V2" id="5B_V2-3" value="3" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V2" id="5B_V2-2" value="2" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V2" id="5B_V2-1" value="1" type="radio" class="form-control input-sm" /></td>
+         <td><input type="text" id="SA_Remarks-5B_V2" name="SA_Remarks-5B_V2" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
    </tr>
 
    <tr>
         <td><b>Training and Developing Staff</b></td>
-        <td><input name="SA_5B_V2" id="5B_V2-5" value="5" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V2" id="5B_V2-4" value="4" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V2" id="5B_V2-3" value="3" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V2" id="5B_V2-2" value="2" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V2" id="5B_V2-1" value="1" type="radio" class="form-control input-sm" /></td>
-        <td><input type="text" id="SA_Remarks-5B_V2" name="SA_Remarks-5B_V2" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+        <td><input name="SA_5B_V3" id="5B_V3-5" value="5" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V3" id="5B_V3-4" value="4" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V3" id="5B_V3-3" value="3" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V3" id="5B_V3-2" value="2" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V3" id="5B_V3-1" value="1" type="radio" class="form-control input-sm" /></td>
+        <td><input type="text" id="SA_Remarks-5B_V3" name="SA_Remarks-5B_V3" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
   </tr>
   <tr>
        <td><b>Managing Resources and Accountability</b></td>
-       <td><input name="SA_5B_V3" id="5B_V3-5" value="5" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V3" id="5B_V3-4" value="4" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V3" id="5B_V3-3" value="3" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V3" id="5B_V3-2" value="2" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V3" id="5B_V3-1" value="1" type="radio" class="form-control input-sm" /></td>
-       <td><input type="text" id="SA_Remarks-5B_V3" name="SA_Remarks-5B_V3" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+       <td><input name="SA_5B_V4" id="5B_V4-5" value="5" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V4" id="5B_V4-4" value="4" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V4" id="5B_V4-3" value="3" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V4" id="5B_V4-2" value="2" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V4" id="5B_V4-1" value="1" type="radio" class="form-control input-sm" /></td>
+       <td><input type="text" id="SA_Remarks-5B_V4" name="SA_Remarks-5B_V4" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
  </tr>
  <tr>
       <td><b>Risk Management</b></td>
-      <td><input name="SA_5B_V4" id="5B_V4-5" value="5" type="radio" class="form-control input-sm" /></td>
-      <td><input name="SA_5B_V4" id="5B_V4-4" value="4" type="radio" class="form-control input-sm" /></td>
-      <td><input name="SA_5B_V4" id="5B_V4-3" value="3" type="radio" class="form-control input-sm" /></td>
-      <td><input name="SA_5B_V4" id="5B_V4-2" value="2" type="radio" class="form-control input-sm" /></td>
-      <td><input name="SA_5B_V4" id="5B_V4-1" value="1" type="radio" class="form-control input-sm" /></td>
-      <td><input type="text" id="SA_Remarks-5B_V4" name="SA_Remarks-5B_V4" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+      <td><input name="SA_5B_V5" id="5B_V5-5" value="5" type="radio" class="form-control input-sm" /></td>
+      <td><input name="SA_5B_V5" id="5B_V5-4" value="4" type="radio" class="form-control input-sm" /></td>
+      <td><input name="SA_5B_V5" id="5B_V5-3" value="3" type="radio" class="form-control input-sm" /></td>
+      <td><input name="SA_5B_V5" id="5B_V5-2" value="2" type="radio" class="form-control input-sm" /></td>
+      <td><input name="SA_5B_V5" id="5B_V5-1" value="1" type="radio" class="form-control input-sm" /></td>
+      <td><input type="text" id="SA_Remarks-5B_V5" name="SA_Remarks-5B_V5" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
 </tr>
 
     <tr>
          <td><b>Judgment and objectivity</b></td>
-         <td><input name="SA_5B_V5" id="5B_V5-5" value="5" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V5" id="5B_V5-4" value="4" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V5" id="5B_V5-3" value="3" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V5" id="5B_V5-2" value="2" type="radio" class="form-control input-sm" /></td>
-         <td><input name="SA_5B_V5" id="5B_V5-1" value="1" type="radio" class="form-control input-sm" /></td>
-         <td><input type="text" id="SA_Remarks-5B_V5" name="SA_Remarks-5B_V5" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+         <td><input name="SA_5B_V6" id="5B_V6-5" value="5" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V6" id="5B_V6-4" value="4" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V6" id="5B_V6-3" value="3" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V6" id="5B_V6-2" value="2" type="radio" class="form-control input-sm" /></td>
+         <td><input name="SA_5B_V6" id="5B_V6-1" value="1" type="radio" class="form-control input-sm" /></td>
+         <td><input type="text" id="SA_Remarks-5B_V6" name="SA_Remarks-5B_V6" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
    </tr>
    <tr>
         <td><b>Managing and evaluating performance</b></td>
-        <td><input name="SA_5B_V6" id="5B_V6-5" value="5" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V6" id="5B_V6-4" value="4" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V6" id="5B_V6-3" value="3" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V6" id="5B_V6-2" value="2" type="radio" class="form-control input-sm" /></td>
-        <td><input name="SA_5B_V6" id="5B_V6-1" value="1" type="radio" class="form-control input-sm" /></td>
-        <td><input type="text" id="SA_Remarks-5B_V6" name="SA_Remarks-5B_V6" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+        <td><input name="SA_5B_V7" id="5B_V7-5" value="5" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V7" id="5B_V7-4" value="4" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V7" id="5B_V7-3" value="3" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V7" id="5B_V7-2" value="2" type="radio" class="form-control input-sm" /></td>
+        <td><input name="SA_5B_V7" id="5B_V7-1" value="1" type="radio" class="form-control input-sm" /></td>
+        <td><input type="text" id="SA_Remarks-5B_V7" name="SA_Remarks-5B_V7" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
   </tr>
   <tr>
        <td><b>Promoting use of Information Technology</b></td>
-       <td><input name="SA_5B_V7" id="5B_V7-5" value="5" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V7" id="5B_V7-4" value="4" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V7" id="5B_V7-3" value="3" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V7" id="5B_V7-2" value="2" type="radio" class="form-control input-sm" /></td>
-       <td><input name="SA_5B_V7" id="5B_V7-1" value="1" type="radio" class="form-control input-sm" /></td>
-       <td><input type="text" id="SA_Remarks-5B_V7" name="SA_Remarks-5B_V7" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
+       <td><input name="SA_5B_V8" id="5B_V8-5" value="5" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V8" id="5B_V8-4" value="4" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V8" id="5B_V8-3" value="3" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V8" id="5B_V8-2" value="2" type="radio" class="form-control input-sm" /></td>
+       <td><input name="SA_5B_V8" id="5B_V8-1" value="1" type="radio" class="form-control input-sm" /></td>
+       <td><input type="text" id="SA_Remarks-5B_V8" name="SA_Remarks-5B_V8" placeholder="Enter Remarks" class="col-xs-10 col-sm-10"  /></td>
  </tr>
 
 <tr>

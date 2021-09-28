@@ -150,11 +150,12 @@ submitHandler: function(form) {
       "serverSide": true,
       "scrollY": "50vh",
       "scrollCollapse": true,
-      "bFilter":true,
+      "bFilter":false,
       "ordering": true,
       "bLengthChange": true,
       "bPaginate": true,
-      "pagingType": "simple",
+      "lengthMenu": [[50, 100, 200], [50, 100, 200]],
+      "pagingType": "full",
       language: {
      paginate: {
      next: '<i class="fa fa-chevron-right">',
