@@ -220,4 +220,5 @@ $getS5BVals = $db->GetArray("SELECT * FROM tbl_section5b where AppraisalID='$cid
   	</div>
 </div>
 
-</div>  <!-- End Row -->
+</div>  <!-- End Row   select (select round(sum(PA_Ratings)*0.7,2) from tbl_section3 where AppraisalID=1)  as Section3;
+select (select round(sum(SR_ScoreValue)*0.7,2) from tbl_section5a where AppraisalID=1)  as Section5a;-->
