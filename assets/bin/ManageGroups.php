@@ -242,6 +242,24 @@
 
     }
 
+    if(isset($_POST['btnUpdateSRStep']))
+    {
+      $curDate = $db->GetOne("select current_timestamp");
+      $RowID = $_POST['btnUpdateSRStep'];
+      $rec["SRAppStage"] = $_POST['AppStage'];
+      $rec["SRDataStep"] = $_POST['DataStep'];
+      $rec["SRStageDate"] = $curDate;
+      if($rec["SRAppStage"] == "Submitted")
+      {
+        $rec["SR_DateSubmitted"] = $curDate;
+      }
+      $table  = "tbl_appraisals";
+      $Criteria = "S_ROWID = $RowID";
+      $action = "UPDATE";
+      $db->AutoExecute($table,$rec,$action,$Criteria);
+
+    }
+
 
   if (isset($_POST['getGroupSMSList'])) {
     $ChannelType = safehtml($_POST['getGroupSMSList']);
@@ -303,8 +321,24 @@
       $action = "INSERT";
       $db->AutoExecute($table,$record,$action);
     }
+  }
 
+  if(isset($_POST['btnPostValuesSRRates']))
+  {
+    $AppraisalID = $_POST["S_ROWID"];
+    $exec = $db->Execute("delete from tbl_section5a where AppraisalID='$AppraisalID'");
+    for ($i=1; $i <= 12; $i++) {
+      $record = array();
+      $record["ValueType"] = "V".$i;
+      $record["SA_ScoreValue"] = isset($_POST["SA_V".$i]) ? $_POST["SA_V".$i] : 1;
+      $record["SA_Remarks"] = $_POST["SA_Remarks-V".$i];
+      $record["AppraisalID"] = $AppraisalID;
+      $record["CreatedBy"] = $user;
 
+      $table  = "tbl_section5a";
+      $action = "INSERT";
+      $db->AutoExecute($table,$record,$action);
+    }
   }
 
   if(isset($_POST['btnPostValues5BRates']))
@@ -327,10 +361,7 @@
   }
 
   if (isset($_POST['btnPostS3Values'])) {
-         echo "<pre>";
-         print_r($_POST);
-         echo "hakuna Hapa";
-         exit();
+
       unset($_POST['S_ROWID']);
       unset($_POST['btnPostS3Values']);
        foreach ($_POST['SA_ResultsAchieved'] as $pkey => $pval) {
@@ -338,6 +369,20 @@
          $record["SA_ResultsAchieved"] = $_POST['SA_ResultsAchieved'][$pkey];
          $record["SA_Remarks"] = $_POST['SA_Remarks'][$pkey];
          $record["PA_Ratings"] = $_POST['PA_Ratings'][$pkey];
+         $record["ModifiedBy"] = $user;
+         $criteria = "S_ROWID = $pkey";
+         $table  = "tbl_section3";
+         $action = "UPDATE";
+         $db->AutoExecute($table,$record,$action,$criteria);
+       }
+  }
+
+  if (isset($_POST['btnPostSR3Values'])) {
+
+      unset($_POST['S_ROWID']);
+      unset($_POST['btnPostS3RValues']);
+       foreach ($_POST['SR_Remarks'] as $pkey => $pval) {
+         $record["SR_Remarks"] = $_POST['SR_Remarks'][$pkey];
          $record["ModifiedBy"] = $user;
          $criteria = "S_ROWID = $pkey";
          $table  = "tbl_section3";

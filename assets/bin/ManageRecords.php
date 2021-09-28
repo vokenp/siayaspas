@@ -86,7 +86,7 @@ unset($_POST['_token']);
       if ($tableName == "tbl_appraisals") {
           $AppPeriodID = $_POST['AppPeriodID'];
           $AppraiseeUserID = $_POST['AppraiseeUserID'];
-
+        
           $CheckFld = $db->GetRow("select * from $tableName where AppPeriodID='$AppPeriodID' and AppraiseeUserID='$AppraiseeUserID'");
           $arg = array_filter($CheckFld);
            if (!empty($arg)) {

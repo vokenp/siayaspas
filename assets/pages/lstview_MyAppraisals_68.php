@@ -361,26 +361,7 @@ $('.chosen-container').css({ 'width':'100%' });
        </div>
      </div>
 
-
-     <div class="row">
-       <div class="form-group col-sm-10">
-        <label class="col-sm-4 control-label " for="UserID" >Select Supervisor </label>
-        <div class="col-sm-8">
-          <select id="SupervisorUserID" name="SupervisorUserID" required="true"   class="col-xs-12 col-sm-12 chosen-select">
-            <?php
-                $getUsers = $db->GetArray("select *from vw_userslist where loginid<>'$user'  order by S_ROWID desc");
-                 echo "<option value=''></option>";
-                foreach ($getUsers as $ukey => $uval) {
-                  $UserID = $uval["loginid"];
-                  $FullName = $uval["Fullname"];
-                  echo "<option value='$UserID'>$FullName</option>";
-                }
-            ?>
-          </select>
-        </div>
-      </div>
-    </div>
-
+      
           </div><!-- End ModalBody -->
     <div class="modal-footer">
     <button type="submit" id="btnSaveRecord" name="btnSaveRecord"  class="btn btn-sm btn-success">

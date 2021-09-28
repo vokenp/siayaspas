@@ -79,7 +79,7 @@
 <div class="profile-info-row">
   <div class="profile-info-name"> Supervisor</div>
   <div class="profile-info-value">
-    <span class="editable" id="username"><b><?php  echo $rst["SupervisorName"];?></b>
+    <span class="editable" id="username"><b><?php  echo $rst["HeadofDept"];?></b>
 
   </div>
 </div>
