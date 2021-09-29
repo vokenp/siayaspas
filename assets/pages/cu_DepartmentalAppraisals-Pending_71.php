@@ -66,26 +66,8 @@ success: "valid"
 
        if(label == "FinalStage")
        {
-         var formS3 = $("#frmValueSection3");
-          formS3.validate();
-
-         if (formS3.valid()) {
-              $.post("assets/bin/ManageGroups.php", $("#frmValueSection3").serialize(), function(data) {
-                 //alert(data);
-                  //$('#fuelux-wizard-container').wizard('selectedItem', { step: 3});
-              });
-           }
-           else{
-
-             Swal.fire(
-                'Form not Valid',
-                "Please check on Section 3, Some Data Not Valid",
-                'error'
-              );
-              $('#fuelux-wizard-container').wizard('selectedItem', { step: 3});
-              updateStep("Section3",3);
-              return false;
-           }
+        updateStep(label,index);
+        location.reload();
        }
 
          //  alert(label);
@@ -273,7 +255,7 @@ success: "valid"
 
                       <li data-step="7" data-name="FinalStage" id="FinalStage">
                         <span class="step">End</span>
-                        <span class="title">Confirmation Stage</span>
+                        <span class="title">Overall Ratings</span>
                       </li>
 
 
@@ -304,7 +286,7 @@ success: "valid"
 
                      <div class="step-pane" data-step="6" >
                       <?php
-                         $userType = $UserInfo["user_type"];
+                         $userType = $rst["user_type"];
                          if($userType == "HeadofDepartments")
                          {
                            include("SRAppSection5b.php");

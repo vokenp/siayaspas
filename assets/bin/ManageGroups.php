@@ -261,6 +261,25 @@
     }
 
 
+    if(isset($_POST['btnCloseAppraisal']))
+    {
+      $curDate = $db->GetOne("select current_timestamp");
+      $RowID = $_POST['btnUpdateSRStep'];
+      $rec["SRAppStage"] = $_POST['AppStage'];
+      $rec["SRDataStep"] = $_POST['DataStep'];
+      $rec["SRStageDate"] = $curDate;
+      $rec["ApplicationStatus"] = "Closed";
+      $rec["DateClosed"] = $curDate;
+
+
+      $table  = "tbl_appraisals";
+      $Criteria = "S_ROWID = $RowID";
+      $action = "UPDATE";
+      $db->AutoExecute($table,$rec,$action,$Criteria);
+
+    }
+
+
   if (isset($_POST['getGroupSMSList'])) {
     $ChannelType = safehtml($_POST['getGroupSMSList']);
 

@@ -66,26 +66,8 @@ success: "valid"
 
         if(label == "FinalStage")
         {
-          var formS3 = $("#frmValueSection3");
-           formS3.validate();
-           
-          if (formS3.valid()) {
-               $.post("assets/bin/ManageGroups.php", $("#frmValueSection3").serialize(), function(data) {
-                  //alert(data);
-                   //$('#fuelux-wizard-container').wizard('selectedItem', { step: 3});
-               });
-            }
-            else{
-
-              Swal.fire(
-                 'Form not Valid',
-                 "Please check on Section 3, Some Data Not Valid",
-                 'error'
-               );
-               $('#fuelux-wizard-container').wizard('selectedItem', { step: 3});
-               updateStep("Section3",3);
-               return false;
-            }
+          updateStep(label,index);
+          location.reload();
         }
 
           //  alert(label);
@@ -97,10 +79,10 @@ success: "valid"
       .on('finished.fu.wizard', function(e) {
         bootbox.confirm({
           centerVertical: true,
-      message: "Are you sure you want to Submit Your Appraisal?",
+      message: "Are you sure you want to Close this Appraisal?",
       buttons: {
         confirm: {
-         label: "Submit Appraisal",
+         label: "Close Appraisal",
          className: "btn-danger btn-sm",
         },
         cancel: {
@@ -112,9 +94,9 @@ success: "valid"
         if(result)
         {
           var postdata = $("#myForm").serializeArray();
-           postdata.push({name: 'AppStage', value: "Submitted"});
+           postdata.push({name: 'AppStage', value: "Closed"});
            postdata.push({name: 'DataStep', value: 7});
-           postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
+           postdata.push({name: 'btnCloseAppraisal', value: $("#S_ROWID").val()});
            $.post("assets/bin/ManageGroups.php", postdata, function(data){
              $(window.location).attr('href', $("#listurl").val());
            });

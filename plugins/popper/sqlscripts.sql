@@ -66,3 +66,12 @@ create view vw_targetlists  as select *,getuinfo(AssignedTo) as AssignedUser fro
   alter table tbl_section8 add AppraisalID int;
   alter table tbl_section9 add AppraisalID int;
   alter table tbl_section10 add AppraisalID int;
+
+
+  create view vw_section10 as select  ap.S_ROWID as AppraisalID,AppraiseeUserID,getuinfo(ap.AppraiseeUserID) as Appraisee,ap.AppPeriodID,p.PeriodName,p.PeriodBegins,p.PeriodEnds,
+   (select round(sum(PA_Ratings)*0.7,2) from tbl_section3 where AppraisalID=ap.S_ROWID)  as Section3,
+   (select round(sum(SR_ScoreValue)*0.5,2) from tbl_section5a where AppraisalID=ap.S_ROWID)  as Section5A,
+   (select round(sum(PA_Ratings)*0.5,2) from tbl_section3 where AppraisalID=ap.S_ROWID)  as Section3SP,
+   (select round(sum(SR_ScoreValue)*0.5,2) from tbl_section5a where AppraisalID=ap.S_ROWID)  as Section5ASP,
+   (select round(sum(SR_ScoreValue)*0.5,2) from tbl_section5b where AppraisalID=ap.S_ROWID)  as Section5BSP
+   from  tbl_appraisals ap inner join tbl_appraisalperiods p on ap.AppPeriodID=p.S_ROWID where ap.ApplicationStatus='Closed'
