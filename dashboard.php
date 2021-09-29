@@ -71,6 +71,43 @@
       </div><!-- End Widget-header -->
             <div class="widget-body">
       <div class="widget-main">
+        <table id="tableSearchResults" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Appraisal</th>
+            <th>Section3 Score</th>
+            <th>Section5A Score</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+           $getApps = $db->GetArray("select *from vw_section10 where AppraiseeUserID='$user'");
+           $i = 0;
+           $html = "";
+           $labels = array("label-danger","label-success","label-info","label-warning");
+              foreach ($getApps as $akey => $LAppval) {
+                $rand_keys = array_rand($labels, 1);
+                $lbl = $labels[$rand_keys];
+                $PeriodName = $LAppval["PeriodName"];
+                $Section3 = $LAppval["Section3"];
+                $Section5A = $LAppval["Section5A"];
+                $STotal = $Section3 + $Section5A;
+                $i += 1;
+                $html .="<tr>";
+                $html .="<td>$i</td>";
+                $html .="<td>$PeriodName</td>";
+                $html .="<td>$Section3</td>";
+                $html .="<td>$Section5A</td>";
+                 $html .= "<td> <span class='label $lbl arrowed-in arrowed-in-right'>$STotal %</span></td>";
+                $html .="</tr>";
+              }
+             echo $html;
+          ?>
+        </tbody>
+       </table>
+
 
       </div><!-- End WidgetMain -->
     </div><!-- End Widget Body -->
