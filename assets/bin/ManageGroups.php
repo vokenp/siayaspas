@@ -264,13 +264,12 @@
     if(isset($_POST['btnCloseAppraisal']))
     {
       $curDate = $db->GetOne("select current_timestamp");
-      $RowID = $_POST['btnUpdateSRStep'];
+      $RowID = $_POST['btnCloseAppraisal'];
       $rec["SRAppStage"] = $_POST['AppStage'];
       $rec["SRDataStep"] = $_POST['DataStep'];
       $rec["SRStageDate"] = $curDate;
       $rec["ApplicationStatus"] = "Closed";
       $rec["DateClosed"] = $curDate;
-
 
       $table  = "tbl_appraisals";
       $Criteria = "S_ROWID = $RowID";

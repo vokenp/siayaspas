@@ -79,10 +79,10 @@ success: "valid"
       .on('finished.fu.wizard', function(e) {
         bootbox.confirm({
           centerVertical: true,
-      message: "Are you sure you want to Close this Appraisal?",
+      message: "Are you sure you want to Submit Your Appraisal?",
       buttons: {
         confirm: {
-         label: "Close Appraisal",
+         label: "Submit Appraisal",
          className: "btn-danger btn-sm",
         },
         cancel: {
@@ -94,9 +94,9 @@ success: "valid"
         if(result)
         {
           var postdata = $("#myForm").serializeArray();
-           postdata.push({name: 'AppStage', value: "Closed"});
+           postdata.push({name: 'AppStage', value: "Submitted"});
            postdata.push({name: 'DataStep', value: 7});
-           postdata.push({name: 'btnCloseAppraisal', value: $("#S_ROWID").val()});
+           postdata.push({name: 'btnUpdateStep', value: $("#S_ROWID").val()});
            $.post("assets/bin/ManageGroups.php", postdata, function(data){
              $(window.location).attr('href', $("#listurl").val());
            });
