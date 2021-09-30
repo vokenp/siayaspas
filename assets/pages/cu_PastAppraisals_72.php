@@ -143,7 +143,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
              <li>
                <a data-toggle="tab" href="#Section5B">
                  <i class="blue ace-icon fa fa-check bigger-125"></i>
-                 <b>Section 5B:</b> Managerial & Supervisory Competencies
+                 <b>Section 5B:</b> Managerial Competencies
                </a>
              </li>
 
