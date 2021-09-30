@@ -51,7 +51,7 @@
 											$SR_ScoreValue = $rval["SR_ScoreValue"] == "" ? 0 : $rval["SR_ScoreValue"];
 											$ValueName = $stValues[$rval["ValueType"]];
 											$SAScoreRate = $scoresRT[$rval["SA_ScoreValue"]];
-											$SRScoreRate = $scoresRT[];
+											$SRScoreRate = $scoresRT[$SR_ScoreValue];
 											$SAscore = $rval["SA_ScoreValue"];
 											$SAttScore += $SAscore;
 											$SA_Remarks = $rval["SA_Remarks"];
