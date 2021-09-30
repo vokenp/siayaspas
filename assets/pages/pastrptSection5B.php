@@ -48,9 +48,10 @@
 											$SRttScore = 0;
 									  foreach ($get5ARatings as $rkey => $rval) {
 											$r +=1;
+											$SR_ScoreValue = $rval["SR_ScoreValue"] == "" ? 0 : $rval["SR_ScoreValue"];
 											$ValueName = $stValues[$rval["ValueType"]];
 											$SAScoreRate = $scoresRT[$rval["SA_ScoreValue"]];
-											$SRScoreRate = $scoresRT[$rval["SR_ScoreValue"]];
+											$SRScoreRate = $scoresRT[];
 											$SAscore = $rval["SA_ScoreValue"];
 											$SAttScore += $SAscore;
 											$SA_Remarks = $rval["SA_Remarks"];
