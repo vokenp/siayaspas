@@ -97,7 +97,7 @@ $btn = "<button type='submit' name='btnUpdateRecord' id='btnUpdateRecord' class=
                 <?php echo $modName;?>
             </h4>
             <div id="pageToolBar" class="widget-toolbar no-border">
-
+               <a href="<?php echo "rptappraisal.php/?appid=$cid";?>" class="btn btn-xs btn-danger  radius-4 bigger"> <i class="ace-icon fa fa-pdf bigger-80"></i> Download Report </a>
                <a href="<?php echo $listUrl;?>" class="btn btn-xs btn-info  radius-4 bigger"> <i class="ace-icon fa fa-arrow-left bigger-80"></i> Back to List </a>
 
              </div>
