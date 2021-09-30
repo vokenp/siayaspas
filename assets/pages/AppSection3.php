@@ -6,7 +6,7 @@
 			if (empty($arg)) {
 				$AppPeriodID = $rst["AppPeriodID"];
 				$AppraiseeUserID = $rst["AppraiseeUserID"];
-				$DoTargets = $db->Execute("insert into tbl_section3(CreatedBy,AppraisalID,TargetDescription,WeightPercentage,NoOfTargets) select '$user',$cid,TargetDescription,WeightPercentage,NoOfTargets from tbl_targetlists  where TargetID = (select S_ROWID from tbl_individualtargets where PeriodID='$AppPeriodID' and UserID='$AppraiseeUserID')");
+				$DoTargets = $db->Execute("insert into tbl_section3(CreatedBy,AppraisalID,TargetDescription,WeightPercentage,NoOfTargets) select '$user',$cid,TargetDescription,WeightPercentage,NoOfTargets from tbl_targetlists  where SourceType='Individual' and TargetID = (select S_ROWID from tbl_individualtargets where PeriodID='$AppPeriodID' and UserID='$AppraiseeUserID')");
 				$getPerfTargets = $db->GetArray("select *from tbl_section3 where AppraisalID='$cid' order by S_ROWID asc");
 			}
  ?>

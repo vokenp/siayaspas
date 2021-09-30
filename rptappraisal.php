@@ -105,7 +105,8 @@ global $db;
                $html .= "<tbody>";
 
                 $UDeptID = $rst["Department"];
-                 $getdeptObjs = $db->GetArray("select *,getuinfo(CreatedBy) as CreatedName from vw_depttargetlists where DeptID='$UDeptID'");
+                $PeriodID = $rst["AppPeriodID"];
+                 $getdeptObjs = $db->GetArray("select *,getuinfo(CreatedBy) as CreatedName from vw_depttargetlists where DeptID='$UDeptID' and PeriodID='$PeriodID'");
                  $i = 0;
 
                  foreach ($getdeptObjs as $okey => $oval) {
