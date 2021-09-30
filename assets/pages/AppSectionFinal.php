@@ -6,7 +6,7 @@
 	</div>
 </div>
 <div class="widget-body">
-  <div class="row"></div>
+
   <div class="space"></div>
   <div class="tabbable ">
 <ul class="nav nav-tabs padding-16">
