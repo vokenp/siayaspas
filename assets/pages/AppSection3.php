@@ -1,4 +1,5 @@
  <?php
+    $db->debug=1;
    $getPerfTargets = $db->GetArray("select *from tbl_section3 where AppraisalID='$cid' order by S_ROWID asc");
 	    $arg = array_filter($getPerfTargets);
 
