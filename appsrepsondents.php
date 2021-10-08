@@ -1,11 +1,11 @@
-<?php 
+<?php
    include("assets/bin/con_db.php");
    global $db;
    //$db->debug=1;
  error_reporting(E_ALL);
   ini_set('display_errors', 1);
 
- $url = "https://www.kiambuassembly.go.ke/app";
+ $url = "https://ebusiness.siayaassembly.go.ke/";
 
   $method = isset($_POST["Method"]) ? $_POST["Method"] : "";
    if ($method == "getDocCategories") {
@@ -25,7 +25,7 @@
             $iconPath = $url."/assets/StoragePool/icons/icon$iconRand.png";
             $list[$getDocCategories->fields["S_ROWID"]] = array("DocumentCategory"=>$getDocCategories->fields["DocumentCategory"],"IconPath"=>$iconPath);
           }
-      	
+
       	$getDocCategories->MoveNext();
       }
 
@@ -44,17 +44,17 @@
         }elseif ($LoginType == "IDNo") {
           $getuser = $rs->row("committemembers","IDNo='$username' and Pwsd_IDNo='$pswd'");
         }
-           
+
           if($getuser["S_ROWID"] != "")
          {
              if ($getuser["UserStatus"] != "Active") {
                $response["ErrorStatus"] = 0;
                $response["Msg"] = "Your account has been suspened. Consult ICT Support for Assistance!";
-               
+
              }
              else
              {
-         $host    = $_SERVER['REMOTE_ADDR']; 
+         $host    = $_SERVER['REMOTE_ADDR'];
          $browser = "Android";
          $MemID  = $getuser["S_ROWID"];
          $log =$db->Execute("insert into syslogin(logged_user,host,browser) values ('$MemID','$host','$browser')");
@@ -73,7 +73,7 @@
          else
          {
                $response["ErrorStatus"] = 0;
-               $response["Msg"] = "Wrong UserName or Password Please Try Again"; 
+               $response["Msg"] = "Wrong UserName or Password Please Try Again";
          }
          echo json_encode($response);
    }
@@ -122,16 +122,16 @@
       if($getuser["S_ROWID"] != "")
          {
           $S_ROWID = $getuser["S_ROWID"];
-          $exec = $db->Execute("update committemembers set Pwsd_PFNo='$Npswd_PFNo',Pwsd_IDNo='$Npswd_IDNo' where S_ROWID='$S_ROWID'"); 
+          $exec = $db->Execute("update committemembers set Pwsd_PFNo='$Npswd_PFNo',Pwsd_IDNo='$Npswd_IDNo' where S_ROWID='$S_ROWID'");
           $logChanges["UserchangedPassword"] = $Npswd_PFNo;
           logAction($S_ROWID,"users",$MemID,"ChangedPassword",$logChanges,"6");
           $response["ErrorStatus"] = 1;
-          $response["Msg"] = "Password Changed Successfully"; 
+          $response["Msg"] = "Password Changed Successfully";
          }
          else
          {
           $response["ErrorStatus"] = 0;
-          $response["Msg"] = "Invalid Old Password. Please try Again."; 
+          $response["Msg"] = "Invalid Old Password. Please try Again.";
          }
      echo json_encode($response);
    }
@@ -147,9 +147,9 @@
          $getuser = $rs->row("committemembers","IDNo='$username'");
        }
      $randompswd = generatePassword(7,5);
-     
+
       $response = array();
-      
+
       if($getuser["S_ROWID"] != "")
          {
           $S_ROWID = $getuser["S_ROWID"];
@@ -157,22 +157,22 @@
           $IDNo = $getuser["IDNo"];
           $Npswd_PFNo      = safehtml(trim(md5($randompswd.$PersonnelNo.'GodFirst')));
           $Npswd_IDNo      = safehtml(trim(md5($randompswd.$IDNo.'GodFirst')));
-          $exec = $db->Execute("update committemembers set Pwsd_PFNo='$Npswd_PFNo',Pwsd_IDNo='$Npswd_IDNo' where S_ROWID='$S_ROWID'"); 
-          
+          $exec = $db->Execute("update committemembers set Pwsd_PFNo='$Npswd_PFNo',Pwsd_IDNo='$Npswd_IDNo' where S_ROWID='$S_ROWID'");
+
           $SendTo = array("+254729511569") ;
           $message = "Password Changed Successfully. New Password is $randompswd";
-          sendSMS($SendTo,$message);
+          //sendSMS($SendTo,$message);
 
           $response["ErrorStatus"] = 1;
-          $response["Msg"] = "Password Reset Successfully"; 
+          $response["Msg"] = "Password Reset Successfully";
           $logChanges["PasswordReset"] = $Npswd_PFNo;
           logAction($S_ROWID,"users",$S_ROWID,"PasswordReset",$logChanges,"6");
-          
+
          }
          else
          {
           $response["ErrorStatus"] = 0;
-          $response["Msg"] = "Invalid PFNo/IDNo, Please try Again."; 
+          $response["Msg"] = "Invalid PFNo/IDNo, Please try Again.";
          }
      echo json_encode($response);
    }
@@ -205,7 +205,7 @@
       if ($DocType == "CommitteeDocs") {
          $response[$DocID]["CommitteeDocType"]  = $rst["CommitteeDocType"];
       }
-        
+
         $getDocs->MoveNext();
       }
 
@@ -216,7 +216,7 @@
       $MemID = safehtml($_POST['MemID']);
       $getNots =  $db->Execute("select *from vw_notificationlist where NStatus='Pending' and NTargetedTo='$MemID'");
       $response = array();
-  
+
       while (!$getNots->EOF) {
         $rst = $getNots->fields;
         $S_ROWID = $rst["S_ROWID"];
@@ -233,7 +233,7 @@
       $MemID = safehtml($_POST['MemID']);
       $getNots =  $db->Execute("select *from vw_notificationlist where NStatus='Read' and NTargetedTo='$MemID'");
       $response = array();
-  
+
       while (!$getNots->EOF) {
         $rst = $getNots->fields;
         $S_ROWID = $rst["S_ROWID"];
@@ -245,7 +245,7 @@
       }
       echo json_encode($response);
    }
-    
+
   if ($method == "getReminders") {
       $MemID = safehtml($_POST['MemID']);
       $getReminders = $db->Execute("select * from vw_committeemeetings where Posted='No' and CommitteeID  in (select  CommitteeID from vw_commMemberList where MemID='$MemID') and  MeetingDate  >= curdate()  order by MeetingDate asc");
@@ -269,14 +269,14 @@
         $exec = $db->Execute("update notificationlist set NStatus='ReadnDeleted',DateModified=current_timestamp where S_ROWID='$NotificationID'");
     }
 
- 
+
 
 
     if ($method == "getSummaryReport") {
       $rptYear  = safehtml($_POST['rptYear']);
       $mwezi = safehtml($_POST['rptMonth']);
       $MemID    = safehtml($_POST['MemID']);
-      
+
 
       $MonthWeek = $rs->list_week_days($rptYear, $mwezi);
 
@@ -287,11 +287,11 @@
             $grandTotal["AmountPayable]"] = 0;
 foreach ($MonthWeek as $key => $weekVals) {
   $key += 1;
-    
+
 
        $week_start = $weekVals["week_start"];
        $week_end = $weekVals["week_end"];
-            
+
       $weekDates = $db->GetArray("select *from vw_committeeattendance where MeetingDate  between '$week_start' and '$week_end' and MemID='$MemID' ");
            $tamt = 0;
            $tMeeting = 0;
@@ -334,13 +334,13 @@ foreach ($MonthWeek as $key => $weekVals) {
             $grandTotal["AmountPayable]"] = 0;
 foreach ($MonthWeek as $key => $weekVals) {
   $key += 1;
-    
+
 
             $week_start = $weekVals["week_start"];
             $week_end = $weekVals["week_end"];
-            
+
             $weekDates = $db->GetArray("select *from vw_committeeattendance where MeetingDate  between '$week_start' and '$week_end' and MemID='$MemID' ");
-            
+
              $WeekPay = array();
             $arg = array_filter($weekDates);
             if (empty($arg)) {
@@ -348,17 +348,17 @@ foreach ($MonthWeek as $key => $weekVals) {
                 $DayPay["AllowanceDate"] = "";
                 $DayPay["Venue"] = "";
                 $DayPay["InAttendancePosition"] = "";
-                $DayPay["PayOut"] = "";  
+                $DayPay["PayOut"] = "";
                 $WeekPay[] = $DayPay;
             }
-            
+
            foreach ($weekDates as $Wkey => $dVals) {
 
               if ($grandTotal["TotalMeetings"] == 16) {
                   break;
-                } 
-              
-                  
+                }
+
+
                 $DayPay = array();
                 $DayPay["AllowanceDate"] = date('D jS M-Y',strtotime($dVals["MeetingDate"]));
                 $DayPay["Venue"] = $dVals["Venue"];
@@ -369,13 +369,13 @@ foreach ($MonthWeek as $key => $weekVals) {
                 $grandTotal["ExtraMeetings"] = 0;
                 $grandTotal["GrossPay"] += $DayPay["PayOut"];
                 $grandTotal["AmountPayable]"] += $DayPay["PayOut"];
-               
-                
+
+
                 $WeekPay[] = $DayPay;
-                 
-              
-              
-              
+
+
+
+
             }
 
 
