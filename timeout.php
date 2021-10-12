@@ -1,7 +1,6 @@
 <?php
-$gc_period = 1200;
-
 session_start();
+$gc_period = 1200;
 if (file_exists($gc_time)) {
     if (filemtime($gc_time) < time() - $gc_period) {
         session_gc();
@@ -17,8 +16,8 @@ $inactive = 1200;
 if(isset($_SESSION['timeout']) ) {
 	$session_life = time() - $_SESSION['timeout'];
 	if($session_life > $inactive)
-        { 
-         header("Location: logout.php"); 
+        {
+         header("Location: logout.php");
           echo "logout";
      }
 }
@@ -36,6 +35,3 @@ $xml = new SimpleXMLElement($xml_file);
   }*/
 
 ?>
-
-
-
